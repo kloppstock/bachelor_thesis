@@ -1,0 +1,23 @@
+Revision 5:
+ - kleine Änderungen in Programmablaufplänen
+ - kleine Änderung der Formelzeichen
+
+Revision 4:
+ - Titel geändert
+ - Gutachter eingefügt
+ - Gliederungstiefe in Vorlage geändert
+ - Backend auf biber umgestellt
+ - Probleme beim Zitieren von Bér13 behoben
+ - Glosar (Abkürzungs- und Symbolverzeichnis) eingeführt
+ - Minimale Änderung bei gridResol (gridResol != underSample)
+ - alle unfertigen Teile rot eingefärbt
+ - Gradientenbilder eingefügt
+ - Graphen für ersten und zweiten Durchlauf eingefügt
+ - kleine Änderung in der Beschriebung des Speckle-Tracking um den ersten und zweiten Durchlauf besser abzugrenzen
+ - Layoutänderungen in Sektion 2.2
+ - Font in Abbildungen auf Times geändert
+ - Untertitel vom Frankot-Chellappa Programmablaufplan zu Gradientenintegration geändert
+ - Funktionen umstrukturiert
+ - Überschriften angepasst
+ - Constraints im Versuchsaufbau verdeutlicht
+ - verwandte Arbeiten eingefügt

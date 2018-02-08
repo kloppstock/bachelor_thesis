@@ -1,0 +1,47 @@
+\documentclass[bachinf,zihtitle,german,final,hyperref,utf8]{res/zihpub}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage[style=iso-alphabetic, maxcitenames=1, backend=biber]{biblatex}
+\usepackage[nonumberlist, acronym, toc, section]{glossaries}
+\setacronymstyle{long-short}
+\renewcommand{\glsdisplayfirst}[4]{#1 #3}
+
+\makeglossaries
+
+\catcode`\ß=13
+\defß{\ss}
+
+\author{Jonas Schenke}
+\title{Parallelisierung des Wellenfrontrekonstruktionsalgorithmus auf Multicore-Prozessoren}
+\date{5. März 2018}
+
+\matno{4055348}
+\birthday{17. September 1995}
+\placeofbirth{Burgstädt}
+\gutachter{Prof. Thomas E. Cowan, PhD}
+\betreuer{Dr. Michael Bussmann, Matthias Werner}
+
+\include{tex/Copyright}
+\include{tex/Abstract}
+\include{tex/Glosar}
+\addbibresource{res/Referenzen.bib}
+\DefineBibliographyStrings{german}{
+	andothers = {{\textit{et\,al\adddot}}},
+}
+
+\begin{document}
+	\printglossaries
+	\input{tex/Einleitung}
+	\input{tex/Evaluierung}
+	\input{tex/Performanceanalyse}
+	\input{tex/Parallelisierung}
+	\input{tex/Performance}
+	\input{tex/Resultat}
+	\appendix
+	\printbibliography
+
+\end{document}

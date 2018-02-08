@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\include{style}
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=4em]
+	\node [startstop] (start) {Start};
+	\node [process, below of=start] (roi) {ROI-Auswahl};
+	\node [process, below of=roi] (tm) {Template-Matching};
+	\node [process, below of=tm] (interpolation) {Sub-Pixel-Interpolation};
+	\node [process, below of=interpolation] (max) {Suche des Maximums};
+	\node [startstop, below of=max] (stop) {Ende};
+	
+	\draw [arrow] (start) -- (roi);
+	\draw [arrow] (roi) -- (tm);
+	\draw [arrow] (tm) -- (interpolation);
+	\draw [arrow] (interpolation) -- (max);
+	\draw [arrow] (max) -- (stop);
+\end{tikzpicture}
+\end{document}

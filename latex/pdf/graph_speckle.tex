@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\include{style}
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=4em]
+	\node [startstop] (start) {Start};
+	\node [process, below of=start] (rigid) {starre Verschiebung};
+	\node [subroutine, below of=rigid] (first) {Erster Durchlauf};
+	\node [process, below of=first] (plane) {Ebene approximieren};
+	\node [process, below of=plane] (inter1) {Interpolation};
+	\node [subroutine, below of=inter1] (second) {Zweiter Durchlauf};
+	\node [process, below of=second] (error) {Fehlerkorrektur};
+	\node [process, below of=error] (inter2) {Interpolation};
+	\node [startstop, below of=inter2] (stop) {Ende};
+	
+	\draw [arrow] (start) -- (rigid);
+	\draw [arrow] (rigid) -- (first);
+	\draw [arrow] (first) -- (plane);
+	\draw [arrow] (plane) -- (inter1);
+	\draw [arrow] (inter1) -- (second);
+	\draw [arrow] (second) -- (error);
+	\draw [arrow] (error) -- (inter2);
+	\draw [arrow] (inter2) -- (stop);
+\end{tikzpicture}
+\end{document}

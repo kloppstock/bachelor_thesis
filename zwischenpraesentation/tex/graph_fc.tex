@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+% define block styles
+\tikzstyle{startstop} = [rectangle, draw, fill=red!25, rounded corners, minimum width=5em, text width=7em, minimum height=0.5cm, text centered]
+\tikzstyle{decision} = [diamond, draw, fill=green!25, minimum width=5em, minimum height=0.5cm, text width=5em, text centered, inner sep=0pt]
+\tikzstyle{process} = [rectangle, draw, fill=orange!25, minimum width=5em, minimum height=0.5cm, text width=7em, text centered]
+\tikzstyle{process} = [rectangle, draw, fill=orange!25, minimum width=5em, minimum height=0.5cm, text width=7em, text centered]
+\tikzstyle{subroutine} = [rectangle, draw, fill=blue!25, minimum width=5em, minimum height=0.5cm, text width=7em, text centered]
+\tikzstyle{arrow} = [very thick, ->, >=stealth]
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=1.5cm]
+	\node [startstop] (start) {Start};
+	\node [process, below of=start] (fft) {Anwenden von FFTs auf Gradienten};
+	\node [process, below of=fft] (int) {Integration im Frequenzraum};
+	\node [process, below of=int] (ifft) {Rücktransformation mittels inverser FFTs};
+	\node [startstop, below of=ifft] (stop) {Ende};
+	\draw [arrow] (start) -- (fft);
+	\draw [arrow] (fft) -- (int);
+	\draw [arrow] (int) -- (ifft);
+	\draw [arrow] (ifft) -- (stop);
+\end{tikzpicture}
+\end{document}

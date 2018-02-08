@@ -1,0 +1,19 @@
+\section{Parallelisierung der kritischen Pfade für Vielkernarchitekturen}
+
+\subsection{Möglichkeiten}
+\begin{frame}{Möglichkeiten}
+	\begin{itemize}
+		\item Kompilieren
+		\begin{uncoverenv}<2->
+			\textbf{aber:} meist kein Speedup
+		\end{uncoverenv}
+		\item<3-> Parallelisierung
+		\begin{uncoverenv}<4->
+			\textbf{trivial möglich}
+		\end{uncoverenv}
+		\item<5-> Optimieren einzelner kritischer Pfade\\
+		\begin{uncoverenv}<4->
+			$\rightarrow$ C/C++ Portierung, optimierte Bibliotheken (numpy, numba, etc.), ...
+		\end{uncoverenv}
+	\end{itemize}
+\end{frame}

@@ -1,0 +1,10 @@
+TODO:
+ - Referenz auf Repo einfügen
+ - Referenz auf geladenen Bibliotheken einfügen
+ - CPU util herausfinden!!!
+
+ - Lizenzen in Copyrighterklärung!!!
+ - Layout der Abbildungen verbessern!!!
+ - Libraries verlinken?
+ - größere Klammern nehmen für Formeln??? (Font???)
+ - Glossary -> Glosar

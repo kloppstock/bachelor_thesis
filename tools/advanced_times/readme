@@ -1,0 +1,1 @@
+Die in times_wf enthaltenen Dateien sind aus den Wavefront-Sensor und Wavefront-Sensor_sequential Benchmarks und wurden dort mithilfe des surefer.py Skriptes extrahiert. woodworker.py fasst diese Daten zusammen und die 3 .plot-Dateien erzeugen mit gnuplot anschließend die Graphen.

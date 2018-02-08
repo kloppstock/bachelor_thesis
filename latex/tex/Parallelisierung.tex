@@ -1,0 +1,178 @@
+\chapter{Parallelisierung der kritischen Pfade}
+
+\correctme{ - iterativer Ansatz}
+
+\section{Kompilieren}
+
+\begin{correctmore}
+	- kompilieren des kompletten Projektes mit Cython
+	- funktioniert, aber Ergebnisse bringen nicht gewünschten Speedup bzw. nur manchmal
+	--> Ansatz verworfen
+\end{correctmore}
+
+\section{Parallelisierung}
+
+\subsection{Parallelisierung der Verarbeitung einzelner Bildpaare mittels MPI}
+
+\begin{correctmore}
+	- paralleles Berechnen mehrerer Bildpaare auf verschiedenen Nodes
+	- simpelster Ansatz
+	- linearer Speedup erwartet
+	- Nachteil: schwache Skalierung --> es müssen genug Bildpaare vorhanden sein
+\end{correctmore}
+
+\subsection{Parallelisierung innerhalb der Verarbeitung einzelner Bildpaare mittels MPI}
+
+\begin{correctmore}
+	- Ersetzen der joblib mit MPI
+	- Parallelisieren der Fehlerkorrektur
+	- Nachteil:
+		-> keine allzu hohe performancesteigerung erwartet
+	- Vorteil:
+		-> Profiling mittels spezieller Tools möglich
+\end{correctmore}
+
+\section{Optimierung der Python-Engpässe}
+
+\begin{correctmore}
+	- Optimieren einzelner in Python implementierter Programmteile, die sich als besonders langsam herausgestellt haben
+\end{correctmore}
+
+\subsection{Nutzen von Python Intrinsics}
+
+\begin{correctmore}
+	- Ersetzen des Codes mit bereits in Python/Cython/numpy/OpenCV implementierter Funktionen
+	- entfernt Interpreter-Aufwand ein wenig
+	- grundlegenste Optimierung
+\end{correctmore}
+
+\subsection{Decorators}
+
+\correctme{ - kompilieren einzelne Funktion}
+
+\subsubsection{numba}
+
+\correctme{ - just in time compiler}
+
+\subsubsection{Cython}
+
+\begin{correctmore}
+	- regulärer Compiler
+	- weitere Optimierungsmöglichkeiten (z.B. mit C Typen)
+\end{correctmore}
+
+\subsection{numpy}
+
+\correctme{ - SIMD Operationen auf Datenarray}
+
+\subsection{numexpr}
+
+\correctme{ - SIMD Operationen auf Datenblöcke}
+
+
+
+
+
+
+
+
+\iffalse
+
+\section{Lösungsstrategien}
+
+\subsection{Primitive Aufteilung auf mehrere Nodes}
+
+- Kurzbeschreibung: kompletten Algorithmus auf mehreren Nodes gleichzeitig ausführen
+- Pro: hoher Speedup trotz simpler Implementierung
+- Contra: immer noch größtenteils seriell auf einzelnen Nodes
+
+\subsection{Jobserver für rechenaufwendigen Funktionen}
+
+- Kurzbeschreibung: Jobserver für Rechenaufwendige Funktionen erstellen und diese in Auftrag geben, sobald ein Ergebnis benötigt wird
+- Pro: effiziente Verteilung
+- Contra: Main-Threads warten trotzdem noch
+
+\subsection{Primitive Aufteilung auf mehrere Nodes mit Jobservern}
+
+- Kurzbeschreibung: Primitive Aufteilung (wie bei 3.1.1) mit Jobservern auf jedem Node (wie bei 3.2.2)
+- Pro: höhere parallele Auslastung der einzelen Nodes
+- Contra: immer noch nicht optimal durch Kopieroverhead bei jedem einzelnen Frame
+
+\subsection{Paketweises Abarbeiten der Daten}
+
+- Kurzbeschreibung: Framepakete werden auf mehrere Nodes aufgeteilt, wo diese in SIMD Art und Weise abgearbeitet werden. Rechenaufwendige Funktionen werden parallelisiert und ausgelagert (durch SIMD kein Jobserver mehr nötig)
+- Pro: kein Jobserver nötig, wenig Overhead durch kopieren
+- Contra: erhöhter Code-Portierungsaufwand
+
+\section{Implementierung}
+
+\subsection{Implementierte Lösungsstrategie}
+
+- 3.1.4 wird implementiert
+-> geringster Overhead
+-> höchste Performance Erwartung
+-> hohe Auslastung der Nodes
+-> einfache Aufteilung auf mehrere Nodes mittels OpenMPI in Python
+-> Auslagerung rechenaufwendiger Funktionen relativ simpel möglich (C/C++ Interface)
+ABER: Umschreiben des jetzigen Codes in großen Teilen nötig
+- Möglichkeiten und Limitierungen:
+- Möglichkeiten:
+-> Portierung auf weitere Architekturen (CUDA/OpenCL/...) ohne große Änderung des bestehenden Codes möglich
+-> lineare Skalierung mit steigender Anzahl der Nodes
+-> gut skalierbar mit Anzahl der Nodes (ohne Änderung des Codes)
+- Limitierungen:
+-> nur ganze Frame-Pakete können verarbeitet werden
+-> Synchronisation nach Verarbeitung kann Gesamtprozess ein wenig ausbremsen
+-> mögliches Bottleneck beim Datenaustausch zwischen den Nodes (z.B. über Ethernet)
+-> Ringpuffer zum Sammeln und Zwischenspeichern der Daten vor der Verarbeitung notwendig --> hohe RAM Anforderungen
+- Mindestanforderungen:
+-> korrekte Verarbeitung der Daten
+-> nahezu lineare Skalierung
+-> Erweiterbarkeit der Hardware ohne Änderung des Quellcodes
+-> 2048*2048*10fps (?)
+
+\subsection{Softwareimplementierung}
+
+- Implementierung vorstellen
+
+\chapter{Parallelisierung der kritischen Pfade}
+
+\section{Lösungsstrategien}
+
+Die Ergebnisse der Performance-Analyse legen nahe, dass der größtmögliche Performance-Anstieg durch Parallelisierung erreicht werden kann. Hierzu bieten sich verschiedene Ansätze, die im folgenden genauer beleuchtet werden sollen. 
+
+\subsection{Primitive Aufteilung der Frames auf mehrere Nodes}
+\label{subsec:primitive_splitting}
+
+Die einfachste Art der Parallelisierung besteht darin die Hauptroutine auf mehreren Nodes gleichzeitig zu starten und mit diesen einzelne Frames parallel auszuführen, wobei der Algorithmus an sich dabei unverändert bleibt. 
+Am Ende werden dann die Ergebnisse der einzelnen Nodes wieder zusammengeführt.
+
+Vorteil hierbei ist eine relativ einfache Implementierung. 
+
+Nachteilig hingegen ist die geringe Flexibilität und das Vernachlässigen des verbleibenden Potentials der Nodes. Des weiteren entsteht ein Overhead durch den Funktionsaufruf bei jedem einzelnen Frame. 
+
+%TODO: pro and contra
+
+\subsection{Jobserver für rechenaufwendigen Funktionen}
+\label{subsec:jobserver}
+
+Eine weitere Möglichkeit besteht in der Einführung eines Jobservers, der eine vorgefertigte Menge an rechenaufwendigen Funktionen an mehrere Nodes verteilt und das Ergebnis anschließend zurückgibt. 
+
+%TODO: pro and contra
+
+\subsection{Primitive Aufteilung auf mehrere Nodes mit Jobservern}
+ - Frame Pakete erstellen und an einzelne Nodes verschicken, wo diese dann seriell ausgeführt werden und rechenaufwendige Funktionen an einen Jobserver übergeben
+
+%TODO: pro and contra
+
+\subsection{Paketweises Abarbeiten der Daten}
+ - Frame Pakete erstellen und auf Nodes verteilen, wo diese dann schrittweise parallel verarbeitet werden und das Paket als ein ganzes Rechenaufwendige Funktionen erreicht. Diese werden dann gleichzeitig parallel verarbeitet. 
+
+%TODO: pro and contra
+
+\section{Implementierung}
+
+\subsection{Implementierte Lösungsstrategie}
+
+\subsection{Softwareimplementierung}
+\fi

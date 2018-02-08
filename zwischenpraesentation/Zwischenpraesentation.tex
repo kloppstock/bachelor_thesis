@@ -1,0 +1,151 @@
+\documentclass[10pt]{beamer}
+
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{tikz}
+
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{url}
+%\usepackage{hyperref}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage{datetime}
+\usepackage[style=authoryear, backend=biber]{biblatex}
+
+\usepackage{epstopdf}
+
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{booktabs}
+%\usepackage{setspace}
+
+\input{theme/theme}
+
+% define blocks for flowchart
+\usetikzlibrary{shapes.geometric, arrows}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2cm, minimum height=0.5cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=0.5cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=2cm, minimum height=0.5cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=2cm, minimum height=0.5cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\newcommand{\mq}[1]{\glqq#1\grqq}
+
+% registered, copyright und trademark zeichen
+\def\TReg{\textsuperscript{\textregistered}}
+\def\TCop{\textsuperscript{\textcopyright}}
+\def\TTra{\textsuperscript{\texttrademark}}
+
+\date{\today}
+\institute[ZIH TUD]{Zentrum für Informationsdienste und Hochleistungsrechnen -- TU Dresden}
+\title[PWFRA]{Parallelisierung des Wellenfrontrekonstruktionsalgorithmus auf Manycore-Prozessoren}
+\subtitle{Zwischenpräsentation}
+\author[Schenke]{Jonas~Schenke}
+
+\DeclareCiteCommand{\citejournal}
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+	\usebibmacro{journal}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\newcommand{\citeall}[1]{\citetitle{#1}, \cite{#1}, \citejournal{#1}}
+
+%\room{}
+%\address{}
+%\city{}
+%\phone{00}
+\hsl{Prof. Dr. Wolfgang E. Nagel}
+\betreuer{Dr. Michael Bussmann, Matthias Werner}
+\email{jonas.schenke@tu-dresden.de}
+\newdate{date}{20}{12}{2017}
+\date{\displaydate{date}}
+
+\addbibresource{referenzen.bib}
+
+% Zu jedem Abschnitt Gliederung zeigen
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Gliederung}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% auch bei subsections gliederung?
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Gliederung}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+% bei sehr vielen sections, mehrspaltig
+%\begin{frame}[shrink]
+%\frametitle{Gliederung}
+%\begin{multicols}{2}
+%	\tableofcontents
+%\end{multicols}
+%\end{frame}
+
+
+% alle Aufzaehlungen schrittweise zeigen
+%\beamerdefaultoverlayspecification{<+->}
+
+\setbeamercovered{transparent}
+
+\begin{document}
+
+\lstset{language= tcl}
+\lstset{emph={words, zum, hervorheben,}}
+\lstset{emphstyle={\color{blue}}}
+\lstset{basicstyle=\ttfamily\bfseries\tiny}
+\lstset{keywordstyle=\ttfamily\color{DarkBlue}}
+\lstset{stringstyle=\ttfamily\color{DarkRed}}
+\lstset{commentstyle=\ttfamily\color{DarkDarkGreen}}
+\lstset{identifierstyle=\ttfamily\color{DarkCyan}}
+\lstset{linewidth=0.99\textwidth}
+\lstset{xleftmargin=0.03\textwidth}
+\lstset{breaklines=true}
+\lstset{framexleftmargin=0.03\textwidth}
+\lstset{abovecaptionskip=\smallskipamount}
+\lstset{belowcaptionskip=\smallskipamount}
+\lstset{basicstyle=\ttfamily\tiny}
+\lstset{backgroundcolor=\color{listinggray}}
+\lstset{numbers=left}
+\lstset{numberstyle=\tiny \color{DarkGray}}
+\lstset{numbersep=0.01\textwidth}
+\lstset{showstringspaces=false}
+\lstset{showspaces=false}
+\lstset{tabsize=4}
+% Language C and Style CA defined in theme.tex
+
+\zihmaketitle
+
+\begin{frame}{Aufgabenstellung}
+\frametitle{Aufgabenstellung}
+\begin{itemize}
+	\item Evaluierung des Wellenfrontrekonstruktionsalgorithmus
+	\item Performance-Analyse des derzeit fast durchgängig seriellen Codes
+	\item Parallelisierung der kritischen Pfade für Vielkernarchitekturen
+	\item Performance-Messungen der parallelen Implementation
+	\item Auswertung sowie Validierung der Ergebnisse
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Gliederung}
+  \setcounter{tocdepth}{1} 
+  \tableofcontents
+  % Die Option [pausesections] koennte nuetzlich sein.
+\end{frame}
+
+\input{tex/1-evaluierung.tex}
+\input{tex/2-performance-analyse.tex}
+\input{tex/3-parallelisierung.tex}
+\input{tex/4-plan.tex}
+\input{tex/5-referenzen.tex}
+
+\end{document}

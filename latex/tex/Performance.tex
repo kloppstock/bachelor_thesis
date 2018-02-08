@@ -1,0 +1,47 @@
+\chapter{Performance-Messungen der parallelen Implementation}
+
+\section{Evaluierung der Optimierungen}
+
+\subsection{Parallelisierung}
+
+\begin{correctmore}
+	- Speedup: 2-5x (geschätzt; ohne mehr nodes)
+	- linear mit Anzahl der Nodes bis Anzahl der Bildpaare
+\end{correctmore}
+
+\subsection{Optimierung von Python Engpässen}
+
+\subsubsection{Intrinsics}
+
+\begin{correctmore}
+	TODO
+\end{correctmore}
+
+\subsubsection{Decorators}
+
+\begin{correctmore}
+TODO
+\end{correctmore}
+
+\section{Einfluss der Parameter}
+
+\begin{correctmore}
+	- Algorithmus in verschiedenen Konfigurationen benchmarken (Framepaket Größe variieren, ...)
+	- Performance Sweet-Spot finden
+\end{correctmore}
+
+\section{Skalierung}
+
+\subsection{Skalierungsfaktor}
+
+\correctme{ - auf Skalierungsfaktor eingehen und diesen in Bezug zu Parametern und verwendeter Hardware setzen}
+
+\subsection{Sättigung}
+
+\begin{correctmore}
+	- Sättigungspunkt -grund beschreiben
+	- Sättigungsgrund:
+	-> Framepaketgröße: Rechenaufwand >> Kopieraufwand -> keine weitere Optimierung des Kopieraufwandes möglich
+	-> Anzahl der Nodes: Kopieraufwand übersteigt Rechenaufwand bzw. nähert sich an
+	-> nur begrenzte Menge an Datenverfügbar
+\end{correctmore}
