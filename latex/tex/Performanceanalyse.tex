@@ -87,11 +87,11 @@ Dies liegt, ähnlich zur Kalibrierung, für kleine \gls{uap} und \gls{gridResol}
 
 \paragraph{Testsystem}
 
-Alle Benchmarks liefen auf den \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knote dieser Partition ist ausgestattet mit zwei Intel\textregistered Xeon\textregistered E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 GHz getaktet sind. MultiThreading war hierbei nicht aktiviert. Die Knoten haben 64 GiB (\textit{haswell64}), 128 GiB (\textit{haswell128}) oder 256 GiB (\textit{haswell256}) Arbeitsspeicher zur Verfügung. Zusätzlich ist pro Rechenknoten eine 128 GB \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich \correctme{hier} finden.
+Alle Benchmarks liefen auf den \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knote dieser Partition ist ausgestattet mit zwei Intel\textregistered Xeon\textregistered E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 GHz getaktet sind. MultiThreading war hierbei nicht aktiviert. Die Knoten haben 64 GiB (\textit{haswell64}), 128 GiB (\textit{haswell128}) oder 256 GiB (\textit{haswell256}) Arbeitsspeicher zur Verfügung. Zusätzlich ist pro Rechenknoten eine 128 GB \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/blob/9e1c91790a5461f3ff1b6e4b6f6022529b88cc34/loaded_libs.txt}} finden.
 
 \paragraph{Laufzeitumstände}
 
-Jede Konfiguration, bestehend aus Datensatz und Kernanzahl, wurde nach vier Aufwärmiterationen fünf mal ausgeführt. Hierbei wurden jeweils die reinen Ausführungszeiten des gesamten Skripts und einzelner Funktionen erfasst. Aus allen vorliegenden Zeiten wurde \gls{IO}-Zeiten herausgerechnet. Die Laufzeit mit den entsprechenden Datensätzen wurde auf unterschiedlich vielen Kernen von eins bis 24 gemessen. Jeder Benchmark lief exklusiv auf einem Knoten.  \correctme{-> Referenz zu Tabelle}
+Jede Konfiguration, bestehend aus Datensatz und Kernanzahl, wurde nach vier Aufwärmiterationen fünf mal ausgeführt. Hierbei wurden jeweils die reinen Ausführungszeiten des gesamten Skripts und einzelner Funktionen erfasst. Aus allen vorliegenden Zeiten wurde \gls{IO}-Zeiten herausgerechnet. Die Laufzeit mit den entsprechenden Datensätzen wurde auf unterschiedlich vielen Kernen von eins bis 24 gemessen. Jeder Benchmark lief exklusiv auf einem Knoten. 
 
 \paragraph{Datensätze}
 
@@ -105,8 +105,8 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden drei verschied
 		& detectorDistortion & Experiment 6 & Lenses \\
 		\hline
 		\hline
-		\gls{rroi} (in Pixel) & 1848 x 1848 & Sensor 1: 1450 x 1450 \newline
-		Sensor 2: 550 x 550 & 1450 x 1550 \\
+		\gls{rroi} (in Pixel) & 1848 x 1848 & Sensor 1: 550 x 550 \newline
+		Sensor 2:1450 x 1450  & 1450 x 1550 \\
 		\hline
 		\gls{gridResol} & 4 & 1 & 1 \\
 		\hline
@@ -123,94 +123,103 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden drei verschied
 
 \subsection{Laufzeiten}
 
-\begin{correctmore}
-	TODO
-\end{correctmore}
-
-\begin{center}
-\begin{figure}[htbp]
-	\begin{subfigure}[b]{0.325\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{pdf/times_detector_distortion}
-		\caption[Detector Distortion]{Detector Distortion}
-		\label{fig:times_det_dist}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.325\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{pdf/times_exp6}
-		\caption[Experiment 6]{Experiment 6}
-		\label{fig:times_exp6}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.325\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{pdf/times_lenses}
-		\caption[Lenses]{Lenses}
-		\label{fig:times_lenses}
-	\end{subfigure}
-	\caption{Gesamtlaufzeiten}
-\end{figure}
-\end{center}
-
-\begin{center}
-\begin{figure}[htbp]
-	\begin{subfigure}[b]{0.325\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{pdf/speedup_detector_distortion}
-		\caption[Detector Distortion]{Detector Distortion}
-		\label{fig:speedup_det_dist}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.325\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{pdf/speedup_exp6}
-		\caption[Experiment 6]{Experiment 6}
-		\label{fig:speedup_exp6}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.325\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{pdf/speedup_lenses}
-		\caption[Lenses]{Lenses}
-		\label{fig:speedup_lenses}
-	\end{subfigure}
-	\caption{Speedup}
-\end{figure}
-\end{center}
+Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlaufzeiten},  variieren untereinander stark und reichen von ca. dreieinhalb Stunden für den \textit{Lenses Set 1}-Datensatz auf einem Kern bis hin zu ca. vier Minuten für den \textit{Lenses Set 3} Datensatz mit einem Bild auf 24 Kernen.
 
 \begin{center}
 	\begin{figure}[htbp]
-		\begin{subfigure}[b]{0.7\textwidth}
+		\begin{subfigure}[b]{0.325\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{pdf/main}
-			\caption{Anteile der Laufzeiten}
-			\label{fig:perc_main}
+			\includegraphics[width=\textwidth]{pdf/times_detector_distortion}
+			\caption[Detector Distortion]{Detector Distortion}
+			\label{fig:times_det_dist}
 		\end{subfigure}
-		
-		\begin{subfigure}[b]{0.7\textwidth}
+		\hfill
+		\begin{subfigure}[b]{0.325\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{pdf/speckle}
-			\caption{Anteile der Laufzeiten des Speckle-Tracking-Algorithmus}
-			\label{fig:perc_speckle}
+			\includegraphics[width=\textwidth]{pdf/times_exp6}
+			\caption[Experiment 6]{Experiment 6}
+			\label{fig:times_exp6}
 		\end{subfigure}
-		
-		\begin{subfigure}[b]{0.7\textwidth}
+		\hfill
+		\begin{subfigure}[b]{0.325\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{pdf/slow}
-			\caption{Anteile der Laufzeiten der langsamsten Funktionen}
-			\label{fig:perc_slow}
+			\includegraphics[width=\textwidth]{pdf/times_lenses}
+			\caption[Lenses]{Lenses}
+			\label{fig:times_lenses}
 		\end{subfigure}
+		\caption{Gesamtlaufzeiten}
+		\label{fig:gesamtlaufzeiten}
+	\end{figure}
+\end{center}
+
+Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht linear und flacht schnell ab. Die Speedup-Faktoren liegen für die \textit{Detector Distortion} und \textit{Experiment 6} Datensätze übersteigt fünf nicht. Bei den \textit{Lenses}-Datensätzen hingegen wird bei 24 Kernen ein Speedup von mehr als zehn erreicht. In den auf Abbildung \ref{fig:speedup} visualisierten Graphen ist eine starke Skalierung deutlich erkennbar. 
+
+\begin{center}
+	\begin{figure}[htbp]
+		\begin{subfigure}[b]{0.325\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/speedup_detector_distortion}
+			\caption[Detector Distortion]{Detector Distortion}
+			\label{fig:speedup_det_dist}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.325\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/speedup_exp6}
+			\caption[Experiment 6]{Experiment 6}
+			\label{fig:speedup_exp6}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.325\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/speedup_lenses}
+			\caption[Lenses]{Lenses}
+			\label{fig:speedup_lenses}
+		\end{subfigure}
+		\caption{Speedup}
+		\label{fig:speedup}
+	\end{figure}
+\end{center}
+
+Um Engpässe und besonders rechenaufwendige Funktionen zu identifizieren, wurde das Programm mit Zeitmessern versehen, die Ausführungszeiten und Aufrufanzahl protokolliert haben. Ein Überblick über das Gesamtprogramm ist in Abbildung \ref{fig:perc_main} zu sehen.
+
+\begin{center}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.7\textwidth]{pdf/main}
 		\caption{Anteile der Laufzeiten}
+		\label{fig:perc_main}
+	\end{figure}
+\end{center}
+
+Hierbei ist eindeutig zu sehen, dass die meiste Zeit für das Speckle-Tracking benötigt wird. um weitere Informationen über die Laufzeiten der einzelnen Speckle-Tracking-Schritte zu gewinnen, wurde dieses ebenfalls mit Zeitmessern versehen. Die zeitliche Aufteilung dieser zeigt in Abbildung \ref{fig:perc_speckle}, dass hierbei der zweite Durchlauf am meisten Zeit benötigt. 
+
+\begin{center}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.7\textwidth]{pdf/speckle}
+		\caption{Anteile der Laufzeiten des Speckle-Tracking-Algorithmus}
+		\label{fig:perc_speckle}
+	\end{figure}
+\end{center}
+
+Die kumulative Zeit der fünf rechenaufwendigsten Funktionen aller Konfigurationen, dargestellt in Abbildung \ref{fig:perc_slow}, liegt jeweils bei über 95\% der Gesamtzeit. 
+
+\begin{center}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.7\textwidth]{pdf/slow}
+		\caption{Anteile der Laufzeiten der langsamsten Funktionen}
+		\label{fig:perc_slow}
 	\end{figure}
 \end{center}
 
 \section{Grund der Performance-Engpässe}
 
-\begin{correctmore}
-	- Python
-	- Overhead in der joblib
-	- häufige Aufrufe von norm\_xcorr un nxcorr\_disp
-	- niedrige CPU util
-	- siehe tmp
-\end{correctmore}
+Der Grund der langen Rechenzeiten des Template-Matchings und der Subpixel-Interpolation liegt in der hohen Anzahl der Aufrufe dieser begründet. Der zweite Durchlauf allein wird im \textit{Experiment 6 Lenses 200}-Datensatz über 5.3 Millionen mal aufgerufen. In jedem dieser Aufrufe wird das Template-Matching und die Subpixel-Interpolation jeweils ein mal genutzt. Hinzu kommt, dass, bis auf das Template-Matching, der zweite Durchlauf nur geringen Gebrauch von bereits optimierten Bibliotheken wie numpy macht und somit der Pyhton-Overhead hinzukommt. 
+
+Innerhalb des Speckle-Trackings ist der Aufruf des zweiten Durchlaufes mittels der joblib parallelisiert. Diese nutzt standardmäßig die multiprocessing-Bibliothek, welche für jeden Thread einen Fork der gesamten Python-Umgebung erstellen muss, was zu einem erheblichen Overhead führt\footnote{\url{https://pythonhosted.org/joblib/parallel.html}}.
+
+Die hohe Rechenzeit der Gradienten-Integration ist im Aufruf dieser auf die Größe des Gesamtbildes begründet.
+
+Insgesamt hat das Programm eine schlechte CPU-Auslastung \correctme{nachweisen mittels time Befehl!}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 

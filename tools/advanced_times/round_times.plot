@@ -7,6 +7,9 @@ set datafile separator ","
 set key below right
 set bmargin 5.7
 
+set logscale y
+set xrange[1:24]
+set xtics 4
 set xlabel "Kernanzahl"
 set ylabel "Rundenzeit (in Sekunden)"
 

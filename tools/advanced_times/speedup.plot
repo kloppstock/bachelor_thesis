@@ -10,6 +10,7 @@ set bmargin 5.7
 set xlabel "Kernanzahl"
 set ylabel "Speedup"
 
+set xtics 4
 set key autotitle columnhead
 set key box
 

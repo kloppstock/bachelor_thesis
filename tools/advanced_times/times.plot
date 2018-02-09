@@ -10,6 +10,9 @@ set bmargin 5.7
 set xlabel "Kernanzahl"
 set ylabel "Gesamtzeit (in Sekunden)"
 
+set xtics 4
+set logscale y
+set xrange[1:24]
 set key autotitle columnhead
 set key box
 
