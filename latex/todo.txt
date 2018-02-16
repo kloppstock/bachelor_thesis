@@ -1,15 +1,4 @@
 TODO:
- - Referenz auf Repo einfügen
- - Referenz auf geladenen Bibliotheken einfügen
  - CPU util herausfinden!!!
 
- - Anzahl Cores???
- - Abkürzung CPU, SSD, GB, GiB???
- - Wie Zusammenarbeit HZDR, ESRF kennzeichnen?
-
- - Rundenzeiten rausschmeißen?
- - Lizenzen in Copyrighterklärung!!!
  - Layout der Abbildungen verbessern!!!
- - Libraries verlinken?
- - größere Klammern nehmen für Formeln??? (Font???)
- - Glossary -> Glosar

@@ -2,14 +2,6 @@
 
 \correctme{ - iterativer Ansatz}
 
-\section{Kompilieren}
-
-\begin{correctmore}
-	- kompilieren des kompletten Projektes mit Cython
-	- funktioniert, aber Ergebnisse bringen nicht gewünschten Speedup bzw. nur manchmal
-	--> Ansatz verworfen
-\end{correctmore}
-
 \section{Parallelisierung}
 
 \subsection{Parallelisierung der Verarbeitung einzelner Bildpaare mittels MPI}
@@ -32,11 +24,9 @@
 		-> Profiling mittels spezieller Tools möglich
 \end{correctmore}
 
-\section{Optimierung der Python-Engpässe}
+\correctme{\textbf{Schemata einfügen}}
 
-\begin{correctmore}
-	- Optimieren einzelner in Python implementierter Programmteile, die sich als besonders langsam herausgestellt haben
-\end{correctmore}
+\section{Optimierung der Python-Engpässe}
 
 \subsection{Nutzen von Python Intrinsics}
 
@@ -44,32 +34,39 @@
 	- Ersetzen des Codes mit bereits in Python/Cython/numpy/OpenCV implementierter Funktionen
 	- entfernt Interpreter-Aufwand ein wenig
 	- grundlegenste Optimierung
+	
+	--> rausschmeißen der snr berechnung
+	--> verwenden von minmaxloc
 \end{correctmore}
 
-\subsection{Decorators}
+\subsection{Kompilieren}
+
+\subsubsection{Gesamtes Programm}
+
+\begin{correctmore}
+	- kompilieren des kompletten Projektes mit Cython
+	- funktioniert, aber Ergebnisse bringen nicht gewünschten Speedup bzw. nur manchmal
+	--> Ansatz verworfen
+\end{correctmore}
+
+\subsubsection{Einzelne Funktionen}
 
 \correctme{ - kompilieren einzelne Funktion}
 
-\subsubsection{numba}
+\paragraph{numba}
 
 \correctme{ - just in time compiler}
 
-\subsubsection{Cython}
+\paragraph{Cython}
 
 \begin{correctmore}
 	- regulärer Compiler
 	- weitere Optimierungsmöglichkeiten (z.B. mit C Typen)
 \end{correctmore}
 
-\subsection{numpy}
-
-\correctme{ - SIMD Operationen auf Datenarray}
-
-\subsection{numexpr}
-
-\correctme{ - SIMD Operationen auf Datenblöcke}
-
-
+\begin{correctmore}
+	- Optimieren einzelner in Python implementierter Programmteile, die sich als besonders langsam herausgestellt haben
+\end{correctmore}
 
 
 

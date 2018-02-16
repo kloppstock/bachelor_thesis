@@ -4,20 +4,20 @@
 
 \subsection{Speckle-Tracking}
 
-Der erste Schritt des Speckle-Trackings ist die Feststellung der starren Verschiebung. Werden hierfür feste Werte angenommen, ist diese Komplexität konstant. Wird allerdings ein Korrelationsverfahren verwendet, so ist die Komplexität $\mathcal{O}(\gls{resolution} \cdot log(\gls{resolution}))$ für die \glsfirst{resolution} \glssymbol{resolution}, da hierfür \glspl{FFT} eingesetzt werden. 
+Der erste Schritt des Speckle-Trackings ist die Feststellung der starren Verschiebung. Werden hierfür feste Werte angenommen, ist diese Komplexität konstant. Wird allerdings ein Korrelationsverfahren verwendet, so ist die Komplexität $\mathcal{O}\left(\glssymbol{resolution} \cdot log\left(\glssymbol{resolution}\right)\right)$ für die \gls{resolution}, da hierfür \glspl{FFT} eingesetzt werden. 
 
-Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Eingabebilder zunächst durch die Selektion der \gls{ROI}, also auf die \glsfirst{rroi} \glssymbol{rroi} verkleinert und anschließend in Blöcke mit konstanter Größe aufgeteilt, welche dann ineinander mittels des Template-Matchings gesucht werden. Die Komplexität der einzelnen Suchvorgänge kann somit auch als konstant angesehen werden. Der Durchlauf braucht demzufolge $\mathcal{O}(\gls{rroi})$ Schritte. Die anschließende Interpolation wird auf alle Pixel des Bildes angewandt und hat demzufolge eine Komplexität von $\mathcal{O}(\gls{rroi})$.
+Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Eingabebilder zunächst durch die Selektion der \gls{ROI}, also auf die \glsfirst{rroi} \glssymbol{rroi} verkleinert und anschließend in Blöcke mit konstanter Größe aufgeteilt, welche dann ineinander mittels des Template-Matchings gesucht werden. Die Komplexität der einzelnen Suchvorgänge kann somit auch als konstant angesehen werden. Der Durchlauf braucht demzufolge $\mathcal{O}\left(\gls{rroi}\right)$ Schritte. Die anschließende Interpolation wird auf alle Pixel des Bildes angewandt und hat demzufolge eine Komplexität von $\mathcal{O}\left(\gls{rroi}\right)$.
 
-Der zweite Durchlauf, der als nächstes folgt, werden Subbilder, wie \ref{sec:speckle-tracking} beschrieben, generiert. durch die \glsfirst{uap} \glssymbol{uap} wird \gls{rroi}, und damit auch die Komplexität dieses Teils, mit dem Faktor $\gls{uap}^2$ verringert. Die \glsfirst{corrsize} \glssymbol{corrsize} legt nimmt auf das Template-Matching Einfluss, dessen Komplexität nun bei $\mathcal{O}(\gls{corrsize} \cdot log(\gls{corrsize}))$ liegt. Der Einfluss der \glsfirst{gridResol} \glssymbol{gridResol} ist, ähnlich zu \gls{uap}, eine Verringerung mit dem Faktor $\gls{gridResol}^2$. Die Gesamtkomplexität der Template-Matchings im zweiten Durchlauf liegt somit bei:
+Der zweite Durchlauf, der als nächstes folgt, werden Subbilder, wie \ref{sec:speckle-tracking} beschrieben, generiert. durch die \glsfirst{uap} \glssymbol{uap} wird \gls{rroi}, und damit auch die Komplexität dieses Teils, mit dem Faktor $\gls{uap}^2$ verringert. Die \glsfirst{corrsize} \glssymbol{corrsize} legt nimmt auf das Template-Matching Einfluss, dessen Komplexität nun bei $\mathcal{O}\left(\gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$ liegt. Der Einfluss der \glsfirst{gridResol} \glssymbol{gridResol} ist, ähnlich zu \gls{uap}, eine Verringerung mit dem Faktor $\gls{gridResol}^2$. Die Gesamtkomplexität der Template-Matchings im zweiten Durchlauf liegt somit bei:
 
 \begin{center}
-	$\mathcal{O}(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log(\gls{corrsize})}{(\gls{uap}^2 \cdot \gls{gridResol})^2})$
+	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
 \end{center}
 
 Für die auf den Template-Matching-Prozess folgende Subpixel-Interpolierung werden neun Pixel in der Umgebung des Maximums jedes Übereinstimmungsmatrix interpoliert, womit dieser Schritt folgende Komplexität aufweist:
 
 \begin{center}
-	$\mathcal{O}(\frac{\gls{rroi}}{(\gls{uap}^2 \cdot \gls{gridResol}^2)})$
+	$\mathcal{O}\left(\frac{\gls{rroi}}{\left(\gls{uap}^2 \cdot \gls{gridResol}^2\right)}\right)$
 \end{center}
 
 Am Ende des Speckle-Tracking-Algorithmus wird versucht, nicht zuordenbare Ergebnisse mit einer anderen \glsfirst{corrsize} \glssymbol{corrsize} erneut zuzuordnen. Im schlimmsten Fall wird der zweite Durchlauf für die Hälfte der Subbilder \gls{ncorr}-fach wiederholt, wobei \gls{ncorr} die \glsdesc{ncorr} repräsentiert. Bei höheren Fehlerraten über 50\% bricht das Programm. In der hier als Grundlage vorliegenden Implementierung ist $\gls{ncorr} = 6$.
@@ -25,16 +25,16 @@ Am Ende des Speckle-Tracking-Algorithmus wird versucht, nicht zuordenbare Ergebn
 Die Gesamtkomplexität des Speckle-Tracking-Algorithmus liegt damit in der Komplexitätsklasse:
 
 \begin{center}
-	$\mathcal{O}(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log(\gls{corrsize})}{(\gls{uap}^2 \cdot \gls{gridResol})^2})$
+	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
 \end{center}
 
-\subsection{Gradientenintegration}
+\subsection{Integration der Gradienten}
 
 Um eine effiziente Integration der Gradienten zu ermöglichen, beruht der von \citeauthor{FC88} vorgeschlagene Algorithmus auf der Integration im Frequenzraum. Hierzu werden zuerst die Gradientenbilder mittels \glspl{FFT} in diesen Raum transformiert, dort in linearer Komplexität integriert und zum Schluss wieder zurück transformiert. 
 Aufgrund der Verwendung von \glspl{FFT} befindet sich dieser Algorithmus in der Komplexitätsklasse:
 
 \begin{center}
-	$\mathcal{O}(\gls{resolution} \cdot log(\gls{resolution}))$
+	$\mathcal{O}\left(\gls{resolution} \cdot log\left(\gls{resolution}\right)\right)$
 \end{center}
 
 \subsection{Kalibrierung}
@@ -44,41 +44,41 @@ Die Komplexität der Parameterinitialisierung innerhalb der Kalibrierungsroutine
 Während der Dunkelfeldkalibrierung wird ein Medianbild aus \gls{N} Bildern erstellt. Für diese \gls{N} Bilder wird an jeder Position des Bildes der Median gebildet. Somit ist dieser Teil des Algorithmus in der Komplexitätsklasse:
 
 \begin{center}
-	$\mathcal{O}(\gls{N} \cdot \gls{resolution})$
+	$\mathcal{O}\left(\gls{N} \cdot \gls{resolution}\right)$
 \end{center}
 
 Die Nullfeldkalibrierung verläuft sehr ähnlich. Hier wird ein Durchschnittsbild aus \gls{N} Bildern erstellt, für welches alle Pixel  der \gls{N} Bilder an der selben Position aufaddiert und anschließend durch \gls{N} geteilt werden. Somit ist auch dieser Teil des Algorithmus in der Komplexitätsklasse:
 
 \begin{center}
-	$\mathcal{O}(\gls{N} \cdot \gls{resolution})$
+	$\mathcal{O}\left(\gls{N} \cdot \gls{resolution}\right)$
 \end{center}
 
-Nachdem diese Kalibrierungen abgeschlossen sind, folgt die Hauptschleife in der die Sensorstreuung mittels des Speckle-Tracking-Algorithmus aus allen möglichen Bildpaarkombinationen $\gls{N}^2$ berechnet wird. Hierzu werden zuerst die Sensorbilder mittels der bei der Kalibrierung ermittelten Werte mit einer Komplexität von $\mathcal{O}(\gls{resolution})$ korrigiert und anschließend bestimmt der Speckle-Tracking-Algorithmus die Streuung des Sensors. Die gesamte Streueffeckterkennung hat somit eine Komplexität von: 
+Nachdem diese Kalibrierungen abgeschlossen sind, folgt die Hauptschleife in der die Sensorstreuung mittels des Speckle-Tracking-Algorithmus aus allen möglichen Bildpaarkombinationen $\gls{N}^2$ berechnet wird. Hierzu werden zuerst die Sensorbilder mittels der bei der Kalibrierung ermittelten Werte mit einer Komplexität von $\mathcal{O}\left(\gls{resolution}\right)$ korrigiert und anschließend bestimmt der Speckle-Tracking-Algorithmus die Streuung des Sensors. Die gesamte Streueffeckterkennung hat somit eine Komplexität von: 
 
 \begin{center}
-	$\mathcal{O}(\frac{\gls{N}^2 \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log(\gls{corrsize})}{(\gls{uap}^2 \cdot \gls{gridResol})^2})$
+	$\mathcal{O}\left(\frac{\gls{N}^2 \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
 \end{center}
 
 Dies liegt insbesondere für kleine \gls{uap} und \gls{gridResol} in der Komplexitätsklasse:
 
 \begin{center}
-	$\mathcal{O}(\gls{N}^2 \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log(\gls{corrsize}))$
+	$\mathcal{O}\left(\gls{N}^2 \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$
 \end{center}
 
 Da die Streueffekterkennung deutlich komplexer als der Rest der Kalibrierungsphase ist, liegt die Komplexität dieser ebenfalls in der oben beschriebenen Komplexitätsklasse. 
 
 \subsection{Hauptroutine}
 
-Ähnlich zur Kalibrierung beginnt die Hauptroutine mit einer linearen Parameterinitialisierung. Auf diese folgt die Hauptschleife, welche für die \gls{N_Paare} jeweils ein mal ausgeführt wird. Genau, wie in der Kalibrierung wird auch hier wieder eine Korrektor der Eingabebilder in linearer Zeit vorgenommen. Dies wird gefolgt vom Speckle-Tracking-Algorithmus und der Gradientenintegration. Die höchste Komplexität hat hier auch wieder der Template-Matching-Algorithmus, welcher damit die Komplexitätsklasse und somit auch der gesamten Hauptroutine festlegt auf:
+Ähnlich zur Kalibrierung beginnt die Hauptroutine mit einer linearen Parameterinitialisierung. Auf diese folgt die Hauptschleife, welche für die \gls{N_Paare} jeweils ein mal ausgeführt wird. Genau, wie in der Kalibrierung wird auch hier wieder eine Korrektor der Eingabebilder in linearer Zeit vorgenommen. Dies wird gefolgt vom Speckle-Tracking-Algorithmus und der Integration der Gradienten. Die höchste Komplexität hat hier auch wieder der Template-Matching-Algorithmus, welcher damit die Komplexitätsklasse und somit auch der gesamten Hauptroutine festlegt auf:
 
 \begin{center}
-	$\mathcal{O}(\frac{\gls{N_Paare} \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log(\gls{corrsize})}{(\gls{uap}^2 \cdot \gls{gridResol})^2})$
+	$\mathcal{O}\left(\frac{\gls{N_Paare} \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
 \end{center}
 
 Dies liegt, ähnlich zur Kalibrierung, für kleine \gls{uap} und \gls{gridResol} in der Komplexitätsklasse:
 
 \begin{center}
-	$\mathcal{O}(\gls{N_Paare} \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log(\gls{corrsize}))$
+	$\mathcal{O}\left(\gls{N_Paare} \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$
 \end{center}
 
 \section{Benchmark}
@@ -123,7 +123,7 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden drei verschied
 
 \subsection{Laufzeiten}
 
-Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlaufzeiten},  variieren untereinander stark und reichen von ca. dreieinhalb Stunden für den \textit{Lenses Set 1}-Datensatz auf einem Kern bis hin zu ca. vier Minuten für den \textit{Lenses Set 3} Datensatz mit einem Bild auf 24 Kernen.
+Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlaufzeiten}, variieren untereinander stark und reichen von ca. dreieinhalb Stunden für den \textit{Lenses Set 1}-Datensatz auf einem Kern bis hin zu ca. vier Minuten für den \textit{Lenses Set 3} Datensatz mit einem Bild auf 24 Kernen.
 
 \begin{center}
 	\begin{figure}[htbp]
