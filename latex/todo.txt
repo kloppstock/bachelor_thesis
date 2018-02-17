@@ -1,4 +1,13 @@
 TODO:
+ - Listings labeln
+ - Listings zentrieren
  - CPU util herausfinden!!!
+
+ - Mindestanforderungen einfügen:
+	Mindestanforderungen:
+	-> korrekte Verarbeitung der Daten
+	-> nahezu lineare Skalierung
+	-> Erweiterbarkeit der Hardware ohne Änderung des Quellcodes
+	-> 2048*2048*10fps optimalerweise
 
  - Layout der Abbildungen verbessern!!!

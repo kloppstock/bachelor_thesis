@@ -53,7 +53,7 @@ Der Algorithmus soll online (parallel zum Experiment) ausgeführt werden. Die \g
 
 \subsection{Kalibrierung der CCD-Sensoren}
 
-Während der Kalibrierung, gemäß \citeauthor{Ber13}, findet zuerst eine Parameterinitialisierung statt auf welche der Kamerafehler der \gls{CCD}-Sensoren in drei Phasen bestimmt wird \shortcite{Ber13}{76 ff., S. 194}. Dazu wird, wie in Abbildung \ref{fig:graph_kalibrierung} (angefertigt gemäß DIN 66001 bzw. ISO 5807) gezeigt, zuerst der Median aus einer festen Anzahl dunkler Bilder aufgenommen. Anschließend findet eine Nullfeldkalibrierung bei ungestörter Wellenfront und zum Schluss eine Erkennung von Streueffekten im Detektor statt. Um letzteres zu erreichen werden für jeden \gls{CCD}-Sensor die \gls{N}$^2$ Bilder unter Bewegung der \gls{CCD}-Sensoren aufgenommen, wobei \gls{N} die hier gleich der Anzahl der Verschiebungen in X- und Y-Richtung ist. Dadurch lässt sich die horizontale und vertikale Streuung von den einzelnen Sensoren mittels des Speckle-Trackings bestimmen. 
+Während der Kalibrierung, gemäß \citeauthor{Ber13}, findet zuerst eine Parameterinitialisierung statt auf welche der Kamerafehler der \gls{CCD}-Sensoren in drei Phasen bestimmt wird \shortcite{Ber13}{76 ff., S. 194}. Dazu wird, wie in Abbildung \ref{fig:graph_kalibrierung} (angefertigt gemäß DIN 66001 bzw. ISO 5807) gezeigt, zuerst der Median aus einer festen Anzahl dunkler Bilder aufgenommen. Anschließend findet eine Nullfeldkalibrierung bei ungestörter Wellenfront und zum Schluss eine Erkennung von Streueffekten im Detektor statt. Um letzteres zu erreichen werden für jeden \gls{CCD}-Sensor die \gls{N}$^2$ Bilder unter Bewegung der \gls{CCD}-Sensoren aufgenommen, wobei \gls{N} die hier gleich der Anzahl der Verschiebungen in X- und Y-Richtung ist. Dadurch lässt sich die horizontale und vertikale Streuung von den einzelnen Sensoren mittels des Speckle-Trackings bestimmen. Da die Kalibrierung lediglich am Anfang des Experiments ein mal durchgeführt werden muss, wird diese im weiteren Verlauf der Arbeit vernachlässigt. 
 
 \begin{figure}[htbp]
 	\centering
@@ -189,10 +189,6 @@ Des weiteren befinden sich in dieser Datei auch die Funktionen \textit{computerC
 Zwei weitere wichtige Funktionen sind \textit{firstPass} und \textit{cpCorr}, welche den ersten (\textit{firstPass}) und zweiten Durchlauf (\textit{cpCorr}) implementieren. Diese sind damit Teil des Speckle-Trackings-Algorithmus, welcher in der \textit{crossSpot4} Funktion implementiert ist.
 
 Die letzte wichtige Funktion im \textit{func.py}-Skript ist die \textit{frankot\_chelappa} Funktion, welche aus Gradientenfeldern eine dreidimensionale Rekonstruktion berechnet. Dies wird nach dem Speckle-Tracking verwendet. Um dies Effizient und schnell zu erreichen werden die Eingabematrizen mittels \glspl{FFT} in den Frequenzraum transformiert, dort addiert und wieder zurücktransformiert. 
-
-\subsection{detectorDistortion.py}
-
-Die Initialisierung der Sensoren wird vom \textit{detectorDistortion.py} Skript übernommen. Hierbei werden zuerst sämtliche Variablen initialisiert und es wird die Dunkelfeld- und Nullfeld-Kalibrierung durchgeführt. Nach diesen Kalibrierungen werden die Motor-Positionen, die für die Positionierung der Sensoren zuständig sind für jedes Bild ausgelesen. Dies wird gefolgt von der Hauptroutine des Skriptes, die Verschiebung aller Bilder untereinander berechnet. Dazu wird zuerst die Korrektur, wie in \textit{correction} beschrieben, angewendet und anschließend wird mittels der \textit{crossSpot4} Funktion der Speckle-Tracking Algorithmus durchgeführt. Bevor diese Ergebnisse dann gespeichert werden, kann noch ein Median- und ein Mittelwertfilter angewendet werden. 
 
 \subsection{wavefront.py}
 

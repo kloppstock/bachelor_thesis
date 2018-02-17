@@ -1,45 +1,66 @@
-\chapter{Parallelisierung der kritischen Pfade}
+\chapter{Parallelisierung der kritischen Abschnitte}
 
-\correctme{ - iterativer Ansatz}
+Um der optimalen Leistung nah zu kommen wurde bei der Implementierung ein iterativer Ansatz gewählt. Hierzu wurden zuerst die Möglichkeiten der Parallelisierung und anschließend die, der Optimierung in Python betrachtet. 
 
 \section{Parallelisierung}
 
 \subsection{Parallelisierung der Verarbeitung einzelner Bildpaare mittels MPI}
 
-\begin{correctmore}
-	- paralleles Berechnen mehrerer Bildpaare auf verschiedenen Nodes
-	- simpelster Ansatz
-	- linearer Speedup erwartet
-	- Nachteil: schwache Skalierung --> es müssen genug Bildpaare vorhanden sein
-\end{correctmore}
+Da die zu bearbeitenden Bildpaare voneinander unabhängig sind, lassen diese sich trivial parallelisieren. Der Vorteil dieses Ansatzes liegt besonders in seiner simplen Implementierung und erwarteten linearen Skalierung begründet. Dieser Ansatz bringt allerdings auch einige Nachteile mit sich: Viele \gls{MPI}-Implementierungen erlauben keine neuen \correctme{Threads Nachweiß einfügen} und es ist nur eine schwache Skalierung zu erwarten. Sofern kein Multithreading innerhalb von \gls{MPI} möglich ist, limitiert die Anzahl der Bildpaare die Parallelisierungsmöglichkeiten stark, weshalb hier aus Zeitgründen auf intensives Testen dieser Version verzichtet wird. 
 
 \subsection{Parallelisierung innerhalb der Verarbeitung einzelner Bildpaare mittels MPI}
 
-\begin{correctmore}
-	- Ersetzen der joblib mit MPI
-	- Parallelisieren der Fehlerkorrektur
-	- Nachteil:
-		-> keine allzu hohe performancesteigerung erwartet
-	- Vorteil:
-		-> Profiling mittels spezieller Tools möglich
-\end{correctmore}
+Eine sinnvolle Erweiterung zur oben beschriebenen Methode ist das Ersetzen der genutzten Multithreading-Bibliothek mittels MPI, sodass selbst die Berechnung eines einzelnen Bildpaares über Rechnergrenzen hinweg möglich ist. In diesem Zuge wurde auch die Fehlerkorrektur am Ende des Speckle-Trackings parallelisiert, indem die zu korrigierende Bildausschnitte auf mehrere Kerne verteilt wurden. Zusätzlich ermöglicht diese Implementierung den Einsatz eines Tracing-Programmes, wie SCORE-P\footnote{\url{http://www.vi-hps.org/projects/score-p/}}. Dies war aufgrund der unterliegenden multiprocessing-Bibliothek zuvor nicht möglich. Ein hoher Speedup wird insbesondere für wenige zu korrigierende Bildausschnitte nicht erwartet. 
+
+Im konkreten werden die Bildpaare auch \gls{CPU}-Kern Gruppen verteilt. Einer dieser Kerne agiert hierbei als Hauptkern und ist dafür verantwortlich das Bildpaar zu verarbeiten, wobei dieser Aufgaben mittels eines \gls{MPI}-Kommunikators an die anderen Rechenkerne verteilen kann. Dies ist in der Abbildung \correctme{Abbildung einfügen} gezeigt. Die Schnittstelle wurde hierbei ähnlich zur joblib-Implementierung entworfen. Sollten mehr Bildpaare als Rechenkerne vorhanden sein, werde mehrere Bildpaare von eine Kern hintereinander verarbeitet. Die Programmierschnittstelle wurde so entworfen, dass die Verteilung der Bildpaare auf die Kernen und das Parallelisieren innerhalb dieser für den Programmierer transparent geschieht. \correctme{Implementierung verlinken}
 
 \correctme{\textbf{Schemata einfügen}}
 
 \section{Optimierung der Python-Engpässe}
 
-\subsection{Nutzen von Python Intrinsics}
-
 \begin{correctmore}
-	- Ersetzen des Codes mit bereits in Python/Cython/numpy/OpenCV implementierter Funktionen
-	- entfernt Interpreter-Aufwand ein wenig
-	- grundlegenste Optimierung
-	
-	--> rausschmeißen der snr berechnung
-	--> verwenden von minmaxloc
+	- Optimieren einzelner in Python implementierter Programmteile, die sich als besonders langsam herausgestellt haben
 \end{correctmore}
 
+\subsection{Nutzen von bereits optimierter Funktionen}
+
+Einige Teile des Codes können durch bereits in Python oder einer optimierten Bibliothek enthaltenen Funktion ersetzt werden, womit der Interpretieraufwand erheblich reduziert wird. Dies gehört damit zu einer der grundlegenden Optimierungsmöglichkeiten. Zusätzlich dazu sind diese Funktionen meist bereits für optimale Leistung optimiert. In der Funktion \textit{nxcorr\_disp} lassen sich solche Code-Abschnitte finden. Die Code-Auflistung \correctme{Auflistung referenzieren} zeigt die Implementierung in reinem Python und die Auflistung \correctme{Auflistung referenzieren} zeigt die Nutzung von bereits optimierten Funktionen. 
+
+\begin{lstlisting}
+for i in range(1,lengthY-1):
+	for j in range(1,lengthX-1):
+		if (nxcorr[i, j] > maxValue):
+			maxValue = nxcorr[i, j]
+			maxI = i
+			maxJ = j
+\end{lstlisting}
+
+\begin{lstlisting}
+nxcorr_small = nxcorr[1:-1,1:-1]
+(_, maxValue, _, (maxJ, maxI)) = cv2.minMaxLoc(nxcorr_small)
+maxI += 1
+maxJ += 1
+\end{lstlisting}
+
+Des weiteren befindet sich in der \textit{nxcorr\_disp}-Funktion die Berechnung des Signal-Rausch-Verhältnisses (gezeigt in Auflistung \correctme{Auflistung referenzieren}), was allerdings im weiteren Verlauf des Programmes nicht wieder verwendet wird. 
+
+\begin{lstlisting}
+avg = 0.0
+count = 0
+for i in range(lengthY):
+	for j in range(lengthX):
+		if ((i is not maxI) and (j is not maxJ)):
+			avg = avg + abs(nxcorr[i,j])
+			count = count + 1
+avg = avg / float(count)
+SNr = maxValue / avg
+\end{lstlisting}
+
+Nachdem diesen Änderungen befindet sich keine in Python implementierte Schleife mehr in der Funktion. Angesichts der hohen Aufrufzahl der \textit{nxcorr\_disp} und dem Entfernen großer Codeanteile ist ein hoher Beschleunigungsfaktor zu erwarten. \correctme{Implementierung verlinken}
+
 \subsection{Kompilieren}
+
+Eine weitere Möglichkeit der Minimierung des Python-Engpasses ist die Übersetzung des Codes in nativen Maschinencode. Die möglichen Ansätze hierbei reichen von der Übersetzung des gesamten Programmes über die Übersetzung einzelner Funktionen, die in Python dann als Modul geladen werden können, bis hin zur Nutzung eines just-in-time Compilers, welcher annotierte Funktionen bei dessen ersten Aufruf in nativen Maschinencode übersetzt. 
 
 \subsubsection{Gesamtes Programm}
 
@@ -63,113 +84,3 @@
 	- regulärer Compiler
 	- weitere Optimierungsmöglichkeiten (z.B. mit C Typen)
 \end{correctmore}
-
-\begin{correctmore}
-	- Optimieren einzelner in Python implementierter Programmteile, die sich als besonders langsam herausgestellt haben
-\end{correctmore}
-
-
-
-
-
-
-\iffalse
-
-\section{Lösungsstrategien}
-
-\subsection{Primitive Aufteilung auf mehrere Nodes}
-
-- Kurzbeschreibung: kompletten Algorithmus auf mehreren Nodes gleichzeitig ausführen
-- Pro: hoher Speedup trotz simpler Implementierung
-- Contra: immer noch größtenteils seriell auf einzelnen Nodes
-
-\subsection{Jobserver für rechenaufwendigen Funktionen}
-
-- Kurzbeschreibung: Jobserver für Rechenaufwendige Funktionen erstellen und diese in Auftrag geben, sobald ein Ergebnis benötigt wird
-- Pro: effiziente Verteilung
-- Contra: Main-Threads warten trotzdem noch
-
-\subsection{Primitive Aufteilung auf mehrere Nodes mit Jobservern}
-
-- Kurzbeschreibung: Primitive Aufteilung (wie bei 3.1.1) mit Jobservern auf jedem Node (wie bei 3.2.2)
-- Pro: höhere parallele Auslastung der einzelen Nodes
-- Contra: immer noch nicht optimal durch Kopieroverhead bei jedem einzelnen Frame
-
-\subsection{Paketweises Abarbeiten der Daten}
-
-- Kurzbeschreibung: Framepakete werden auf mehrere Nodes aufgeteilt, wo diese in SIMD Art und Weise abgearbeitet werden. Rechenaufwendige Funktionen werden parallelisiert und ausgelagert (durch SIMD kein Jobserver mehr nötig)
-- Pro: kein Jobserver nötig, wenig Overhead durch kopieren
-- Contra: erhöhter Code-Portierungsaufwand
-
-\section{Implementierung}
-
-\subsection{Implementierte Lösungsstrategie}
-
-- 3.1.4 wird implementiert
--> geringster Overhead
--> höchste Performance Erwartung
--> hohe Auslastung der Nodes
--> einfache Aufteilung auf mehrere Nodes mittels OpenMPI in Python
--> Auslagerung rechenaufwendiger Funktionen relativ simpel möglich (C/C++ Interface)
-ABER: Umschreiben des jetzigen Codes in großen Teilen nötig
-- Möglichkeiten und Limitierungen:
-- Möglichkeiten:
--> Portierung auf weitere Architekturen (CUDA/OpenCL/...) ohne große Änderung des bestehenden Codes möglich
--> lineare Skalierung mit steigender Anzahl der Nodes
--> gut skalierbar mit Anzahl der Nodes (ohne Änderung des Codes)
-- Limitierungen:
--> nur ganze Frame-Pakete können verarbeitet werden
--> Synchronisation nach Verarbeitung kann Gesamtprozess ein wenig ausbremsen
--> mögliches Bottleneck beim Datenaustausch zwischen den Nodes (z.B. über Ethernet)
--> Ringpuffer zum Sammeln und Zwischenspeichern der Daten vor der Verarbeitung notwendig --> hohe RAM Anforderungen
-- Mindestanforderungen:
--> korrekte Verarbeitung der Daten
--> nahezu lineare Skalierung
--> Erweiterbarkeit der Hardware ohne Änderung des Quellcodes
--> 2048*2048*10fps (?)
-
-\subsection{Softwareimplementierung}
-
-- Implementierung vorstellen
-
-\chapter{Parallelisierung der kritischen Pfade}
-
-\section{Lösungsstrategien}
-
-Die Ergebnisse der Performance-Analyse legen nahe, dass der größtmögliche Performance-Anstieg durch Parallelisierung erreicht werden kann. Hierzu bieten sich verschiedene Ansätze, die im folgenden genauer beleuchtet werden sollen. 
-
-\subsection{Primitive Aufteilung der Frames auf mehrere Nodes}
-\label{subsec:primitive_splitting}
-
-Die einfachste Art der Parallelisierung besteht darin die Hauptroutine auf mehreren Nodes gleichzeitig zu starten und mit diesen einzelne Frames parallel auszuführen, wobei der Algorithmus an sich dabei unverändert bleibt. 
-Am Ende werden dann die Ergebnisse der einzelnen Nodes wieder zusammengeführt.
-
-Vorteil hierbei ist eine relativ einfache Implementierung. 
-
-Nachteilig hingegen ist die geringe Flexibilität und das Vernachlässigen des verbleibenden Potentials der Nodes. Des weiteren entsteht ein Overhead durch den Funktionsaufruf bei jedem einzelnen Frame. 
-
-%TODO: pro and contra
-
-\subsection{Jobserver für rechenaufwendigen Funktionen}
-\label{subsec:jobserver}
-
-Eine weitere Möglichkeit besteht in der Einführung eines Jobservers, der eine vorgefertigte Menge an rechenaufwendigen Funktionen an mehrere Nodes verteilt und das Ergebnis anschließend zurückgibt. 
-
-%TODO: pro and contra
-
-\subsection{Primitive Aufteilung auf mehrere Nodes mit Jobservern}
- - Frame Pakete erstellen und an einzelne Nodes verschicken, wo diese dann seriell ausgeführt werden und rechenaufwendige Funktionen an einen Jobserver übergeben
-
-%TODO: pro and contra
-
-\subsection{Paketweises Abarbeiten der Daten}
- - Frame Pakete erstellen und auf Nodes verteilen, wo diese dann schrittweise parallel verarbeitet werden und das Paket als ein ganzes Rechenaufwendige Funktionen erreicht. Diese werden dann gleichzeitig parallel verarbeitet. 
-
-%TODO: pro and contra
-
-\section{Implementierung}
-
-\subsection{Implementierte Lösungsstrategie}
-
-\subsection{Softwareimplementierung}
-\fi

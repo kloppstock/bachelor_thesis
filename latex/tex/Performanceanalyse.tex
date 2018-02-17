@@ -37,45 +37,15 @@ Aufgrund der Verwendung von \glspl{FFT} befindet sich dieser Algorithmus in der 
 	$\mathcal{O}\left(\gls{resolution} \cdot log\left(\gls{resolution}\right)\right)$
 \end{center}
 
-\subsection{Kalibrierung}
-
-Die Komplexität der Parameterinitialisierung innerhalb der Kalibrierungsroutine ist trivial und kann daher als linear angenommen werden. 
-
-Während der Dunkelfeldkalibrierung wird ein Medianbild aus \gls{N} Bildern erstellt. Für diese \gls{N} Bilder wird an jeder Position des Bildes der Median gebildet. Somit ist dieser Teil des Algorithmus in der Komplexitätsklasse:
-
-\begin{center}
-	$\mathcal{O}\left(\gls{N} \cdot \gls{resolution}\right)$
-\end{center}
-
-Die Nullfeldkalibrierung verläuft sehr ähnlich. Hier wird ein Durchschnittsbild aus \gls{N} Bildern erstellt, für welches alle Pixel  der \gls{N} Bilder an der selben Position aufaddiert und anschließend durch \gls{N} geteilt werden. Somit ist auch dieser Teil des Algorithmus in der Komplexitätsklasse:
-
-\begin{center}
-	$\mathcal{O}\left(\gls{N} \cdot \gls{resolution}\right)$
-\end{center}
-
-Nachdem diese Kalibrierungen abgeschlossen sind, folgt die Hauptschleife in der die Sensorstreuung mittels des Speckle-Tracking-Algorithmus aus allen möglichen Bildpaarkombinationen $\gls{N}^2$ berechnet wird. Hierzu werden zuerst die Sensorbilder mittels der bei der Kalibrierung ermittelten Werte mit einer Komplexität von $\mathcal{O}\left(\gls{resolution}\right)$ korrigiert und anschließend bestimmt der Speckle-Tracking-Algorithmus die Streuung des Sensors. Die gesamte Streueffeckterkennung hat somit eine Komplexität von: 
-
-\begin{center}
-	$\mathcal{O}\left(\frac{\gls{N}^2 \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
-\end{center}
-
-Dies liegt insbesondere für kleine \gls{uap} und \gls{gridResol} in der Komplexitätsklasse:
-
-\begin{center}
-	$\mathcal{O}\left(\gls{N}^2 \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$
-\end{center}
-
-Da die Streueffekterkennung deutlich komplexer als der Rest der Kalibrierungsphase ist, liegt die Komplexität dieser ebenfalls in der oben beschriebenen Komplexitätsklasse. 
-
 \subsection{Hauptroutine}
 
-Ähnlich zur Kalibrierung beginnt die Hauptroutine mit einer linearen Parameterinitialisierung. Auf diese folgt die Hauptschleife, welche für die \gls{N_Paare} jeweils ein mal ausgeführt wird. Genau, wie in der Kalibrierung wird auch hier wieder eine Korrektor der Eingabebilder in linearer Zeit vorgenommen. Dies wird gefolgt vom Speckle-Tracking-Algorithmus und der Integration der Gradienten. Die höchste Komplexität hat hier auch wieder der Template-Matching-Algorithmus, welcher damit die Komplexitätsklasse und somit auch der gesamten Hauptroutine festlegt auf:
+Die Hauptroutine beginnt mit einer trivialen Parameterinitialisierung, die als linear angenommen werden kann. Auf diese folgt die Hauptschleife, welche für die \gls{N_Paare} jeweils ein mal ausgeführt wird. Hierzu werden zuerst die Sensorbilder mittels der bei der Kalibrierung ermittelten Werte mit einer Komplexität von $\mathcal{O}\left(\gls{resolution}\right)$ korrigiert. Dies wird gefolgt vom Speckle-Tracking-Algorithmus und der Integration der Gradienten. Die höchste Komplexität hat hier der Template-Matching-Algorithmus, welcher damit die Komplexitätsklasse und somit auch der gesamten Hauptroutine festlegt auf:
 
 \begin{center}
 	$\mathcal{O}\left(\frac{\gls{N_Paare} \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
 \end{center}
 
-Dies liegt, ähnlich zur Kalibrierung, für kleine \gls{uap} und \gls{gridResol} in der Komplexitätsklasse:
+Dies liegt insbesondere für kleine \gls{uap} und \gls{gridResol} in der Komplexitätsklasse:
 
 \begin{center}
 	$\mathcal{O}\left(\gls{N_Paare} \cdot\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$
@@ -98,23 +68,23 @@ Jede Konfiguration, bestehend aus Datensatz und Kernanzahl, wurde nach vier Aufw
 Zur Leistungsfeststellung der vorliegenden Implementierung werden drei verschiedene Arten von Datensätzen verwendet: \textit{detectorDistortion}, \textit{Experiment 6}, \textit{Lenses}. \textit{detectorDistortion} wird zur Kalibrierung verwendet. Die Eigenschaften dieser Typen werden in Tabelle \ref{tab:datasets} gegenüber gestellt.  Von diesem Datensatztyp gibt es einen Datensatz mit 25 Bildern. Es existieren drei \textit{Experiment 6} Datensätze mit 21 (\textit{Experiment 6 Lenses 200}), 11 (\textit{Experiment 6 Lenses 500}) und 14 Bildpaaren (\textit{Experiment 6 Lenses 1500}). Vom letzten Typ existieren vier Datensätze mit jeweils zehn (\textit{Lenses Set 1}), fünf (\textit{Lenses Set 2}), zwei (\textit{Lenses Set 3}) und einem Bildpaar.
 
 \begin{table}
-	\begin{tabularx}{\textwidth}{| X || X || X | X |}
+	\begin{tabularx}{\textwidth}{| X || X | X |}
 		\hline
-		& \textbf{Kalibrierung} & \multicolumn{2}{c|}{\textbf{Hauptroutine}} \\
-		\cline{2-4}
-		& detectorDistortion & Experiment 6 & Lenses \\
+		& \multicolumn{2}{c|}{\textbf{Hauptroutine}} \\
+		\cline{1-3}
+		& Experiment 6 & Lenses \\
 		\hline
 		\hline
-		\gls{rroi} (in Pixel) & 1848 x 1848 & Sensor 1: 550 x 550 \newline
+		\gls{rroi} (in Pixel) & Sensor 1: 550 x 550 \newline
 		Sensor 2:1450 x 1450  & 1450 x 1550 \\
 		\hline
-		\gls{gridResol} & 4 & 1 & 1 \\
+		\gls{gridResol} & 1 & 1 \\
 		\hline
-		\gls{corrsize} & 37 & 91 & 41 \\
+		\gls{corrsize} & 91 & 41 \\
 		\hline
-		\gls{uap} & 1 & 1 & 1 \\
+		\gls{uap} & 1 & 1 \\
 		\hline
-		Pixelgröße & gleich & unterschiedlich & gleich \\
+		Pixelgröße & unterschiedlich & gleich \\
 		\hline
 	\end{tabularx}
 	\caption{Parameter der Datensätze}
@@ -126,22 +96,15 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden drei verschied
 Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlaufzeiten}, variieren untereinander stark und reichen von ca. dreieinhalb Stunden für den \textit{Lenses Set 1}-Datensatz auf einem Kern bis hin zu ca. vier Minuten für den \textit{Lenses Set 3} Datensatz mit einem Bild auf 24 Kernen.
 
 \begin{center}
-	\begin{figure}[htbp]
-		\begin{subfigure}[b]{0.325\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{pdf/times_detector_distortion}
-			\caption[Detector Distortion]{Detector Distortion}
-			\label{fig:times_det_dist}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[b]{0.325\textwidth}
+	\begin{figure}
+		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/times_exp6}
 			\caption[Experiment 6]{Experiment 6}
 			\label{fig:times_exp6}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.325\textwidth}
+		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/times_lenses}
 			\caption[Lenses]{Lenses}
@@ -152,25 +115,18 @@ Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlauf
 	\end{figure}
 \end{center}
 
-Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht linear und flacht schnell ab. Die Speedup-Faktoren liegen für die \textit{Detector Distortion} und \textit{Experiment 6} Datensätze übersteigt fünf nicht. Bei den \textit{Lenses}-Datensätzen hingegen wird bei 24 Kernen ein Speedup von mehr als zehn erreicht. In den auf Abbildung \ref{fig:speedup} visualisierten Graphen ist eine starke Skalierung deutlich erkennbar. 
+Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht linear und flacht schnell ab. Der Speedup-Faktor für den \textit{Experiment 6} Datensätze übersteigt fünf nicht. Bei den \textit{Lenses}-Datensätzen hingegen wird bei 24 Kernen ein Speedup von mehr als zehn erreicht. In den auf Abbildung \ref{fig:speedup} visualisierten Graphen ist eine starke Skalierung deutlich erkennbar. 
 
 \begin{center}
-	\begin{figure}[htbp]
-		\begin{subfigure}[b]{0.325\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{pdf/speedup_detector_distortion}
-			\caption[Detector Distortion]{Detector Distortion}
-			\label{fig:speedup_det_dist}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[b]{0.325\textwidth}
+	\begin{figure}
+		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/speedup_exp6}
 			\caption[Experiment 6]{Experiment 6}
 			\label{fig:speedup_exp6}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.325\textwidth}
+		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/speedup_lenses}
 			\caption[Lenses]{Lenses}
