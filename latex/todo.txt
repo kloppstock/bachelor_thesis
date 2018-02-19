@@ -1,7 +1,9 @@
 TODO:
- - Listings labeln
- - Listings zentrieren
- - CPU util herausfinden!!!
+ - Nachweiß Threads
+ - Detector Distortion aus Diagrammen entfernen
+ - Abbildung Parallelisierung
+
+ - Permalinks nutzen???
 
  - Mindestanforderungen einfügen:
 	Mindestanforderungen:
@@ -10,4 +12,11 @@ TODO:
 	-> Erweiterbarkeit der Hardware ohne Änderung des Quellcodes
 	-> 2048*2048*10fps optimalerweise
 
+ - Abstract
+ - Kurzfassung
+ - Einleitung
+ - 5. Kapitel
+ - 6. Kapitel
+
+ - Darstellung von Listings verbessern?
  - Layout der Abbildungen verbessern!!!

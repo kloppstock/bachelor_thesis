@@ -11,22 +11,40 @@
 
 \subsection{Optimierung von Python Engpässen}
 
-\subsubsection{Intrinsics}
+\subsubsection{Nutzen bereits optimierter Funktionen}
 
 \begin{correctmore}
-	TODO
+	- Speedup: 2.5x
 \end{correctmore}
 
 \subsubsection{Kompilieren}
 
+\paragraph{Gesamtes Programm}
+
 \begin{correctmore}
-TODO
+	- kompilieren des kompletten Projektes mit Cython
+	- funktioniert, aber Ergebnisse bringen nicht gewünschten Speedup bzw. nur manchmal
+	--> Ansatz verworfen
+\end{correctmore}
+
+\paragraph{numba}
+
+\begin{correctmore}
+	- kaum speedup
+	- cpython compiler besser, da er direkt für python gemacht wurde
+	- bereits viel durch intrinsics optimiert
+\end{correctmore}
+
+\paragraph{Cython}
+
+\begin{correctmore}
+	- ein wenig besser als intrinsics, da typinformationen fest einprogrammiert sind
 \end{correctmore}
 
 \section{Einfluss der Parameter}
 
 \begin{correctmore}
-	- Algorithmus in verschiedenen Konfigurationen benchmarken (Framepaket Größe variieren, ...)
+	- Algorithmus in verschiedenen Konfigurationen benchmarken (Anzahl der Nodes, verschiedene Datensets, ...)
 	- Performance Sweet-Spot finden
 \end{correctmore}
 

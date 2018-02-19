@@ -6,27 +6,25 @@ Um der optimalen Leistung nah zu kommen wurde bei der Implementierung ein iterat
 
 \subsection{Parallelisierung der Verarbeitung einzelner Bildpaare mittels MPI}
 
-Da die zu bearbeitenden Bildpaare voneinander unabhängig sind, lassen diese sich trivial parallelisieren. Der Vorteil dieses Ansatzes liegt besonders in seiner simplen Implementierung und erwarteten linearen Skalierung begründet. Dieser Ansatz bringt allerdings auch einige Nachteile mit sich: Viele \gls{MPI}-Implementierungen erlauben keine neuen \correctme{Threads Nachweiß einfügen} und es ist nur eine schwache Skalierung zu erwarten. Sofern kein Multithreading innerhalb von \gls{MPI} möglich ist, limitiert die Anzahl der Bildpaare die Parallelisierungsmöglichkeiten stark, weshalb hier aus Zeitgründen auf intensives Testen dieser Version verzichtet wird. 
+Da die zu bearbeitenden Bildpaare voneinander unabhängig sind, lassen diese sich trivial parallelisieren. Der Vorteil dieses Ansatzes liegt besonders in seiner simplen Implementierung und erwarteten linearen Skalierung begründet. Dieser Ansatz bringt allerdings auch einige Nachteile mit sich: \gls{MPI}-Implementierungen erlauben das Erstellen neuer Threads nur, wenn man dies beim Installieren der Bibliotheken angibt\correctme{Threads Nachweiß einfügen} und es ist nur eine schwache Skalierung zu erwarten. Sofern kein Multithreading innerhalb von \gls{MPI} möglich ist, limitiert die Anzahl der Bildpaare die Parallelisierungsmöglichkeiten stark, weshalb hier aus Zeitgründen auf intensives Testen dieser Version verzichtet wird. Die Implementierung dieses Ansatzes ist auf dem GitHub-Branch \textit{mpi}\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/tree/mpi}} verfügbar.
 
 \subsection{Parallelisierung innerhalb der Verarbeitung einzelner Bildpaare mittels MPI}
 
 Eine sinnvolle Erweiterung zur oben beschriebenen Methode ist das Ersetzen der genutzten Multithreading-Bibliothek mittels MPI, sodass selbst die Berechnung eines einzelnen Bildpaares über Rechnergrenzen hinweg möglich ist. In diesem Zuge wurde auch die Fehlerkorrektur am Ende des Speckle-Trackings parallelisiert, indem die zu korrigierende Bildausschnitte auf mehrere Kerne verteilt wurden. Zusätzlich ermöglicht diese Implementierung den Einsatz eines Tracing-Programmes, wie SCORE-P\footnote{\url{http://www.vi-hps.org/projects/score-p/}}. Dies war aufgrund der unterliegenden multiprocessing-Bibliothek zuvor nicht möglich. Ein hoher Speedup wird insbesondere für wenige zu korrigierende Bildausschnitte nicht erwartet. 
 
-Im konkreten werden die Bildpaare auch \gls{CPU}-Kern Gruppen verteilt. Einer dieser Kerne agiert hierbei als Hauptkern und ist dafür verantwortlich das Bildpaar zu verarbeiten, wobei dieser Aufgaben mittels eines \gls{MPI}-Kommunikators an die anderen Rechenkerne verteilen kann. Dies ist in der Abbildung \correctme{Abbildung einfügen} gezeigt. Die Schnittstelle wurde hierbei ähnlich zur joblib-Implementierung entworfen. Sollten mehr Bildpaare als Rechenkerne vorhanden sein, werde mehrere Bildpaare von eine Kern hintereinander verarbeitet. Die Programmierschnittstelle wurde so entworfen, dass die Verteilung der Bildpaare auf die Kernen und das Parallelisieren innerhalb dieser für den Programmierer transparent geschieht. \correctme{Implementierung verlinken}
+Im konkreten werden die Bildpaare auch \gls{CPU}-Kern Gruppen verteilt. Einer dieser Kerne agiert hierbei als Hauptkern und ist dafür verantwortlich das Bildpaar zu verarbeiten, wobei dieser Aufgaben mittels eines \gls{MPI}-Kommunikators an die anderen Rechenkerne verteilen kann. Dies ist in der Abbildung \correctme{Abbildung einfügen} gezeigt. Die Schnittstelle wurde hierbei ähnlich zur joblib-Implementierung entworfen. Sollten mehr Bildpaare als Rechenkerne vorhanden sein, werde mehrere Bildpaare von eine Kern hintereinander verarbeitet. Die Programmierschnittstelle wurde so entworfen, dass die Verteilung der Bildpaare auf die Kernen und das Parallelisieren innerhalb dieser für den Programmierer transparent geschieht. Die Implementierung dieses Ansatzes ist auf GitHub auf dem \textit{mpi-advanced}-Branch\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/tree/mpi-advanced}} zu finden.
 
 \correctme{\textbf{Schemata einfügen}}
 
 \section{Optimierung der Python-Engpässe}
 
-\begin{correctmore}
-	- Optimieren einzelner in Python implementierter Programmteile, die sich als besonders langsam herausgestellt haben
-\end{correctmore}
+Wie in Abbildung \ref{fig:perc_slow} zu sehen ist, wird über 95\% der Rechenzeit in den fünf langsamsten Funktionen verbracht. Unter diesen ist insbesondere die \textit{nxcorr\_disp}-Funktion, welche komplett in reinem Python implementiert ist. Um die Leistung solcher Funktionen zu verbessern werden im folgenden Methoden zur Optimierung des bestehenden Codes betrachtet mit besonderem Augenmerk auf der Optimierung der langsamsten Funktionen. 
 
 \subsection{Nutzen von bereits optimierter Funktionen}
 
-Einige Teile des Codes können durch bereits in Python oder einer optimierten Bibliothek enthaltenen Funktion ersetzt werden, womit der Interpretieraufwand erheblich reduziert wird. Dies gehört damit zu einer der grundlegenden Optimierungsmöglichkeiten. Zusätzlich dazu sind diese Funktionen meist bereits für optimale Leistung optimiert. In der Funktion \textit{nxcorr\_disp} lassen sich solche Code-Abschnitte finden. Die Code-Auflistung \correctme{Auflistung referenzieren} zeigt die Implementierung in reinem Python und die Auflistung \correctme{Auflistung referenzieren} zeigt die Nutzung von bereits optimierten Funktionen. 
+Einige Teile des Codes können durch bereits in Python oder einer optimierten Bibliothek enthaltenen Funktion ersetzt werden, womit der Interpretieraufwand erheblich reduziert wird. Dies gehört damit zu einer der grundlegenden Optimierungsmöglichkeiten. Zusätzlich dazu sind diese Funktionen bereits für optimale Leistung optimiert. In der Funktion \textit{nxcorr\_disp} lassen sich solche Code-Abschnitte finden. Die Code-Auflistung \ref{lst:max2} zeigt den Code zum Ermitteln eines Maximums einer Matrix in reinem Python-Code, wobei die äußeren Zeilen und Spalten vernachlässigt werden. Auflistung \ref{lst:max2_fast} zeigt einen funktional äquivalenten Code unter Nutzung von bereits optimierten Funktionen. 
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Finden des Maximums einer Matrix}, label={lst:max2}]
 for i in range(1,lengthY-1):
 	for j in range(1,lengthX-1):
 		if (nxcorr[i, j] > maxValue):
@@ -35,16 +33,16 @@ for i in range(1,lengthY-1):
 			maxJ = j
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Finden des Maximums einer Matrix mittels NumPy und OpenCV}, label={lst:max2_fast}]
 nxcorr_small = nxcorr[1:-1,1:-1]
 (_, maxValue, _, (maxJ, maxI)) = cv2.minMaxLoc(nxcorr_small)
 maxI += 1
 maxJ += 1
 \end{lstlisting}
 
-Des weiteren befindet sich in der \textit{nxcorr\_disp}-Funktion die Berechnung des Signal-Rausch-Verhältnisses (gezeigt in Auflistung \correctme{Auflistung referenzieren}), was allerdings im weiteren Verlauf des Programmes nicht wieder verwendet wird. 
+Des weiteren befindet sich in der \textit{nxcorr\_disp}-Funktion die Berechnung des Signal-Rausch-Verhältnisses (gezeigt in Auflistung \ref{lst:snr_calc}), was allerdings im weiteren Verlauf des Programmes nicht wieder verwendet wird. 
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Berechnung des Signal-Rausch-Verhältnisses}, label={lst:snr_calc}]
 avg = 0.0
 count = 0
 for i in range(lengthY):
@@ -56,7 +54,7 @@ avg = avg / float(count)
 SNr = maxValue / avg
 \end{lstlisting}
 
-Nachdem diesen Änderungen befindet sich keine in Python implementierte Schleife mehr in der Funktion. Angesichts der hohen Aufrufzahl der \textit{nxcorr\_disp} und dem Entfernen großer Codeanteile ist ein hoher Beschleunigungsfaktor zu erwarten. \correctme{Implementierung verlinken}
+Nachdem diesen Änderungen befindet sich keine in Python implementierte Schleife mehr in der Funktion. Angesichts der hohen Aufrufzahl der \textit{nxcorr\_disp} und dem Entfernen großer Codeanteile ist ein hoher Beschleunigungsfaktor zu erwarten. Die hier angegebenen Verbesserungen sind auf dem Branch \textit{intrinsics} des GitHub-Repositorys\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/tree/intrinsics}} zu fintrinsicsnden. 
 
 \subsection{Kompilieren}
 
@@ -64,23 +62,18 @@ Eine weitere Möglichkeit der Minimierung des Python-Engpasses ist die Übersetz
 
 \subsubsection{Gesamtes Programm}
 
-\begin{correctmore}
-	- kompilieren des kompletten Projektes mit Cython
-	- funktioniert, aber Ergebnisse bringen nicht gewünschten Speedup bzw. nur manchmal
-	--> Ansatz verworfen
-\end{correctmore}
+Die einfachste Möglichkeit der Übersetzung ist es, das gesamte Programm in Maschinencode zu übersetzten. Hierzu kann die Bibliothek Cython\footnote{\url{http://cython.org/}} genutzt werden, welche Python-Code in C übersetzt, was anschließend in Maschinencode übersetzt werden kann. Hierzu wurde nur die Datei \textit{waveFront.py} unübersetzt gelassen, da diese keine rechenaufwendigen Funktionen enthält und diese nur aus anderen Dateien, insbesondere der \textit{func.py} aufruft. Die benötigten Installationsdateien sind auch dem GitHub-Branch \textit{compiled}\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/tree/compiled}} verfügbar. 
 
 \subsubsection{Einzelne Funktionen}
 
-\correctme{ - kompilieren einzelne Funktion}
-
 \paragraph{numba}
 
-\correctme{ - just in time compiler}
+numba\footnote{\url{https://numba.pydata.org/}} ist eine Optimierungsbibliothek für Python, welche unter anderem die Möglichkeit bietet, Funktionen \gls{JIT} zu übersetzen und CUDA und OpenCL zu nutzen. 
+
+Funktionen können zur \gls{JIT}-Übersetzung mittels der Annotation \texttt{@jit} markiert werden. Sobald während der Ausführung diese Funktion erreicht wird, übersetzt numba den Code in eine Intermediate-Repräsentation, welche anschließend von LLVM weiter in Maschinencode übersetzt wird. Beim nächsten Aufruf wird sofort der Maschinencode verwendet. Ein permanentes Speichern des Übersetzungsergebnisses ist mittels der Annotiation \texttt{@jit(cached = True)} möglich. Auf dem \textit{numba}-Branch\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/tree/numba}} befindet sich eine Version des Codes, in dem diese Annotationen genutzt werden. 
 
 \paragraph{Cython}
 
-\begin{correctmore}
-	- regulärer Compiler
-	- weitere Optimierungsmöglichkeiten (z.B. mit C Typen)
-\end{correctmore}
+Eine weitere weitaus mächtigere Methode zur Übersetzung einzelner Funktionen bietet die Cython-Bibliothek, welche bereits genutzt wurde, um das gesamte Programm zu übersetzen. Diese führt die Möglichkeit der Typisierung ein und lässt die direkte Einbindung von C zu. 
+
+In der auf dem GitHub-Branch \textit{cython}\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/tree/cython}} verfügbaren Version wurden Cython genutzt, um die Funktionen \textit{norm\_xcorr} und \textit{nxcorr\_disp} zu übersetzen. Hierbei wurden alle Variablen mit Typen versehen und es wurde die von Cython bereitgestellte Schnittstelle zu NumPy genutzt. Zusätzlich wurden ebenfalls Cython-Annotationen verwendet, die NumPy's Grenzfallbehandlung abschalten. 

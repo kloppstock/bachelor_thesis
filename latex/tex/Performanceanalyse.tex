@@ -57,7 +57,7 @@ Dies liegt insbesondere für kleine \gls{uap} und \gls{gridResol} in der Komplex
 
 \paragraph{Testsystem}
 
-Alle Benchmarks liefen auf den \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knote dieser Partition ist ausgestattet mit zwei Intel\textregistered Xeon\textregistered E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 GHz getaktet sind. MultiThreading war hierbei nicht aktiviert. Die Knoten haben 64 GiB (\textit{haswell64}), 128 GiB (\textit{haswell128}) oder 256 GiB (\textit{haswell256}) Arbeitsspeicher zur Verfügung. Zusätzlich ist pro Rechenknoten eine 128 GB \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/blob/9e1c91790a5461f3ff1b6e4b6f6022529b88cc34/loaded_libs.txt}} finden.
+Alle Benchmarks liefen auf den \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knote dieser Partition ist ausgestattet mit zwei Intel\textregistered Xeon\textregistered E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 \gls{GHz} getaktet sind. MultiThreading war hierbei nicht aktiviert. Die Knoten haben 64 \gls{GiB} (\textit{haswell64}), 128 \gls{GiB} (\textit{haswell128}) oder 256 \gls{GiB} (\textit{haswell256}) Arbeitsspeicher zur Verfügung. Zusätzlich ist pro Rechenknoten eine 128 \gls{GB} \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/blob/f2fc5c2e5f8b4ef0e9b3ca3a4e770db67f230588/doc/loaded_libs.txt}} finden.
 
 \paragraph{Laufzeitumstände}
 
@@ -178,4 +178,4 @@ Innerhalb des Speckle-Trackings ist der Aufruf des zweiten Durchlaufes mittels d
 
 Die hohe Rechenzeit der Gradienten-Integration ist im Aufruf dieser auf die Größe des Gesamtbildes begründet.
 
-Insgesamt hat das Programm eine schlechte CPU-Auslastung \correctme{nachweisen mittels time Befehl!}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 
+Insgesamt hat das Programm eine schlechte CPU-Auslastung von lediglich durchschnittlich 19,635\% \footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/blob/f2fc5c2e5f8b4ef0e9b3ca3a4e770db67f230588/doc/cpu_util.md}}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 
