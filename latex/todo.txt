@@ -1,7 +1,5 @@
 TODO:
  - Nachweiß Threads
- - Detector Distortion aus Diagrammen entfernen
- - Abbildung Parallelisierung
 
  - Permalinks nutzen???
 

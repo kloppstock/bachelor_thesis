@@ -1,0 +1,104 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{fit, shapes, arrows}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\makeatletter
+\pgfdeclareshape{framepair}{
+	\inheritsavedanchors[from=rectangle]%
+	\inheritanchorborder[from=rectangle]%
+	\inheritanchor[from=rectangle]{center}%
+	\foreach \anchor in {north,north west,north east,center,west,east,mid,
+		mid west,mid east,base,base west,base east,south,south west,south east}{%
+		\inheritanchor[from=rectangle]{\anchor}}%
+	\inheritbackgroundpath[from=rectangle]
+	\foregroundpath{
+		\northeast
+		\pgf@xa=\pgf@x
+		\pgf@ya=\pgf@y
+		\southwest
+		\pgf@xb=\pgf@x
+		\pgf@yb=\pgf@y
+		\pgfpathmoveto{\pgfpoint{\pgf@xa-4pt}{\pgf@ya}}
+		\pgfpathlineto{\pgfpoint{\pgf@xa-4pt}{\pgf@ya+4pt}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb-4pt}{\pgf@ya+4pt}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb-4pt}{\pgf@yb+4pt}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb+4pt}}
+	}
+}
+
+\tikzstyle{empty} = [text width=6.1em, xshift=1.8em]
+\tikzstyle{core} = [font=\bf, rectangle, draw, rounded corners, minimum width=1.6em, minimum height=1.6em, text centered, line width=0.13em]
+\tikzstyle{root} = [rectangle, draw=red!60, rounded corners, line width=0.2em, inner sep=0.1em, minimum width=1.4em, minimum height=0.8em]
+\tikzstyle{rootgroup} = [rectangle, draw=green!60, rounded corners, line width=0.2em, inner sep=0.2em, minimum width=1.4em, minimum height=0.8em]
+\tikzstyle{group} = [rectangle, draw=blue!60, rounded corners, line width=0.2em, inner sep=0.35em, minimum width=1.4em, minimum height=0.8em]
+\tikzstyle{legend} = [rectangle, draw, inner sep=0.35em, minimum width=1.4em, minimum height=0.8em, line width=0.1em]
+\tikzstyle{fp} = [framepair, font=\bf, line width=0.1em, draw, xshift=-0.5em]
+\tikzstyle{arrow} = [very thick, ->, >=stealth]
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=2.8em]
+	\node [core] (c0) {0};
+	\node [core, right of=c0, xshift=-0.5em] (c1) {1};
+	\node [core, right of=c1, xshift=-0.5em] (c2) {2};
+	\node [core, right of=c2, xshift=-0.5em] (c3) {3};
+	\node [core, below of=c0] (c4) {4};
+	\node [core, right of=c4, xshift=-0.5em] (c5) {5};
+	\node [core, right of=c5, xshift=-0.5em] (c6) {6};
+	\node [core, right of=c6, xshift=-0.5em] (c7) {7};
+	\node [core, below of=c4] (c8) {8};
+	\node [core, right of=c8, xshift=-0.5em] (c9) {9};
+	\node [core, right of=c9, xshift=-0.5em] (c10) {10};
+	\node [core, right of=c10, xshift=-0.5em] (c11) {11};
+	\node [core, below of=c8] (c12) {12};
+	\node [core, right of=c12, xshift=-0.5em] (c13) {13};
+	\node [core, right of=c13, xshift=-0.5em] (c14) {14};
+	\node [core, below of=c12] (c15) {15};
+	\node [core, right of=c15, xshift=-0.5em] (c16) {16};
+	\node [core, right of=c16, xshift=-0.5em] (c17) {17};
+	
+	\node [group, fit=(c0)(c1)(c2)(c3)] (g0) {};
+	\node [group, fit=(c4)(c5)(c6)(c7)] (g1) {};
+	\node [group, fit=(c8)(c9)(c10)(c11)] (g2) {};
+	\node [group, fit=(c12)(c13)(c14)] (g3) {};
+	\node [group, fit=(c15)(c16)(c17)] (g4) {};
+	
+	\node [rootgroup, fit=(c0)(c4)(c8)(c12)(c15)] (rootgroup) {};
+	
+	\node [root, fit=(c0)] (root) {};
+	
+	\node [core, right of=c3, xshift=2em] (desc_core) {0};
+	\node [empty, right of=desc_core] (desc_core_text) {Rechenkern};
+	\node [fp, below of=desc_core, xshift=0.8em] (desc_fp) {1};
+	\node [empty, right of=desc_fp] (desc_fp_text) {Bildpaar};
+	\node [root, below of=desc_fp] (desc_root) {};
+	\node [empty, right of=desc_root] (desc_root_text) {Wurzelkern};
+	\node [rootgroup, below of=desc_root] (desc_group_root) {};
+	\node [empty, right of=desc_group_root] (desc_group_root_text) {Hauptkerne\\(für Bildpaare)};
+	\node [group, below of=desc_group_root] (desc_group) {};
+	\node [empty, right of=desc_group] (desc_group_text) {Gruppe};
+	
+	\node [legend, fit=(desc_core)(desc_core_text)(desc_root)(desc_root_text)(desc_group_root)(desc_group_root_text)(desc_group)(desc_group_text)] (legend) {};
+	
+	\node [fp, left of=c0] (fp1) {1};
+	\node [fp, draw, left of=c4] (fp2) {2};
+	\node [fp, draw, left of=c8] (fp3) {3};
+	\node [fp, draw, left of=c12] (fp4) {4};
+	\node [fp, draw, left of=c15] (fp5) {5};
+	
+	\draw [arrow] (fp1) -- (g0);
+	\draw [arrow] (fp2) -- (g1);
+	\draw [arrow] (fp3) -- (g2);
+	\draw [arrow] (fp4) -- (g3);
+	\draw [arrow] (fp5) -- (g4);
+\end{tikzpicture}
+\end{document}

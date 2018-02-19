@@ -93,7 +93,7 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden drei verschied
 
 \subsection{Laufzeiten}
 
-Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlaufzeiten}, variieren untereinander stark und reichen von ca. dreieinhalb Stunden für den \textit{Lenses Set 1}-Datensatz auf einem Kern bis hin zu ca. vier Minuten für den \textit{Lenses Set 3} Datensatz mit einem Bild auf 24 Kernen.
+Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlaufzeiten}, variieren untereinander stark und reichen von ca. dreieinhalb Stunden für den \textit{Lenses Set 1}-Datensatz auf einem Kern bis hin zu ca. vier Minuten für den \textit{Lenses Set 3} Datensatz mit einem Bild auf 24 Kernen. Die Messpunkte sind hierbei dick hervorgehoben und die Skala ist logarithmisch eingeteilt. 
 
 \begin{center}
 	\begin{figure}
@@ -137,7 +137,7 @@ Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht line
 	\end{figure}
 \end{center}
 
-Um Engpässe und besonders rechenaufwendige Funktionen zu identifizieren, wurde das Programm mit Zeitmessern versehen, die Ausführungszeiten und Aufrufanzahl protokolliert haben. Ein Überblick über das Gesamtprogramm ist in Abbildung \ref{fig:perc_main} zu sehen.
+Um Engpässe und besonders rechenaufwendige Funktionen zu identifizieren, wurde das Programm mit Zeitmessern versehen, die Ausführungszeiten und Aufrufanzahl protokolliert haben. Anschließend wurden es auf einem Rechenkern unter denselben Bedingungen, wie die anderen Konfigurationen, die Zeiten gemessen. Ein Überblick über das Gesamtprogramm mit seinen Subroutinen und deren Anteil an der Gesamtlaufzeit ist in Abbildung \ref{fig:perc_main} zu sehen.
 
 \begin{center}
 	\begin{figure}[htbp]
