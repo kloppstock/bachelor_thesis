@@ -5,7 +5,7 @@
 %% Datum: Aug 14, 2012
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{zihpub}
+\ProvidesClass{res/zihpub}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Load packages

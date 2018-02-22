@@ -178,17 +178,17 @@ Der bestehende Code wurde von Elena-Ruxandra Cojocaru entwickelt und ist auf Git
 
 Die Datei \textit{norm\_xcorr.py} enthält alle Funktionen, die für das Template-Matching benötigt werden. Darunter ist die Funktion \textit{norm\_xcorr}, welche lediglich als Schnittstelle für die Template-Matching Funktion aus OpenCV dient. Sie nimmt als Argumente ein Template, ein Suchfeld und optional den Namen des gewünschten Algorithmus entgegen und gibt die Übereinstimmungsmarix, die Position und den Wert des Maximums und des Minimums zurück.
 
-Die zweite Funktion in dieser Datei ist die \textit{nxcorr\_disp} Funktion, welche die Übereinstimmungsmatrix an relevanten Stellen, wo die Übereinstimmung am höchsten ist, auf ein Sub-Pixel-Level verfeinert. Dazu nimmt diese Funktion das Ergebnis der \textit{norm\_xcorr} Funktion entgegen und gibt die Position sowie den Wert des neuen Maximums und das Signal-Rausch-Verhältnis zurück. 
+Die zweite Funktion in dieser Datei ist die \textit{nxcorr\_disp} Funktion, welche die Übereinstimmungsmatrix an relevanten Stellen, wo die Übereinstimmung am höchsten ist, auf ein Subpixel-Level verfeinert. Dazu nimmt diese Funktion das Ergebnis der \textit{norm\_xcorr} Funktion entgegen und gibt die Position sowie den Wert des neuen Maximums und das Signal-Rausch-Verhältnis zurück. 
 
 \subsection{func.py}
 
-Die \textit{func.py} enthält die meisten Helferfunktionen. Dazu gehören unter anderem Funktionen zur \gls{ROI}-Auswahl und verschiedene Filterfunktionen. 
+Die \textit{func.py} enthält die meisten Helferfunktionen. Dazu gehören unter anderem Funktionen zur \gls{ROI}"=Auswahl und verschiedene Filterfunktionen. 
 
 Des weiteren befinden sich in dieser Datei auch die Funktionen \textit{computerCorrField} und \textit{correction}. \textit{computerCorrField} berechnet aus Bildern an einem vorgegebenen Pfad entweder das mediangefilterte Bild für die Dunkelfeld-Kalibrierung oder das durchschnittsgefilterte Bild für Nullfeld-Kalibrierung. Mithilfe der \textit{correction} Funktion können nun diese berechneten Korrekturbilder auf Eingabebilder mittels Subtraktion für die Dunkelfeld-Kalibrierung oder mittels Division für die Nullfeld-Kalibrierung, angewendet werden.
 
 Zwei weitere wichtige Funktionen sind \textit{firstPass} und \textit{cpCorr}, welche den ersten (\textit{firstPass}) und zweiten Durchlauf (\textit{cpCorr}) implementieren. Diese sind damit Teil des Speckle-Trackings-Algorithmus, welcher in der \textit{crossSpot4} Funktion implementiert ist.
 
-Die letzte wichtige Funktion im \textit{func.py}-Skript ist die \textit{frankot\_chelappa} Funktion, welche aus Gradientenfeldern eine dreidimensionale Rekonstruktion berechnet. Dies wird nach dem Speckle-Tracking verwendet. Um dies Effizient und schnell zu erreichen werden die Eingabematrizen mittels \glspl{FFT} in den Frequenzraum transformiert, dort addiert und wieder zurücktransformiert. 
+Die letzte wichtige Funktion im \textit{func.py}-Skript ist die \textit{frankot\_chellappa} Funktion, welche aus Gradientenfeldern eine dreidimensionale Rekonstruktion berechnet. Dies wird nach dem Speckle-Tracking verwendet. Um dies effizient und schnell zu erreichen, werden die Eingabematrizen mittels \glspl{FFT} nach Formel 21 des von \citeauthor{FC88} beschriebenen Algorithmus in den Frequenzraum transformiert, dort addiert und wieder zurück transformiert \shortcite{FC88}{443}. 
 
 \subsection{wavefront.py}
 

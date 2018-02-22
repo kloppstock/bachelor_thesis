@@ -1,7 +1,5 @@
 TODO:
- - Nachweiß Threads
-
- - Permalinks nutzen???
+ - Kapitel 4 auführlicher???
 
  - Mindestanforderungen einfügen:
 	Mindestanforderungen:
@@ -16,5 +14,6 @@ TODO:
  - 5. Kapitel
  - 6. Kapitel
 
+ - Glossar ans Ende
  - Darstellung von Listings verbessern?
  - Layout der Abbildungen verbessern!!!

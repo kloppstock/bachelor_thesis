@@ -7,6 +7,7 @@
 \begin{correctmore}
 	- Speedup: 2-5x (geschätzt; ohne mehr nodes)
 	- linear mit Anzahl der Nodes bis Anzahl der Bildpaare
+	- anschließend Stagnation bis zu 2* Anzahl d. Nodes, weil bis da hin einige CPUs immer noch alleine a einem Bildpaar rechnet und alle anderen auf diesen warten müssen
 \end{correctmore}
 
 \subsection{Optimierung von Python Engpässen}
@@ -30,7 +31,7 @@
 \paragraph{numba}
 
 \begin{correctmore}
-	- kaum speedup
+	- kein speedup
 	- cpython compiler besser, da er direkt für python gemacht wurde
 	- bereits viel durch intrinsics optimiert
 \end{correctmore}
@@ -39,27 +40,30 @@
 
 \begin{correctmore}
 	- ein wenig besser als intrinsics, da typinformationen fest einprogrammiert sind
+	- kein tatsächlicher Unterschied zu intrinsics
 \end{correctmore}
 
 \section{Einfluss der Parameter}
 
 \begin{correctmore}
-	- Algorithmus in verschiedenen Konfigurationen benchmarken (Anzahl der Nodes, verschiedene Datensets, ...)
-	- Performance Sweet-Spot finden
+	- Sweet-Spot: ca. 3*#Bildpaare
+	- skalliert mit mehr Nodes, aber später nicht mehr gut
+	- skaliert besser mit mehr Bildpaaren
 \end{correctmore}
 
 \section{Skalierung}
 
 \subsection{Skalierungsfaktor}
 
-\correctme{ - auf Skalierungsfaktor eingehen und diesen in Bezug zu Parametern und verwendeter Hardware setzen}
+\begin{correctme}
+	- schwache skalierung da
+	- skaliert aber stark deutlich besser
+\end{correctme}
 
 \subsection{Sättigung}
 
 \begin{correctmore}
-	- Sättigungspunkt -grund beschreiben
-	- Sättigungsgrund:
-	-> Framepaketgröße: Rechenaufwand >> Kopieraufwand -> keine weitere Optimierung des Kopieraufwandes möglich
-	-> Anzahl der Nodes: Kopieraufwand übersteigt Rechenaufwand bzw. nähert sich an
-	-> nur begrenzte Menge an Datenverfügbar
+	- erster Sättigungspunkt bei #nodes=#bildpaare, da dann alle CPUs zu 100\% ausgelastet sind --> stagniert bis 2*#nodes=#bildpaare
+	- neues Bottleneck: Rest des Speckle-trackings (nicht paralleliserter Teil) + Gradientenintegration und nicht parallelisierter Rest der Bildverarbeitungsroutine
+	--> nur begrenzte Menge an Daten verfügbar
 \end{correctmore}
