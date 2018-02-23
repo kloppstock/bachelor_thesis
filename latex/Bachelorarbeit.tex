@@ -6,6 +6,7 @@
 \usepackage{listings}
 \usepackage{wrapfig}
 \usepackage{cleveref}
+\usepackage{booktabs}
 \usepackage[style=iso-alphabetic, maxcitenames=1, backend=biber]{biblatex}
 \usepackage[nonumberlist, acronym, toc, section]{glossaries}
 \setacronymstyle{long-short}
@@ -29,6 +30,8 @@
 
 \catcode`\ß=13
 \defß{\ss}
+
+\renewcommand{\arraystretch}{1.3}
 
 \crefformat{footnote}{#2\footnotemark[#1]#3}
 

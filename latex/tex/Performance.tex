@@ -1,13 +1,19 @@
 \chapter{Performance-Messungen der parallelen Implementation}
 
+\begin{correctme}
+	- Testsystem gleich geblieben, aber jeztt wurden teilweise mehr knoten verwendet
+\end{correctme}
+
 \section{Evaluierung der Optimierungen}
 
 \subsection{Parallelisierung}
 
 \begin{correctmore}
-	- Speedup: 2-5x (geschätzt; ohne mehr nodes)
-	- linear mit Anzahl der Nodes bis Anzahl der Bildpaare
-	- anschließend Stagnation bis zu 2* Anzahl d. Nodes, weil bis da hin einige CPUs immer noch alleine a einem Bildpaar rechnet und alle anderen auf diesen warten müssen
+	- Simpel: meh
+	- auf Bildpaaren:
+		- Speedup: 2-5x (geschätzt; ohne mehr nodes)
+		- linear mit Anzahl der Nodes bis Anzahl der Bildpaare
+		- anschließend Stagnation bis zu 2* Anzahl d. Nodes, weil bis da hin einige CPUs immer noch alleine a einem Bildpaar rechnet und alle anderen auf diesen warten müssen
 \end{correctmore}
 
 \subsection{Optimierung von Python Engpässen}
@@ -23,9 +29,7 @@
 \paragraph{Gesamtes Programm}
 
 \begin{correctmore}
-	- kompilieren des kompletten Projektes mit Cython
-	- funktioniert, aber Ergebnisse bringen nicht gewünschten Speedup bzw. nur manchmal
-	--> Ansatz verworfen
+	- 1-2\% schneller als intrinsics
 \end{correctmore}
 
 \paragraph{numba}
@@ -36,17 +40,16 @@
 	- bereits viel durch intrinsics optimiert
 \end{correctmore}
 
-\paragraph{Cython}
+\paragraph{Cython + komplett}
 
 \begin{correctmore}
-	- ein wenig besser als intrinsics, da typinformationen fest einprogrammiert sind
-	- kein tatsächlicher Unterschied zu intrinsics
+	- ??? +5\%?
 \end{correctmore}
 
 \section{Einfluss der Parameter}
 
 \begin{correctmore}
-	- Sweet-Spot: ca. 3*#Bildpaare
+	- Sweet-Spot: ca. 3*\#Bildpaare
 	- skalliert mit mehr Nodes, aber später nicht mehr gut
 	- skaliert besser mit mehr Bildpaaren
 \end{correctmore}
@@ -58,12 +61,13 @@
 \begin{correctme}
 	- schwache skalierung da
 	- skaliert aber stark deutlich besser
+	- Achtung bei Speedup: 8 Cores als Referenz genommen. wenn bei 8 cores noch kein optimum da ist, kann dass kurz danach gefunden werden, was den Graphen nach obern verschiebt
 \end{correctme}
 
 \subsection{Sättigung}
 
 \begin{correctmore}
-	- erster Sättigungspunkt bei #nodes=#bildpaare, da dann alle CPUs zu 100\% ausgelastet sind --> stagniert bis 2*#nodes=#bildpaare
+	- erster Sättigungspunkt bei \#nodes=\#bildpaare, da dann alle CPUs zu 100\% ausgelastet sind --> stagniert bis 2*\#nodes=\#bildpaare
 	- neues Bottleneck: Rest des Speckle-trackings (nicht paralleliserter Teil) + Gradientenintegration und nicht parallelisierter Rest der Bildverarbeitungsroutine
 	--> nur begrenzte Menge an Daten verfügbar
 \end{correctmore}
