@@ -1,8 +1,8 @@
 TODO:
- - Kapitel 4 auführlicher???
- - Nachweiß für keinen Speedup bei zusätzlichem Kompilieren??
- - Absätze so OK, oder längerer Fließtext?
- - weitere Kritik am Schreibestil?
+ - ist Zitierung des Repos so richtig?
+ - wie mit dem Bug umgehen
+ - Diagramme ausplitten
+ - Balkendiagramm nutzen
 
  - Mindestanforderungen einfügen:
 	Mindestanforderungen:

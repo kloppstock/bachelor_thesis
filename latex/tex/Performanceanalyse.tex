@@ -1,6 +1,6 @@
-\chapter{Performance-Analyse der derzeitigen Implementierung}
+\chapter{Performance-Analyse der vorgegebenen Python-Implementierung}
 
-\section{Komplexität}
+\section{Komplexitätsanalyse}
 
 \subsection{Speckle-Tracking}
 
@@ -12,11 +12,7 @@ Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Einga
 	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{rblock} \cdot log\left(\gls{rblock}\right)}{\gls{rblock}}\right) = \mathcal{O}\left(\gls{rroi} \cdot log\left(\gls{rblock}\right)\right)$
 \end{center}
 
-Da die \gls{rblock} konstant und die Dauer der einzelnen Suchvorgänge somit ebenfalls als konstant angenommen werden können, liegt dieser Durchlauf in der linearen Komplexitätsklasse. 
-
-Die anschließende Interpolation wird auf alle Pixel des Bildes angewandt und hat demzufolge eine Komplexität von $\mathcal{O}\left(\gls{rroi}\right)$.
-
-Im darauf folgenden zweiten Durchlauf werden Subbilder, wie in Abschnitt \ref{sec:speckle-tracking} beschrieben, generiert. Durch die \glsfirst{uap} \glssymbol{uap} wird \gls{rroi}, und damit auch die Komplexität dieses Teils, mit dem Faktor $\gls{uap}^2$ verringert. Die \glsfirst{corrsize} \glssymbol{corrsize} nimmt auf das Template-Matching Einfluss, dessen Komplexität dadurch bei $\mathcal{O}\left(\gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$ liegt. Der Einfluss der \glsfirst{gridResol} \glssymbol{gridResol} ist, ähnlich zu \gls{uap}, eine Verringerung mit dem Faktor $\gls{gridResol}^2$. Die Gesamtkomplexität der Template-Matchings im zweiten Durchlauf liegt somit bei:
+Da die \gls{rblock} konstant und die Dauer der einzelnen Suchvorgänge somit ebenfalls als konstant angenommen werden können, liegt dieser Durchlauf in der linearen Komplexitätsklasse.  Die anschließende Interpolation wird auf alle Pixel des Bildes angewandt und hat demzufolge eine Komplexität von $\mathcal{O}\left(\gls{rroi}\right)$. Im darauf folgenden zweiten Durchlauf werden Subbilder, wie in Abschnitt \ref{sec:speckle-tracking} beschrieben, generiert. Durch die \glsfirst{uap} \glssymbol{uap} wird \gls{rroi}, und damit auch die Komplexität dieses Teils, mit dem Faktor $\gls{uap}^2$ verringert. Die \glsfirst{corrsize} \glssymbol{corrsize} nimmt auf das Template-Matching Einfluss, dessen Komplexität dadurch bei $\mathcal{O}\left(\gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$ liegt. Der Einfluss der \glsfirst{gridResol} \glssymbol{gridResol} ist, ähnlich zu \gls{uap}, eine Verringerung mit dem Faktor $\gls{gridResol}^2$. Die Gesamtkomplexität der Template-Matchings im zweiten Durchlauf liegt somit bei:
 
 \begin{center}
 	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
@@ -28,9 +24,7 @@ Für die auf den Template-Matching-Prozess folgende Subpixel-Interpolierung werd
 	$\mathcal{O}\left(\frac{\gls{rroi}}{\left(\gls{uap}^2 \cdot \gls{gridResol}^2\right)}\right)$
 \end{center}
 
-Am Ende des Speckle-Tracking-Algorithmus wird versucht, nicht zuordenbare Ergebnisse mit einer anderen \glsfirst{corrsize} $\glssymbol{corrsize}'$ erneut zuzuordnen. Im schlimmsten Fall wird der zweite Durchlauf für die Hälfte der Subbilder \glssymbol{ncorr}-fach wiederholt, wobei \glssymbol{ncorr} die \gls{ncorr} repräsentiert. Bei höheren Fehlerraten über 50\% bricht das Programm ab. In der hier als Grundlage vorliegenden Implementierung ist \gls{ncorr} gleich 6.
-
-Die Gesamtkomplexität des Speckle-Tracking-Algorithmus liegt damit in der Komplexitätsklasse:
+Am Ende des Speckle-Tracking-Algorithmus wird versucht, nicht zuordenbare Ergebnisse mit einer anderen \glsfirst{corrsize} $\glssymbol{corrsize}'$ erneut zuzuordnen. Im schlimmsten Fall wird der zweite Durchlauf für die Hälfte der Subbilder \glssymbol{ncorr}-fach wiederholt, wobei \glssymbol{ncorr} die \gls{ncorr} repräsentiert. Bei höheren Fehlerraten über 50\% bricht das Programm ab. In der hier als Grundlage vorliegenden Implementierung ist \gls{ncorr} gleich 6. Die Gesamtkomplexität des Speckle-Tracking-Algorithmus liegt damit in der Komplexitätsklasse:
 
 \begin{center}
 	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right) \cdot \gls{ncorr}}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
@@ -38,14 +32,13 @@ Die Gesamtkomplexität des Speckle-Tracking-Algorithmus liegt damit in der Kompl
 
 \subsection{Integration der Gradienten}
 
-Um eine effiziente Integration der Gradienten zu ermöglichen, beruht der von \citeauthor{FC88} vorgeschlagene Algorithmus auf der Integration im Frequenzraum \cite{FC88}. Hierzu werden zuerst die Gradientenbilder mittels \glspl{FFT} in diesen Raum transformiert, dort in linearer Komplexität integriert und zum Schluss wieder zurück transformiert. 
-Aufgrund der Verwendung von \glspl{FFT} befindet sich dieser Algorithmus in der Komplexitätsklasse:
+Um eine effiziente Integration der Gradienten zu ermöglichen, beruht der von \citeauthor{FC88} vorgeschlagene Algorithmus auf der Integration im Frequenzraum \cite{FC88}. Hierzu werden zuerst die Gradientenbilder mittels \glspl{FFT} in diesen Raum transformiert, dort in linearer Komplexität integriert und zum Schluss wieder zurück transformiert. Aufgrund der Verwendung von \glspl{FFT} befindet sich dieser Algorithmus in der Komplexitätsklasse:
 
 \begin{center}
 	$\mathcal{O}\left(\gls{resolution} \cdot log\left(\gls{resolution}\right)\right)$
 \end{center}
 
-\subsection{Hauptroutine}
+\subsection{Verarbeitungsroutine der Bilder}
 
 Die Hauptroutine beginnt mit einer trivialen Parameterinitialisierung, die als linear angenommen werden kann. Auf diese folgt die Hauptschleife, welche für die \gls{N_Paare} jeweils einmal ausgeführt wird. Hierzu werden zuerst die Sensorbilder mittels der bei der Kalibrierung ermittelten Werte mit einer Komplexität von $\mathcal{O}\left(\gls{resolution}\right)$ korrigiert. Dies wird gefolgt vom Speckle-Tracking-Algorithmus und der Integration der Gradienten. Die höchste Komplexität hat hier der Template-Matching-Algorithmus, welcher damit die Komplexitätsklasse der Hauptroutine festlegt auf:
 
@@ -59,21 +52,17 @@ Diese Komplexitätsklasse liegt insbesondere für kleine \gls{ncorr}, \gls{uap} 
 	$\mathcal{O}\left(\gls{N_Paare} \cdot \gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$
 \end{center}
 
-\section{Benchmark}
-
-\subsection{Testsystem und Laufzeitumstände}
+\section{Performance-Messungen}
 
 \paragraph{Testsystem}
 
 \begin{sloppypar}
-Alle Benchmarks liefen auf der \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knoten dieser Partition ist ausgestattet mit zwei Intel\textregistered \mbox{Xeon\textregistered} E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 \gls{GHz} getaktet sind. HyperThreading war hierbei nicht aktiviert. Die Knoten haben 64 \gls{GiB} (\textit{haswell64}), 128 \gls{GiB} (\textit{haswell128}) oder 256 \gls{GiB} (\textit{haswell256}) Arbeitsspeicher zur Verfügung. Zusätzlich ist pro Rechenknoten eine 128 \gls{GB} \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes\footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/blob/cb7fd24ea64ad0fef0af93ba0dfb9f04f6487382/doc/loaded_libs.txt}} finden.
+Alle Benchmarks liefen auf der \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knoten dieser Partition ist ausgestattet mit zwei Intel\textregistered \mbox{Xeon} E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 \gls{GHz} getaktet sind. HyperThreading war hierbei nicht aktiviert. Die Knoten haben 64 \gls{GiB} (\textit{haswell64}), 128 \gls{GiB} (\textit{haswell128}) oder 256 \gls{GiB} (\textit{haswell256}) Arbeitsspeicher zur Verfügung \cite{Mar17}. Zusätzlich ist pro Rechenknoten eine 128 \gls{GB} \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes finden \cite{Sch18a}.
 \end{sloppypar}
 
-\paragraph{Laufzeitumstände}
+\paragraph{Konfigurationen}
 
 Jede Konfiguration, bestehend aus Datensatz und Kernanzahl, wurde nach vier Aufwärmiterationen fünfmal ausgeführt. Hierbei wurden jeweils die reinen Ausführungszeiten des gesamten Skripts und einzelner Funktionen erfasst. Aus allen vorliegenden Zeiten wurde \gls{IO}-Zeiten herausgerechnet. Die Laufzeit mit den entsprechenden Datensätzen wurde auf unterschiedlich vielen Kernen von eins bis 24 gemessen. Jeder Benchmark lief exklusiv auf einem Knoten. 
-
-\paragraph{Datensätze}
 
 Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschiedene Arten von Datensätzen verwendet: \textit{Experiment 6} und \textit{Lenses}. Die Eigenschaften dieser Typen werden in Tabelle \ref{tab:dataset_types} gegenüber gestellt. Die einzelnen Datensätze mit deren Anzahl der Bilder ist in Tabelle \ref{tab:datasets} zu finden. 
 
@@ -97,7 +86,7 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschied
 \begin{table}
 	\begin{tabularx}{\textwidth}{@{} XXXXXXXX @{}}
 		\toprule
-		& \multicolumn{3}{l}{Experiment 6} & \multicolumn{4}{l}{Lenses} \\
+		& \multicolumn{3}{c}{Experiment 6} & \multicolumn{4}{c}{Lenses} \\
 		\cmidrule(lr){2-4}
 		\cmidrule(lr){5-8}
 		& Lenses 200 & Lenses 500 & Lenses 1500 & Set 1 & Set2 & \multicolumn{2}{X}{Set 3} \\
@@ -159,8 +148,18 @@ Um Engpässe und besonders rechenaufwendige Funktionen zu identifizieren, wurde 
 
 \begin{center}
 	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\textwidth]{pdf/main}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/main_exp6}
+			\caption{Experiment 6}
+			\label{fig:perc_main_exp6}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/main_lenses}
+			\caption{Lenses}
+			\label{fig:perc_main_lenses}
+		\end{subfigure}
 		\caption{Anteile der Laufzeiten}
 		\label{fig:perc_main}
 	\end{figure}
@@ -170,8 +169,18 @@ Hierbei ist eindeutig zu sehen, dass die meiste Zeit für das Speckle-Tracking b
 
 \begin{center}
 	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\textwidth]{pdf/speckle}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/speckle_exp6}
+			\caption{Experiment 6}
+			\label{fig:perc_speckle_exp6}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/speckle_lenses}
+			\caption{Lenses}
+			\label{fig:perc_speckle_lenses}
+		\end{subfigure}
 		\caption{Anteile der Laufzeiten des Speckle-Tracking-Algorithmus}
 		\label{fig:perc_speckle}
 	\end{figure}
@@ -181,19 +190,27 @@ Die kumulative Zeit der fünf rechenaufwendigsten Funktionen aller Konfiguration
 
 \begin{center}
 	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\textwidth]{pdf/slow}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/slow_exp6}
+			\caption{Experiment 6}
+			\label{fig:perc_slow_exp6}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{pdf/slow_lenses}
+			\caption{Lenses}
+			\label{fig:perc_slow_lenses}
+		\end{subfigure}
 		\caption{Anteile der Laufzeiten der langsamsten Funktionen}
 		\label{fig:perc_slow}
 	\end{figure}
 \end{center}
 
-\section{Grund der Performance-Engpässe}
+\section{Performance-Engpässe}
 
-Der Grund der langen Rechenzeiten des Template-Matchings und der Subpixel-Interpolation liegt in der hohen Anzahl der Aufrufe dieser begründet. Der zweite Durchlauf allein wird im \textit{Experiment 6 Lenses 200}-Datensatz über 5.3 Millionen mal aufgerufen. In jedem dieser Aufrufe wird das Template-Matching und die Subpixel-Interpolation jeweils einmal genutzt. Hinzu kommt, dass, bis auf das Temp\-late-Match\-ing, der zweite Durchlauf nur geringen Gebrauch von bereits optimierten Bibliotheken wie numpy macht und somit der Pyhton-Overhead starken Einfluss auf die Laufzeiten hat. 
+Der Grund der langen Rechenzeiten des Template-Matchings und der Subpixel-Interpolation liegt in der hohen Anzahl der Aufrufe dieser begründet. Der zweite Durchlauf allein wird im \textit{Experiment 6 Lenses 200}-Datensatz über 5.3 Millionen mal aufgerufen. In jedem dieser Aufrufe wird das Template-Matching und die Subpixel-Interpolation jeweils einmal genutzt. Hinzu kommt, dass, bis auf das Temp\-late-Match\-ing, der zweite Durchlauf nur geringen Gebrauch von bereits optimierten Bibliotheken wie numpy macht und somit der Pyhton-Overhead starken Einfluss auf die Laufzeiten hat. Innerhalb des Speckle-Trackings ist der Aufruf des zweiten Durchlaufes mittels der joblib parallelisiert. Diese nutzt standardmäßig die multiprocessing-Bibliothek, welche für jeden Thread einen Fork der gesamten Python-Umgebung erstellen muss, was zu einem erheblichen Overhead führt \cite{GVB+18}. Die hohe Rechenzeit der Gradienten-Integration ist im Aufruf dieser auf die Größe des Gesamtbildes begründet. Insgesamt hat das Programm eine schlechte CPU-Auslastung von lediglich durchschnittlich 19,635\% \cite{Sch18b}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 
 
-Innerhalb des Speckle-Trackings ist der Aufruf des zweiten Durchlaufes mittels der joblib parallelisiert. Diese nutzt standardmäßig die multiprocessing-Bibliothek, welche für jeden Thread einen Fork der gesamten Python-Umgebung erstellen muss, was zu einem erheblichen Overhead führt\footnote{\url{https://pythonhosted.org/joblib/parallel.html}}.
+\section{Prüfen der Ergebnisse}
 
-Die hohe Rechenzeit der Gradienten-Integration ist im Aufruf dieser auf die Größe des Gesamtbildes begründet.
-
-Insgesamt hat das Programm eine schlechte CPU-Auslastung von lediglich durchschnittlich 19,635\% \footnote{\url{https://github.com/ComputationalRadiationPhysics/Wavefront-Sensor/blob/f2fc5c2e5f8b4ef0e9b3ca3a4e770db67f230588/doc/cpu_util.md}}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 
+Um die Korrektheit der Ergebnisse nach der Optimierung sicherstellen zu können, wurden die Ergebnisse der Referenzimplementierung unter Eingabe aller Datensätze gespeichert. Diese werden als Referenz für einen bitweisen Abgleich. Auf Fließkommazahlen basierende Ungenauigkeiten wird hier keine Rücksicht genommen. Nach den initialen Benchmarks wurde diese Methode zur Sicherstellung der Datenintegrität eingesetzt und für geeignet befunden. 

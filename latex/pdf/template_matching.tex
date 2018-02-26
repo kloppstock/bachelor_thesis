@@ -1,0 +1,62 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{adjustbox}
+\usetikzlibrary{fit, shapes, calc}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\tikzstyle{node} = [rectangle, draw, minimum width=1cm, minimum height=1cm, line width=1mm]
+\tikzstyle{sample} = [node, fill=black!50]
+\tikzstyle{grid} = [node, fill=red!75]
+\tikzstyle{corr} = [rectangle, rounded corners, draw=blue, opacity=0.5, line width=1mm]
+
+\newcommand{\drawGrid}[5]{
+	\begin{tikzpicture}
+		\draw[step=1cm, xshift=2.5cm, yshift=-2.5cm, line width=1mm, black!30] (0cm, 0cm) grid ($(#4 * #3 * #1 cm, -#4 * #3 * #2 cm) - (-#3 * #1 cm, #3 * #2 cm) - (-#1 cm, #2 cm) - (-#3 cm, #3 cm) - (-#4 cm, #4 cm) - (-6 cm, 6 cm)$);
+		\foreach \x in {1,...,#1}
+			\foreach \y in {1,...,#2}{
+				\foreach \c in {0,...,#4}
+					\foreach \d in {0,...,#4}{
+						\foreach \a in {0,...,#3}
+							\foreach \b in {0,...,#3}{
+								\ifthenelse{#3=\a \AND #3=\b}{
+									\ifthenelse{#4=\c \AND #4=\d \AND \NOT #1=\x \AND \NOT #1=\y}{
+										\node[grid](\x\y) at ($(\x cm, -\y cm) + (#3 * \x cm, -#3 * \y cm) - (-#4 *\x cm, #4 * \y cm) - (-#4 * #3 * \x cm, #4 * #3 * \y cm) - (-\c cm, \d cm) - (-#3 * \c cm, #3 * \d cm) - (-\a cm, \b cm)$){};
+									}{
+										\node[sample](\x\y) at ($(\x cm, -\y cm) + (#3 * \x cm, -#3 * \y cm) - (-#4 *\x cm, #4 * \y cm) - (-#4 * #3 * \x cm, #4 * #3 * \y cm) - (-\c cm, \d cm) - (-#3 * \c cm, #3 * \d cm) - (-\a cm, \b cm)$){};
+									}
+								}{
+									\node[node](\x\y) at ($(\x cm, -\y cm) + (#3 * \x cm, -#3 * \y cm) - (-#4 *\x cm, #4 * \y cm) - (-#4 * #3 * \x cm, #4 * #3 * \y cm) - (-\c cm, \d cm) - (-#3 * \c cm, #3 * \d cm) - (-\a cm, \b cm)$){};
+								}
+							}
+					}
+			}
+		\foreach \x in {1,...,#1}
+			\foreach \y in {1,...,#2}
+				\foreach \c in {0,...,#4}
+					\foreach \d in {0,...,#4}
+						\foreach \a in {0,...,#3}
+							\foreach \b in {0,...,#3}{
+								\ifthenelse{#3=\a \AND #3=\b \AND #4=\c \AND #4=\d \AND \NOT #1=\x \AND \NOT #1=\y}{
+										\node (n1) at ($(\x\y) - (1 cm, 1 cm) - (#5 * #3 cm, #5 * #3 cm)$) {};
+										\node (n2) at ($(\x\y) - (-1 cm, 1 cm) - (-#5 * #3 cm, #5 * #3 cm)$) {};
+										\node (n3) at ($(\x\y) - (1 cm, -1 cm) - (#5 * #3 cm, #5 * -#3 cm)$) {};
+										\node (n4) at ($(\x\y) - (-1 cm, -1 cm) - (-#5 * #3 cm, #5 * -#3 cm)$) {};
+										\node[corr, fill={rgb:blue,\x;green,\y}, fit=(n1)(n2)(n3)(n4)](\x\y){};
+								}{}
+							}
+	\end{tikzpicture}
+}
+
+\begin{document}
+	\pagestyle{empty}
+	\drawGrid{3}{3}{2}{1}{1}
+\end{document}

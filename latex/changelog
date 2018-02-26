@@ -1,3 +1,11 @@
+Revision 9:
+ - 4. Kapitel überarbeitet
+ - Experiment 6 und Lenses in Diagrammen getrennt
+
+Revision 8:
+ - Hinweis zur Optimierung in der norm_xcorr Funktion eingefügt
+ - Formatierung und Korrekturen
+
 Revision 7:
  - überlange Zeilen angepasst
  - Links versteckt
@@ -39,3 +47,23 @@ Revision 4:
  - Überschriften angepasst
  - Constraints im Versuchsaufbau verdeutlicht
  - verwandte Arbeiten eingefügt
+
+Revision 3:
+ - Ein- und Ausgabebilder eingefügt
+ - Absätze über Verarbeitungsroutine und Co. fertig gestellt
+
+Revision 2:
+ - TU-Design eingebunden
+ - Bilder und Graphen eingefügt
+
+Revision 1:
+ - Erster Entwurf des 2. Kapitels
+
+Revision 0.3:
+ - Stichpunkte zu einzelnen Kapiteln eingefügt
+
+Revision 0.2:
+ - Konkretisierung der Gliederung
+
+Revision 0.1:
+ - Erster Entwurf der Gliederung

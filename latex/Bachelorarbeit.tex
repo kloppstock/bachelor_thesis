@@ -7,19 +7,28 @@
 \usepackage{wrapfig}
 \usepackage{cleveref}
 \usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{fit, shapes, calc}
 \usepackage[style=iso-alphabetic, maxcitenames=1, backend=biber]{biblatex}
 \usepackage[nonumberlist, acronym, toc, section]{glossaries}
 \setacronymstyle{long-short}
 \renewcommand{\glsdisplayfirst}[4]{#1 #3}
+
+\lstset{language=Python,
+	basicstyle=\ttfamily,
+	keywordstyle=\bfseries,
+	breaklines=true,
+	mathescape=true
+}
 
 \hypersetup{
 	pdftitle = {Parallelisierung des Wellenfrontrekonstruktionsalgorithmus auf Multicore-Prozessoren},
 	pdfsubject = {Parallelisierung des Wellenfrontrekonstruktionsalgorithmus auf Multicore-Prozessoren},
 	pdfborder={0 0 0},
 	colorlinks=true,
-	urlcolor=blue,
-	citecolor=blue,
-	linkcolor=blue,
+	urlcolor=[rgb]{0,0,0.5},
+	citecolor=[rgb]{0,0,0.5},
+	linkcolor=[rgb]{0,0,0.5},
 	pdfauthor=Jonas Schenke,
 	pdfkeywords={Wellenfrontrekonstruktionsalgorithmus} {Python} {HPC},
 	linktoc=page,
@@ -63,6 +72,8 @@
 	\input{tex/Performance}
 	\input{tex/Resultat}
 	\appendix
-	\printbibliography
+	\begin{sloppypar}
+		\printbibliography
+	\end{sloppypar}
 
 \end{document}
