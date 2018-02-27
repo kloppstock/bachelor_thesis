@@ -1,23 +1,14 @@
 \chapter{Performance-Messungen der parallelen Implementation}
 
-Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal wird allerdings in vielen Benchmarks mehr als ein Knoten beansprucht. Auch die Datensätze und die geladenen Module haben sich nicht geändert. 
-\begin{correctmore}
-	- Zeiten immer noch IO bereinigt
-	- Zeitdiagramme immer noch logarithmisch
-\end{correctmore}
+Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal wird allerdings in vielen Benchmarks mehr als ein Knoten beansprucht. Auch die Datensätze und die geladenen Module haben sich nicht geändert. Wie auch bei der Performance-Analyse sind alle in diesem Kapitel angegeben Zeiten die \gls{IO} Zeiten herausgerechnet. Ebenfalls wurde hier auch wieder nach vier Aufwärmiterationen für fünf Iterationen des Programmes die Zeit gemessen. 
+
+\correctme{Referenz der Speedup-Graphen ist die Single-Core Variante des vorgegebenen Codes}
 
 \section{Evaluierung der Optimierungen}
 
 \subsection{Parallelisierung}
 
-\begin{correctmore}
-	- Simpel: meh
-	- auf Bildpaaren:
-		- Speedup: 2-5x (geschätzt; ohne mehr nodes)
-		- alte Singlecore Variante als Referenz
-		- linear mit Anzahl der Nodes bis Anzahl der Bildpaare
-		- anschließend Stagnation bis zu 2* Anzahl d. Nodes, weil bis da hin einige CPUs immer noch alleine a einem Bildpaar rechnet und alle anderen auf diesen warten müssen
-\end{correctmore}
+Auf der Abbildung \ref{fig:mpi_speedup} \cite{Coj17} ist für die auf dem GithHub-Branch \textit{mpi} verfügbare Version deutlich ein Beschleunigungsfaktor von ca. zwei bis vier gegenüber der vorgegebenen Implementierung erkennbar. Ebenfalls wird ersichtlich, dass diese Lösung nur mit der Anzahl der Eingabebildpaare skaliert, weshalb nur die Experiment 6 Lenses 200 und Lenses 500 mit 24 Kernen schneller ist als mit zwölf. Wie in Abbildung \ref{fig:mpi_times} zu sehen ist, liegen alle Laufzeiten dieser Version unter 1.000 Sekunden. Auch hier sind die Messpunkte wieder dick hervorgehoben und die Skala der Gesamtzeitgraphen ist logarithmisch eingeteilt. 
 
 \begin{center}
 	\begin{figure}[htbp]
@@ -58,6 +49,8 @@ Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal 
 		\label{fig:mpi_times}
 	\end{figure}
 \end{center}
+
+Wie in Abbildung \ref{fig:mpi_advanced_speedup} \cite{Coj17} zu sehen ist, schneidet die auf dem Branch \textit{mpi-advanced} verfügbare Version für 24 Kerne schlechter ab, als die \textit{mpi} Implementierung. Dies liegt in der effizienteren Verteilung der Daten mittels der joblib-Bibliothek begründet, da diese den in Linux effizient implementierten Fork-Befehl nutzt, wohingegen die \textit{mpi-advanced}-Implementierung die Daten direkt kopiert \cite{GVB+18}. Im Gegensatz zu der \textit{mpi} Implementierung, skaliert diese Version aber mit der Anzahl der verfügbaren \gls{CPU}-Kerne und nicht nur mit der Anzahl der Bildpaare. 
 
 \begin{center}
 	\begin{figure}[htbp]
@@ -103,9 +96,9 @@ Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal 
 
 \subsubsection{Nutzen bereits optimierter Funktionen}
 
-\begin{correctmore}
-	- Speedup: 2.5x
-\end{correctmore}
+Wie in Abbildung \ref{fig:speedups_intrinsics} zu sehen ist, wurde mittels der Nutzung von bereits optimierten Funktionen ein Beschleunigungsfaktor von ca. vier für die Experiment 6-Datensätze und ein Faktor zwischen 1,2 und 1,5 für die Lenses-Datensätze erreicht. 
+
+\correctme{Warum hat Lenses einen geringeren Speedup?}
 
 \begin{center}
 	\begin{figure}[htbp]
@@ -122,7 +115,7 @@ Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal 
 			\caption{Lenses}
 			\label{fig:speedups_intrinsics_lenses}
 		\end{subfigure}
-		\caption{Speedup der \textit{intrinsics} Implementierungen gegenüber dem vorgegebenen Python-Code}
+		\caption{Speedup der \textit{intrinsics} Implementierungen gegenüber der \textit{mpi-advanced}-Implementierung mit zwölf Kernen}
 		\label{fig:speedups_intrinsics}
 	\end{figure}
 \end{center}
@@ -142,42 +135,20 @@ Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal 
 			\caption{Lenses}
 			\label{fig:speedups_lenses}
 		\end{subfigure}
-		\caption{Speedups der einzelnen Implementierungen gegenüber der \textit{intrinsics} Implementierung}
+		\caption{Speedups der einzelnen Implementierungen gegenüber der \textit{intrinsics} Implementierung mit zwölf Kernen}
 		\label{fig:speedups}
 	\end{figure}
 \end{center}
 
 \subsubsection{Kompilieren}
 
-\paragraph{Gesamtes Programm}
+Die Abbildung \ref{fig:speedups} zeigt den Beschleunigungsfaktor der verschiedenen übersetzten Versionen gegenüber der Implementierung, welche lediglich bereits optimierte Funktionen nutzt. Hierbei ist deutlich ersichtlich, dass die Übersetzung des gesamten Programmes, welche auf dem \textit{compiled}-Branch verfügbar ist, immer schneller als die \textit{intrinsics}-Implementierung läuft. Die \textit{numba}-Version hingegen schnitt immer deutlich schlechter, als die anderen Versionen ab. Die Laufzeiten der \textit{cython} und der \textit{compiled-advanced}-Versionen liegen nahe beieinander und bieten keinen Geschwindigkeitszuwachs gegenüber der \textit{intrinsics}-Implementierung. 
 
-\begin{correctmore}
-	- 1-2\% schneller als intrinsics
-\end{correctmore}
-
-\paragraph{numba}
-
-\begin{correctmore}
-	- kein speedup
-	- cpython compiler besser, da er direkt für python gemacht wurde
-	- bereits viel durch intrinsics optimiert
-\end{correctmore}
-
-\paragraph{Cython + komplett}
-
-\begin{correctmore}
-	- ??? +5\%?
-\end{correctmore}
-
-\section{Einfluss der Parameter}
-
-\begin{correctmore}
-	- Sweet-Spot: ca. 3*\#Bildpaare
-	- skalliert mit mehr Nodes, aber später nicht mehr gut
-	- skaliert besser mit mehr Bildpaaren
-\end{correctmore}
+Die bereits gute Performance der \textit{intrinsics}-Implementierung liegt in der intensiven Nutzung optimierter Funktionen begründet, welche von einer Übersetzung der Python-Codes unberührt bleiben. Die Performance der \textit{numba}-Implementierung ist deutlich schlechter, da beim Aufruf einer \gls{JIT}-kompilierten Funktion diese erst in einer Liste aus übersetzten Funktionen gesucht werden muss, bevor diese aufgerufen werden kann \cite{PKA17}. Dieser Effekt wird dadurch verstärkt, dass die übersetzten Funktionen eine geringe Laufzeit haben, aber dafür sehr oft aufgerufen werden. Der zweite Durchlauf allein, und damit auch die \textit{nxcorr\_disp()}-Funktion, wird im \textit{Experiment 6 Lenses 200}-Datensatz über 5.3 Millionen mal aufgerufen. Der Grund für die höhere Leistung der \textit{compiled}-Implementierung ist hierbei nicht bekannt. 
 
 \section{Skalierung}
+
+Auf der Abbildung \ref{fig:best_speedup} ist eine lineare Skalierung erkennbar, bis die Anzahl der \gls{CPU}-Kerne die Anzahl der Bildpaare übersteigt. Anschließend stagniert der Beschleunigungsfaktor, da einige Bildpaare zwar mit mehr Kernen schneller bearbeitet werden können, aber das Programm auf die Fertigstellung der restlichen Bildpaare warten muss, die nur einen Kern zur Verfügung haben. Ein ähnliches Laufzeitverhalten lässt sich bei dem jedem Vielfachen der Bildpaaranzahl beobachten. Da die Verarbeitung eines einzelnen Bildpaares nicht komplett parallelisiert werden kann, flacht der Graph mit steigender Kernanzahl ab. Die Gesamtlaufzeiten im Bezug auf die vorgegebene Implementierung ist in Abbildung \ref{fig:best_times} zu sehen. 
 
 \begin{center}
 	\begin{figure}[htbp]
@@ -219,18 +190,6 @@ Das Testsystem ist dasselbe geblieben, wie bei der Performance-Analyse. Diesmal 
 	\end{figure}
 \end{center}
 
-\subsection{Skalierungsfaktor}
+Der Speedup-Graph in Abbildung \ref{fig:best_speedup} weißt eine schwache Skalierung auf, jedoch skaliert das Laufzeitverhalten stark besser. Solang mehr Bildpaare als \gls{CPU}-Kerne an der Berechnung beteiligt sind, skaliert das Programm nahezu linear. Das Effizienzoptimum wird somit erreicht, wenn die Anzahl der \gls{CPU}-Kerne gleich der Anzahl der Bildpaare ist. 
 
-\begin{correctme}
-	- schwache skalierung da
-	- skaliert aber stark deutlich besser
-	- Achtung bei Speedup: 8 Cores als Referenz genommen. wenn bei 8 cores noch kein optimum da ist, kann dass kurz danach gefunden werden, was den Graphen nach obern verschiebt
-\end{correctme}
-
-\subsection{Sättigung}
-
-\begin{correctmore}
-	- erster Sättigungspunkt bei \#nodes=\#bildpaare, da dann alle CPUs zu 100\% ausgelastet sind --> stagniert bis 2*\#nodes=\#bildpaare
-	- neues Bottleneck: Rest des Speckle-trackings (nicht paralleliserter Teil) + Gradientenintegration und nicht parallelisierter Rest der Bildverarbeitungsroutine
-	--> nur begrenzte Menge an Daten verfügbar
-\end{correctmore}
+Eine Sättigung tritt bei allen Datensätzen über 20 \gls{CPU}-Kernen pro Bildpaar ein. An diesem Punkt wird die meiste Rechenzeit in nicht parallelisierten Abschnitten des Speckle-Trackings und in der Gradientenintegration verbracht.

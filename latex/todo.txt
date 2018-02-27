@@ -1,8 +1,16 @@
 TODO:
- - ist Zitierung des Repos so richtig?
- - wie mit dem Bug umgehen
- - Diagramme ausplitten
- - Balkendiagramm nutzen
+ - Wavefront-Sensor als Name für vorgegebenen Python Code nutzen
+ - Datensätze kursiv schreiben?
+ - Erwähnen warum Python2.7
+ - Knotengrenzen explizit erwähnen
+ - joblibl braucht mehr ram
+ - Fehlertoleranz & abrunden von rblock quadratisch
+ - seite 9 anzahl der bilder n² bilder-- >beheben
+ - dunkel und nullfeldkalibrierung korrekt beschrieben?
+ - bedeutung der datensätzte
+ - bildpaare n²???
+
+ - PVM als Optimierung erwähnen?
 
  - Mindestanforderungen einfügen:
 	Mindestanforderungen:
@@ -20,3 +28,4 @@ TODO:
  - Glossar ans Ende
  - Darstellung von Listings verbessern?
  - Layout der Abbildungen verbessern!!!
+ - Abbildungsverzeichniss

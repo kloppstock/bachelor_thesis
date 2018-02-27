@@ -139,8 +139,6 @@ numba ist eine Optimierungsbibliothek für Python, welche unter anderem die Mög
 Eine weitere weitaus mächtigere Methode zur Übersetzung einzelner Funktionen bietet die Cython-Bibliothek, welche bereits genutzt wurde, um das gesamte Programm zu übersetzen. Diese führt die Möglichkeit der Typisierung ein und lässt die direkte Einbindung von C zu. In der auf dem GitHub-Branch \textit{cython} verfügbaren Version wurden Cython genutzt, um die Funktionen \textit{norm\_xcorr()} (siehe Listing \ref{lst:cython_nxc}) und \textit{nxcorr\_disp()} (siehe Listing \ref{lst:cython_nxd}) zu übersetzen \cite{Coj17}. Hierbei wurden alle Variablen mit Typen versehen und es wurde die von Cython bereitgestellte Schnittstelle zu NumPy genutzt. Zusätzlich wurden ebenfalls Cython-Annotationen verwendet, die NumPy's Grenzfallbehandlung abschalten. Auf dem Branch \textit{compiled-advanced} wurde die Übersetzung des gesamten Programmes mit den hier optimierten Funktionen zusammengeführt \cite{Coj17}. 
 
 \begin{lstlisting}[caption={Die in Cython optimierte Funktion norm\_xcorr()}, label={lst:cython_nxc}]
-@cython.boundscheck(False)
-@cython.wraparound(False)
 def $\textit{norm\_xcorr}$(np.ndarray[float, ndim=2] $\textit{template}$, np.ndarray[float, ndim=2] $\textit{searchArea}$, int $\textit{method}$ = cv2.TM_CCOEFF_NORMED):
 	cdef $\textbf{double}$ $\textit{minVal}$ = 0.0, $\textit{maxVal}$ = 0.0
 	cdef tuple $\textit{minLoc}$, $\textit{maxLoc}$
@@ -150,8 +148,6 @@ def $\textit{norm\_xcorr}$(np.ndarray[float, ndim=2] $\textit{template}$, np.nda
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Die in Cython optimierte Funktion nxcorr\_disp()}, label={lst:cython_nxd}]
-@cython.boundscheck(False)
-@cython.wraparound(False)
 def $\textit{nxcorr\_disp}$(np.ndarray[float, ndim=2] $\textit{nxcorr}$):
 	cdef int $\textit{lengthY}$ = $\textit{nxcorr}$.shape[0]
 	cdef int $\textit{lengthX}$ = $\textit{nxcorr}$.shape[1]

@@ -19,15 +19,15 @@ set xrange [-0.4:3.7]
 set boxwidth 1.8
 
 set output "speedups_intrinsics_lenses.eps"
-set title "Speedups gegenüber der vorgegebenen Implementierung\n {/*0.75 Lenses}"
+set title "Speedups gegenüber der {/Times:Italic mpi-advanced}-Implementierung\n {/*0.75 Lenses}"
 plot 'speedups_intrinsics_lenses.csv' \
 	 using($2):xtic(1) with histograms,\
-	1 with lines lc 7 lw 1.5 t "Referenz"
+	1 with lines lc 7 lw 1.5 t "{/Times:Italic mpi-advanced}"
 
 set xrange [-0.4:2.7]
 set yrange [0.9:4.2]
 set output "speedups_intrinsics_exp6.eps"
-set title "Speedups gegenüber der vorgegebenen Implementierung\n {/*0.75 Experiment 6}"
+set title "Speedups gegenüber der {/Times:Italic mpi-advanced}-Implementierung\n {/*0.75 Experiment 6}"
 plot 'speedups_intrinsics_exp6.csv' \
 	 using($2):xtic(1) with histograms,\
-	1 with lines lc 7 lw 1.5 t "Referenz"
+	1 with lines lc 7 lw 1.5 t "{/Times:Italic mpi-advanced}"
