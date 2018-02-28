@@ -1,4 +1,4 @@
-This is LuaTeX, Version 1.0.4 (TeX Live 2017/Arch Linux)  (format=lualatex 2017.11.14)  28 JAN 2018 23:40
+This is LuaTeX, Version 1.0.4 (TeX Live 2017/Arch Linux)  (format=lualatex 2017.11.14)  28 FEB 2018 20:09
  restricted system commands enabled.
 **graph_init.tex
 (./graph_init.tex
@@ -34,7 +34,7 @@ Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font
 '.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'
 .
-luaotfload | main : initialization completed in 0.120 seconds
+luaotfload | main : initialization completed in 0.147 seconds
 Babel <3.15> and hyphenation patterns for 1 language(s) loaded.
 (/usr/share/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
@@ -541,17 +541,17 @@ Here is how much of LuaTeX's memory you used:
  400 words of node memory still in use:
    2 hlist, 1 vlist, 1 rule, 2 glue, 2 kern, 9 attribute, 45 glue_spec, 9 attrib
 ute_list, 4 write, 1 pdf_colorstack nodes
-   avail lists: 1:1,2:817,3:277,4:6,5:29,6:173,7:186,8:2,9:105,10:5,11:17
+   avail lists: 1:1,2:817,3:277,4:6,5:29,6:172,7:188,8:1,9:104,10:5,11:17
  18198 multiletter control sequences out of 65536+600000
  28 fonts using 1588671 bytes
  55i,7n,67p,421b,666s stack positions out of 5000i,500n,10000p,200000b,100000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on graph_init.pdf (1 page, 28871 bytes).
+type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb>
+Output written on graph_init.pdf (1 page, 21769 bytes).
 
-PDF statistics: 24 PDF objects out of 1000 (max. 8388607)
- 17 compressed objects within 1 object stream
+PDF statistics: 20 PDF objects out of 1000 (max. 8388607)
+ 14 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 100000000)
 

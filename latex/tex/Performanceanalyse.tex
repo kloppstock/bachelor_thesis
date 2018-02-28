@@ -6,7 +6,7 @@
 
 Der erste Schritt des Speckle-Trackings ist die Feststellung der starren Verschiebung. Werden hierfür feste Werte für diese angenommen, ist diese Komplexität konstant. Wird allerdings ein Korrelationsverfahren verwendet, so ist die Komplexität $\mathcal{O}\left(\glssymbol{resolution} \cdot log\left(\glssymbol{resolution}\right)\right)$ für die \gls{resolution}, da hierfür \glspl{FFT} eingesetzt werden. 
 
-Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Eingabebilder zunächst durch die Selektion der \gls{ROI} auf die \glsfirst{rroi} \glssymbol{rroi} zugeschnitten und anschließend in quadratische Blöcke mit konstanter \gls{rblock} aufgeteilt, welche dann ineinander mittels des Template-Matchings gesucht werden. Liegt ein Block teilweise außerhalb der \gls{ROI}, so wird dieser hinein korrigiert. Der Durchlauf hat deshalb Komplexität: 
+Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Eingabebilder zunächst durch die Selektion der \gls{ROI} auf die \glsfirst{rroi} \glssymbol{rroi} zugeschnitten und anschließend in quadratische Blöcke mit konstanter \gls{rblock} aufgeteilt. Daraufhin werden die Blöcke aus den Bildern des ersten Sensors in den Gegenstücken des zweiten Sensors mittels des Template-Matchings gesucht. Liegt ein Block teilweise außerhalb der \gls{ROI}, so wird dieser hinein korrigiert. Der Durchlauf hat deshalb Komplexität: 
 
 \begin{center}
 	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{rblock} \cdot log\left(\gls{rblock}\right)}{\gls{rblock}}\right) = \mathcal{O}\left(\gls{rroi} \cdot log\left(\gls{rblock}\right)\right)$
@@ -64,13 +64,7 @@ Alle Benchmarks liefen auf der \textit{haswell}-Partition des Taurus-Supercomput
 
 Jede Konfiguration, bestehend aus Datensatz und Kernanzahl, wurde nach vier Aufwärmiterationen fünfmal ausgeführt. Hierbei wurden jeweils die reinen Ausführungszeiten des gesamten Skripts und einzelner Funktionen erfasst. Aus allen vorliegenden Zeiten wurde \gls{IO}-Zeiten herausgerechnet. Die Laufzeit mit den entsprechenden Datensätzen wurde auf unterschiedlich vielen Kernen von eins bis 24 gemessen. Jeder Benchmark lief exklusiv auf einem Knoten. 
 
-Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschiedene Arten von Datensätzen verwendet: \textit{Experiment 6} und \textit{Lenses}. Die Bildpaare des \textit{Experiment 6}-Datensatzes wurden, wie in Abbildung \ref{fig:versuch} gezeigt, mit zwei Sensoren gleichzeitig aufgezeichnet, währenddessen die Bildpaare des \textit{Lenses}-Datensatzes von ein und demselben Sensor zu unterschiedlichen Zeiten unter Nutzung einer Linse, deren Abstand zum Sensor variiert wurde. 
-
-
-\correctme{Ist das mit den Linsen so richtig?}
-
-
- Die Eigenschaften dieser Typen werden in Tabelle \ref{tab:dataset_types} gegenüber gestellt. Die einzelnen Datensätze mit deren Anzahl der Bilder ist in Tabelle \ref{tab:datasets} zu finden. 
+Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschiedene Arten von Datensätzen verwendet: \textit{Experiment 6} und \textit{Lenses}. Die Bildpaare des \textit{Experiment 6}-Datensatzes wurden, wie in Abbildung \ref{fig:versuch} gezeigt, mit zwei Sensoren gleichzeitig aufgezeichnet, währenddessen die Bildpaare des \textit{Lenses}-Datensatzes aus Bildern ein und desselben Sensors stammen, wobei anfangs ein Bild als Referenz aufgenommen wurde. Die Eigenschaften dieser Typen werden in Tabelle \ref{tab:dataset_types} gegenüber gestellt. Die einzelnen Datensätze mit deren Anzahl der Bilder ist in Tabelle \ref{tab:datasets} zu finden. 
 
 \begin{table}
 	\begin{tabularx}{\textwidth}{@{} XXX @{}}
@@ -100,7 +94,7 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschied
 		\gls{N_Paare} & 21 & 11 & 14 & 10 & 5 & 1 & 2 \\
 		\bottomrule
 	\end{tabularx}
-	\caption{Parameter der Datensatztypen}
+	\caption{Anzahl der Bildpaare der Datensätze}
 	\label{tab:datasets}
 \end{table}
 
@@ -219,4 +213,4 @@ Der Grund der langen Rechenzeiten des Template-Matchings und der Subpixel-Interp
 
 \section{Prüfen der Ergebnisse}
 
-Um die Korrektheit der Ergebnisse nach der Optimierung sicherstellen zu können, wurden die Ergebnisse der Referenzimplementierung unter Eingabe aller Datensätze gespeichert. Diese werden als Referenz für einen bitweisen Abgleich. Auf Fließkommazahlen basierende Ungenauigkeiten wird hier keine Rücksicht genommen. Nach den initialen Benchmarks wurde diese Methode zur Sicherstellung der Datenintegrität eingesetzt und für geeignet befunden. 
+Um die Korrektheit der Ergebnisse nach der Optimierung sicherstellen zu können, wurden die Ergebnisse der Referenzimplementierung unter Eingabe aller Datensätze gespeichert. Diese werden als Referenz für einen bitweisen Abgleich verwendet. Auf Fließkommazahlen basierende Ungenauigkeiten werden hierbei bereits als Fehler gewertet. Nach den initialen Benchmarks wurde diese Methode zur Sicherstellung der Datenintegrität eingesetzt und für geeignet befunden. 

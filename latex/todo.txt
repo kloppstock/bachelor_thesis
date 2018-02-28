@@ -1,11 +1,6 @@
 TODO:
- - bedeutung der datensätzte
-
  - bei graphen letzten datenpunkt nicht auf grenze setzen
  - Titel der Diagramme verbessern
-
- - positive Betrachtung der Ergebnisse
- - Beurteilung des Ergebnisses mit Betrachtung auf Potential
 
 
  - Korrekturlesen!!!
