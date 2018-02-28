@@ -14,11 +14,20 @@
 \setacronymstyle{long-short}
 \renewcommand{\glsdisplayfirst}[4]{#1 #3}
 
+\definecolor{gray}{rgb}{0.5, 0.5, 0.5}
+
 \lstset{language=Python,
 	basicstyle=\ttfamily,
 	keywordstyle=\bfseries,
 	breaklines=true,
-	mathescape=true
+	mathescape=true,
+	tabsize=4,
+	basicstyle=\footnotesize\ttfamily,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	rulecolor=\color{black},
+	xleftmargin=0.7cm,
+	frame=tb
 }
 
 \hypersetup{
@@ -63,8 +72,6 @@
 }
 
 \begin{document}
-	\printglossary[title=Glossar, type=main]
-	\printglossary[title=Abkürzungen,type=\acronymtype]
 	\input{tex/Einleitung}
 	\input{tex/Evaluierung}
 	\input{tex/Performanceanalyse}
@@ -75,5 +82,9 @@
 	\begin{sloppypar}
 		\printbibliography
 	\end{sloppypar}
-
+	\listoffigures
+	\listoftables
+	\lstlistoflistings
+	\printglossary[title=Glossar, type=main]
+	\printglossary[title=Abkürzungen,type=\acronymtype]
 \end{document}

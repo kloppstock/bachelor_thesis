@@ -7,7 +7,27 @@
 	-> parallele Implementierung deutlich schneller dank hoher Auslastung der Nodes und Aufteilen der Frames in Framepakete, welche parallel verarbeitet werden
 \end{correctmore}
 
-Trotz dessen, dass mit 120 \gls{CPU}-Kernen bereits ein Speedup von über 130 erreicht wurde, müsste die Anzahl der Bildpaare und der Kerne bei weitem höher sein, um eine Echtzeitlauf des Programmes sicher zu stellen. Dies ist in Größenordnungen von 2400 Bildpaaren und 2400 \gls{CPU}-Kernen zu erwarten, was bereits 100 Taurus-Knoten sind, was ökonomisch nicht sinnvoll wäre. 
+\begin{center}
+\begin{figure}[htbp]
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pdf/best_speedup_exp6}
+		\caption{xperiment 6}
+		\label{fig:best_speedup_exp6}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pdf/best_speedup_lenses}
+		\caption{Lenses}
+		\label{fig:best_speedup_lenses}
+	\end{subfigure}
+	\caption{Speedup der \textit{compiled} Implementierung gegenüber des vorgegebenen Python-Codes}
+	\label{fig:best_speedup}
+\end{figure}
+\end{center}
+
+Trotz dessen, dass mit 120 \gls{CPU}-Kernen bereits ein Speedup von über 130 erreicht wurde, müsste die Anzahl der Bildpaare und der Kerne bei weitem höher sein, um eine Echtzeitlauf des Programmes sicher zu stellen. Dies ist in Größenordnungen von 2400 Bildpaaren und 2400 \gls{CPU}-Kernen zu erwarten, was bereits 100 Taurus-Knoten sind. 
 
 \begin{correctmore}
 	- Analyse des erreichten Ergebnisses mit Rückblick auf die Möglichkeiten

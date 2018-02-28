@@ -6,13 +6,13 @@
 
 Der erste Schritt des Speckle-Trackings ist die Feststellung der starren Verschiebung. Werden hierfür feste Werte für diese angenommen, ist diese Komplexität konstant. Wird allerdings ein Korrelationsverfahren verwendet, so ist die Komplexität $\mathcal{O}\left(\glssymbol{resolution} \cdot log\left(\glssymbol{resolution}\right)\right)$ für die \gls{resolution}, da hierfür \glspl{FFT} eingesetzt werden. 
 
-Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Eingabebilder zunächst durch die Selektion der \gls{ROI} auf die \glsfirst{rroi} \glssymbol{rroi} zugeschnitten und anschließend in Blöcke mit konstanter \gls{rblock} aufgeteilt, welche dann ineinander mittels des Template-Matchings gesucht werden. Der Durchlauf hat deshalb Komplexität: 
+Der nächste Verarbeitungsschritt ist der erste Durchlauf. Hier werden die Eingabebilder zunächst durch die Selektion der \gls{ROI} auf die \glsfirst{rroi} \glssymbol{rroi} zugeschnitten und anschließend in quadratische Blöcke mit konstanter \gls{rblock} aufgeteilt, welche dann ineinander mittels des Template-Matchings gesucht werden. Liegt ein Block teilweise außerhalb der \gls{ROI}, so wird dieser hinein korrigiert. Der Durchlauf hat deshalb Komplexität: 
 
 \begin{center}
 	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{rblock} \cdot log\left(\gls{rblock}\right)}{\gls{rblock}}\right) = \mathcal{O}\left(\gls{rroi} \cdot log\left(\gls{rblock}\right)\right)$
 \end{center}
 
-Da die \gls{rblock} konstant und die Dauer der einzelnen Suchvorgänge somit ebenfalls als konstant angenommen werden können, liegt dieser Durchlauf in der linearen Komplexitätsklasse.  Die anschließende Interpolation wird auf alle Pixel des Bildes angewandt und hat demzufolge eine Komplexität von $\mathcal{O}\left(\gls{rroi}\right)$. Im darauf folgenden zweiten Durchlauf werden Subbilder, wie in Abschnitt \ref{sec:speckle-tracking} beschrieben, generiert. Durch die \glsfirst{uap} \glssymbol{uap} wird \gls{rroi}, und damit auch die Komplexität dieses Teils, mit dem Faktor $\gls{uap}^2$ verringert. Die \glsfirst{corrsize} \glssymbol{corrsize} nimmt auf das Template-Matching Einfluss, dessen Komplexität dadurch bei $\mathcal{O}\left(\gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$ liegt. Der Einfluss der \glsfirst{gridResol} \glssymbol{gridResol} ist, ähnlich zu \gls{uap}, eine Verringerung mit dem Faktor $\gls{gridResol}^2$. Die Gesamtkomplexität der Template-Matchings im zweiten Durchlauf liegt somit bei:
+Da die \gls{rblock} konstant und die Dauer der einzelnen Suchvorgänge somit ebenfalls als konstant angenommen werden können, liegt dieser Durchlauf in der linearen Komplexitätsklasse. Die anschließende Interpolation wird auf alle Pixel des Bildes angewandt und hat demzufolge eine Komplexität von $\mathcal{O}\left(\gls{rroi}\right)$. Im darauf folgenden zweiten Durchlauf werden Subbilder, wie in Abschnitt \ref{sec:speckle-tracking} beschrieben, generiert. Durch die \glsfirst{uap} \glssymbol{uap} wird \gls{rroi}, und damit auch die Komplexität dieses Teils, mit dem Faktor $\gls{uap}^2$ verringert. Die \glsfirst{corrsize} \glssymbol{corrsize} nimmt auf das Template-Matching Einfluss, dessen Komplexität dadurch bei $\mathcal{O}\left(\gls{corrsize} \cdot log\left(\gls{corrsize}\right)\right)$ liegt. Der Einfluss der \glsfirst{gridResol} \glssymbol{gridResol} ist, ähnlich zu \gls{uap}, eine Verringerung mit dem Faktor $\gls{gridResol}^2$. Die Gesamtkomplexität der Template-Matchings im zweiten Durchlauf liegt somit bei:
 
 \begin{center}
 	$\mathcal{O}\left(\frac{\gls{rroi} \cdot \gls{corrsize} \cdot log\left(\gls{corrsize}\right)}{\left(\gls{uap}^2 \cdot \gls{gridResol}\right)^2}\right)$
@@ -57,14 +57,20 @@ Diese Komplexitätsklasse liegt insbesondere für kleine \gls{ncorr}, \gls{uap} 
 \paragraph{Testsystem}
 
 \begin{sloppypar}
-Alle Benchmarks liefen auf der \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knoten dieser Partition ist ausgestattet mit zwei Intel\textregistered \mbox{Xeon\textregistered} E5-2680 v3 \glspl{CPU}. Diese haben zwölf Rechenkerne, die mit bis zu 2.50 \gls{GHz} getaktet sind. HyperThreading war hierbei nicht aktiviert. Die Knoten haben 64 \gls{GiB} (\textit{haswell64}), 128 \gls{GiB} (\textit{haswell128}) oder 256 \gls{GiB} (\textit{haswell256}) Arbeitsspeicher zur Verfügung \cite{Mar17}. Zusätzlich ist pro Rechenknoten eine 128 \gls{GB} \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes finden \cite{Sch18a}.
+Alle Benchmarks liefen auf der \textit{haswell}-Partition des Taurus-Supercomputers an der Technischen Universität Dresden. Jeder Knoten dieser Partition ist ausgestattet mit zwei Intel\textregistered \mbox{Xeon\textregistered} E5-2680 v3 \glspl{CPU}. Diese haben jeweils zwölf Rechenkerne, die mit bis zu 2.50 \gls{GHz} getaktet sind. HyperThreading war hierbei nicht aktiviert. Die Knoten haben 64 \gls{GiB} (\textit{haswell64}), 128 \gls{GiB} (\textit{haswell128}) oder 256 \gls{GiB} (\textit{haswell256}) Arbeitsspeicher zur Verfügung \cite{Mar17}. Zusätzlich ist pro Rechenknoten eine 128 \gls{GB} \gls{SSD} installiert. Es wurde unter anderem Python 2.7.11 mit numpy 1.10.1 und OpenCV 3.1.0 verwendet. Eine komplette Liste aller geladenen Module lässt sich auf dem GitHub-Repository dieses Projektes finden \cite{Sch18a}.
 \end{sloppypar}
 
 \paragraph{Konfigurationen}
 
 Jede Konfiguration, bestehend aus Datensatz und Kernanzahl, wurde nach vier Aufwärmiterationen fünfmal ausgeführt. Hierbei wurden jeweils die reinen Ausführungszeiten des gesamten Skripts und einzelner Funktionen erfasst. Aus allen vorliegenden Zeiten wurde \gls{IO}-Zeiten herausgerechnet. Die Laufzeit mit den entsprechenden Datensätzen wurde auf unterschiedlich vielen Kernen von eins bis 24 gemessen. Jeder Benchmark lief exklusiv auf einem Knoten. 
 
-Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschiedene Arten von Datensätzen verwendet: \textit{Experiment 6} und \textit{Lenses}. Die Eigenschaften dieser Typen werden in Tabelle \ref{tab:dataset_types} gegenüber gestellt. Die einzelnen Datensätze mit deren Anzahl der Bilder ist in Tabelle \ref{tab:datasets} zu finden. 
+Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschiedene Arten von Datensätzen verwendet: \textit{Experiment 6} und \textit{Lenses}. Die Bildpaare des \textit{Experiment 6}-Datensatzes wurden, wie in Abbildung \ref{fig:versuch} gezeigt, mit zwei Sensoren gleichzeitig aufgezeichnet, währenddessen die Bildpaare des \textit{Lenses}-Datensatzes von ein und demselben Sensor zu unterschiedlichen Zeiten unter Nutzung einer Linse, deren Abstand zum Sensor variiert wurde. 
+
+
+\correctme{Ist das mit den Linsen so richtig?}
+
+
+ Die Eigenschaften dieser Typen werden in Tabelle \ref{tab:dataset_types} gegenüber gestellt. Die einzelnen Datensätze mit deren Anzahl der Bilder ist in Tabelle \ref{tab:datasets} zu finden. 
 
 \begin{table}
 	\begin{tabularx}{\textwidth}{@{} XXX @{}}
@@ -89,7 +95,7 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschied
 		& \multicolumn{3}{c}{Experiment 6} & \multicolumn{4}{c}{Lenses} \\
 		\cmidrule(lr){2-4}
 		\cmidrule(lr){5-8}
-		& Lenses 200 & Lenses 500 & Lenses 1500 & Set 1 & Set2 & \multicolumn{2}{X}{Set 3} \\
+		& Lenses 200 & Lenses 500 & Lenses 1500 & \textit{Set 1} & Set2 & \multicolumn{2}{X}{Set 3} \\
 		\hline
 		\gls{N_Paare} & 21 & 11 & 14 & 10 & 5 & 1 & 2 \\
 		\bottomrule
@@ -129,14 +135,14 @@ Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht line
 		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/speedup_exp6}
-			\caption[Experiment 6]{Experiment 6}
+			\caption{\textit{Experiment 6}}
 			\label{fig:speedup_exp6}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/speedup_lenses}
-			\caption[Lenses]{Lenses}
+			\caption{\textit{Lenses}}
 			\label{fig:speedup_lenses}
 		\end{subfigure}
 		\caption{Speedup}
@@ -193,13 +199,13 @@ Die kumulative Zeit der fünf rechenaufwendigsten Funktionen aller Konfiguration
 		\begin{subfigure}[b]{0.5\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/slow_exp6}
-			\caption{Experiment 6}
+			\caption{\textit{Experiment 6}}
 			\label{fig:perc_slow_exp6}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.5\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/slow_lenses}
-			\caption{Lenses}
+			\caption{\textit{Lenses}}
 			\label{fig:perc_slow_lenses}
 		\end{subfigure}
 		\caption{Anteile der Laufzeiten der langsamsten Funktionen}
@@ -209,7 +215,7 @@ Die kumulative Zeit der fünf rechenaufwendigsten Funktionen aller Konfiguration
 
 \section{Performance-Engpässe}
 
-Der Grund der langen Rechenzeiten des Template-Matchings und der Subpixel-Interpolation liegt in der hohen Anzahl der Aufrufe dieser begründet. Der zweite Durchlauf allein wird im \textit{Experiment 6 Lenses 200}-Datensatz über 5.3 Millionen mal aufgerufen. In jedem dieser Aufrufe wird das Template-Matching und die Subpixel-Interpolation jeweils einmal genutzt. Hinzu kommt, dass, bis auf das Temp\-late-Match\-ing, der zweite Durchlauf nur geringen Gebrauch von bereits optimierten Bibliotheken wie numpy macht und somit der Pyhton-Overhead starken Einfluss auf die Laufzeiten hat. Innerhalb des Speckle-Trackings ist der Aufruf des zweiten Durchlaufes mittels der joblib parallelisiert. Diese nutzt standardmäßig die multiprocessing-Bibliothek, welche für jeden Thread einen Fork der gesamten Python-Umgebung erstellen muss, was zu einem erheblichen Overhead führt \cite{GVB+18}. Die hohe Rechenzeit der Gradienten-Integration ist im Aufruf dieser auf die Größe des Gesamtbildes begründet. Insgesamt hat das Programm eine schlechte CPU-Auslastung von lediglich durchschnittlich 19,635\% \cite{Sch18b}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 
+Der Grund der langen Rechenzeiten des Template-Matchings und der Subpixel-Interpolation liegt in der hohen Anzahl der Aufrufe dieser begründet. Der zweite Durchlauf allein wird im \textit{Experiment 6 Lenses 200}-Datensatz über 5.3 Millionen mal aufgerufen. In jedem dieser Aufrufe wird das Template-Matching und die Subpixel-Interpolation jeweils einmal genutzt. Hinzu kommt, dass, bis auf das Temp\-late-Match\-ing, der zweite Durchlauf nur geringen Gebrauch von bereits optimierten Bibliotheken wie numpy macht und somit der Python-Overhead starken Einfluss auf die Laufzeiten hat. Innerhalb des Speckle-Trackings ist der Aufruf des zweiten Durchlaufes mittels der joblib parallelisiert. Diese nutzt standardmäßig die multiprocessing-Bibliothek, welche für jeden Thread einen Fork der gesamten Python-Umgebung erstellen muss \cite{GVB+18}. Die hohe Rechenzeit der Gradienten-Integration ist im Aufruf dieser auf die Größe des Gesamtbildes begründet. Insgesamt hat das Programm eine schlechte CPU-Auslastung von lediglich durchschnittlich 19,635\% \cite{Sch18b}, wodurch häufig einige Kerne nicht oder nur wenig genutzt werden. 
 
 \section{Prüfen der Ergebnisse}
 
