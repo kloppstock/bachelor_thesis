@@ -10,6 +10,7 @@ set xlabel "Kernanzahl"
 set ylabel "Speedup"
 
 set xtics 24
+set xrange [0:49]
 set key autotitle columnhead
 set key box
 
@@ -18,7 +19,7 @@ set grid ytics lc rgb "#888888"
 set grid
 
 set output "mpi_speedup_lenses.eps"
-set title "Kernanzahl vs. Speedup\n {/*0.75 Lenses}"
+set title "Speedup mit steigender Kernanzahl\n {/*0.75 Lenses}"
 set bmargin 11.7
 plot "speedup_mpi_base.csv" using 1:6 with linespoints dashtype 3 pointtype 4 lw 1 t "{/Times:Italic mpi} - Set 1 (10 Bildpaare)", \
 	 "speedup_mpi_base.csv" using 1:7 with linespoints dashtype 3 pointtype 6 lw 1 t "{/Times:Italic mpi} - Set 2 (5 Bildpaare)", \
@@ -31,8 +32,9 @@ plot "speedup_mpi_base.csv" using 1:6 with linespoints dashtype 3 pointtype 4 lw
 
 
 set output "mpi_speedup_exp6.eps"
-set title "Kernanzahl vs. Speedup\n {/*0.75 Experiment 6}"
+set title "Speedup mit steigender Kernanzahl\n {/*0.75 Experiment 6}"
 set bmargin 10.7
+set yrange [5:31]
 plot "speedup_mpi_base.csv" using 1:3 with linespoints dashtype 3 pointtype 4 lw 1 t "{/Times:Italic mpi} - Lenses 200 (21 Bildpaare)", \
 	 "speedup_mpi_base.csv" using 1:4 with linespoints dashtype 3 pointtype 6 lw 1 t "{/Times:Italic mpi} - Lenses 500 (11 Bildpaare)", \
 	 "speedup_mpi_base.csv" using 1:5 with linespoints dashtype 3 pointtype 8 lw 1 t "{/Times:Italic mpi} - Lenses 1500 (14 Bildpaare)", \

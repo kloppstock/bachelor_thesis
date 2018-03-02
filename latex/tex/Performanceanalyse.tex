@@ -71,10 +71,10 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschied
 		\toprule
 		& Experiment 6 & Lenses \\
 		\hline
-		\gls{rroi} (in Pixel) & Sensor 1: 550 x 550 \newline
-		Sensor 2:1450 x 1450  & 1450 x 1550 \\
+		\gls{rroi} & Sensor 1: $550px * 550px$ \newline
+		Sensor 2: $1450px * 1450px$  & $1450px * 1550px$ \\
 		\gls{gridResol} & 1 & 1 \\
-		\gls{corrsize} & 91 & 41 \\
+		\gls{corrsize} & $91px * 91px$ & $41px * 41px$ \\
 		\gls{uap} & 1 & 1 \\
 		Pixelgröße & unterschiedlich & gleich \\
 		\bottomrule
@@ -89,7 +89,7 @@ Zur Leistungsfeststellung der vorliegenden Implementierung werden zwei verschied
 		& \multicolumn{3}{c}{Experiment 6} & \multicolumn{4}{c}{Lenses} \\
 		\cmidrule(lr){2-4}
 		\cmidrule(lr){5-8}
-		& Lenses 200 & Lenses 500 & Lenses 1500 & \textit{Set 1} & Set2 & \multicolumn{2}{X}{Set 3} \\
+		& Lenses 200 & Lenses 500 & Lenses 1500 & Set 1 & Set2 & \multicolumn{2}{X}{Set 3} \\
 		\hline
 		\gls{N_Paare} & 21 & 11 & 14 & 10 & 5 & 1 & 2 \\
 		\bottomrule
@@ -122,7 +122,7 @@ Die Laufzeiten der Konfigurationen, dargestellt in Abbildung \ref{fig:gesamtlauf
 	\end{figure}
 \end{center}
 
-Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht linear und flacht schnell ab. Der Speedup-Faktor für die \textit{Experiment 6}-Datensätze konvergiert gegen vier. Bei den \textit{Lenses}-Da\-ten\-sä\-tzen hingegen wird bei 24 Kernen ein Speedup von mehr als zehn erreicht. In den auf Abbildung \ref{fig:speedup} visualisierten Graphen ist eine schwache Skalierung deutlich erkennbar. 
+Der Speedup des Programmes skaliert mit der Anzahl der Prozessorkerne nicht linear und flacht schnell ab. Der Speedup-Faktor für die \textit{Experiment 6}-Datensätze konvergiert gegen vier. Bei den \textit{Lenses}-Da\-ten\-sä\-tzen hingegen wird bei 24 Kernen ein Speedup von mehr als zehn erreicht. In den auf Abbildung \ref{fig:speedup} visualisierten Graphen ist eine starke Skalierung deutlich erkennbar. 
 
 \begin{center}
 	\begin{figure}

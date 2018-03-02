@@ -72,6 +72,8 @@
 }
 
 \begin{document}
+	\printglossary[title=Glossar, type=main]
+	\printglossary[title=Abkürzungen,type=\acronymtype]
 	\input{tex/Einleitung}
 	\input{tex/Evaluierung}
 	\input{tex/Performanceanalyse}
@@ -84,7 +86,5 @@
 	\end{sloppypar}
 	\listoffigures
 	\lstlistoflistings
-	\newpage
-	\printglossary[title=Glossar, type=main]
-	\printglossary[title=Abkürzungen,type=\acronymtype]
+	\listoftables
 \end{document}

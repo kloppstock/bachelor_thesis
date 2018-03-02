@@ -7,7 +7,9 @@ set datafile separator ","
 set key below right
 
 set logscale y
-#set xrange[1:24]
+set xrange[0:49]
+set yrange [38:420]
+set ytics add ("40" 40) ("400" 400)
 set xtics 24
 set xlabel "Kernanzahl"
 set ylabel "Rundenzeit (in Sekunden)"
@@ -20,7 +22,7 @@ set grid ytics lc rgb "#888888"
 set grid
 
 set output "round_times_lenses.eps"
-set title "Kernanzahl vs. Rundenzeit\n {/*0.75 Lenses}"
+set title "Rundenzeit mit steigender Kernanzahl\n {/*0.75 Lenses}"
 set bmargin 11.7
 set key width 0
 plot "round_time_mpi_base.csv" using 1:6 with linespoints dashtype 3 pointtype 4 lw 1 t "{/Times:Italic mpi} - Set 1 (10 Bildpaare)", \
@@ -32,8 +34,10 @@ plot "round_time_mpi_base.csv" using 1:6 with linespoints dashtype 3 pointtype 4
 	 "round_time_mpi.csv" using 1:8 with linespoints dashtype 3 pointtype 9 lw 3 lc 3 t "{/Times:Italic mpi-advanced} - Set 3 (1 Bildpaare)", \
 	 "round_time_mpi.csv" using 1:9 with linespoints dashtype 3 pointtype 11 lw 3 lc 4 t "{/Times:Italic mpi-advanced} - Set 3 (2 Bildpaare)"
 set output "round_times_exp6.eps"
-set title "Kernanzahl vs. Rundenzeit\n {/*0.75 Experiment 6}"
+set title "Rundenzeit mit steigender Kernanzahl\n {/*0.75 Experiment 6}"
 set bmargin 10.7
+unset yrange
+set ytics auto
 plot "round_time_mpi_base.csv" using 1:3 with linespoints dashtype 3 pointtype 4 lw 1 t "{/Times:Italic mpi} - Lenses 200 (21 Bildpaare)", \
 	 "round_time_mpi_base.csv" using 1:4 with linespoints dashtype 3 pointtype 6 lw 1 t "{/Times:Italic mpi} - Lenses 500 (11 Bildpaare)", \
 	 "round_time_mpi_base.csv" using 1:5 with linespoints dashtype 3 pointtype 8 lw 1 t "{/Times:Italic mpi} - Lenses 1500 (14 Bildpaare)", \

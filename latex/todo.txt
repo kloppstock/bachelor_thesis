@@ -1,22 +1,14 @@
 TODO:
- - bei graphen letzten datenpunkt nicht auf grenze setzen
- - Titel der Diagramme verbessern
+ - Farbe für Links ändern?
+ - Lehrstuhl richtig?
+ - Wie Zusammenarbeit mit Institut erwähnen?
+ - CCD in Kurfassung lassen?
 
-
- - Korrekturlesen!!!
-
-
-
- - Mindestanforderungen einfügen:
-	Mindestanforderungen:
-	-> korrekte Verarbeitung der Daten
-	-> nahezu lineare Skalierung
-	-> Erweiterbarkeit der Hardware ohne Änderung des Quellcodes
-	-> 2048*2048*10fps optimalerweise
+ - Skalierung korrekt?
+ - anderes Wort für Wurzelkern nehmen?
+ - CUDA und OpenCL verlinken?
 
  - Abstract
- - Kurzfassung
- - Einleitung
 
  - PVM als Optimierung erwähnen?
  - Layout der Abbildungen verbessern!!!

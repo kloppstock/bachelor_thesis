@@ -9,6 +9,7 @@ set bmargin 5.7
 
 set logscale y
 #set xrange[1:24]
+set xrange [0:49]
 set xtics 24
 set xlabel "Kernanzahl"
 set ylabel "Rundenzeit (in Sekunden)"

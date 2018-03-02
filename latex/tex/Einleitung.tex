@@ -1,23 +1,46 @@
 \chapter{Einleitung}
 
-\begin{correctmore}
-	In dieser Arbeit wird ein bereits in Python implementierter Wellenfrontrekonstruktionsalgorithmus für Manycore-Prozessoren beschrieben.
-	Die Wellenfront wird aus zwei Bildern ein und desselben zu untersuchenden Objekts rekonstruiert, die von zwei CCD-Sensoren aus unterschiedlicher Entfernung aufgenommen werden. Aus den Unterschieden der Bilder lässt sich der Verlauf der Wellenfronten herleiten, welcher wiederum Aufschluss über die dreidimensionale Struktur des Targets gibt. 
-	
-	In seiner momentanen Implementierung benötigt der Algorithmus 25 Sekunden pro Bildpaar \textbf{nachprüfen}. Da die CCD-Sensoren mit bis zu 25 Bildern pro Sekunde erhebliche Datenmengen erzeugen, ist es wünschenswert diese Daten zeitgleich zum Experiment zu verarbeiten, sodass eine Speicherung der Daten entfällt. 
-	
-	Soll-Kriterien, die hierbei an die parallele Lösung gestellt werden, sind zuallererst die Korrektheit der parallelen Implementierung und ein erheblicher Speedup \textbf{von wie viel?}, wobei eine echtzeitfähige Implementierung angestrebt wird.
-\end{correctmore}	
+Die Programmiersprache Python erfreut sich heutzutage besonders bei Physikern hoher Popularität. Sie ist einfach zu bedienen und bietet Zugriff auf eine große Ansammlung von physikalischer Hilfsbibliotheken, was unter anderem auch die Portierung von MATLAB-Code vereinfacht. Der hier zu parallelisierende Wellenfrontrekonstruktionsalgorithmus wurde auf diese Weise von MATLAB zu Python portiert. Die Aufgabe dieses Algorithmus ist es, aus zwei Bildern eines zu untersuchenden Objektes die Fronten der elektromagnetischen Welle eines Röntgenlasers zu rekonstruieren. Die Bilder werden dabei von zwei in einem festen zueinander Abstand stehenden, hochempfindlichen Röntgen-\gls{CCD}-Sensoren aufgenommen. Diese Sensoren haben jeweils eine Auflösung von 2048 mal 2048 Pixeln und können bis zu zehn Bilder in einer Sekunde aufnehmen. 
+
+Der vorgegebene Python-Code benötigt jedoch pro Bildpaar mehr als 500 Sekunden auf einem Kerne eines Intel\textregistered \mbox{Xeon\textregistered} E5-2680 v3 \glspl{CPU}. Selbst unter der Nutzung von 24 dieser Rechenkerne unterschreitet die Laufzeit pro Bildpaar die 100-Sekunden Grenze nicht.
+
+Ziel dieser Arbeit ist es, die Laufzeit des Algorithmus näher an eine mögliche Echtzeitausführung des Programmes zu bringen. Dabei sollte die hier präsentierte Lösung eine möglichst gute Skalierung mit einerseits den Bildpaaren und andererseits mit den \gls{CPU}-Kernen liefern. Auch eine einfach Erweiterbarkeit des Python-Codes ist erwünscht. 
+
+Um diese Kriterien erfüllen zu können, wurde daher zuerst der vorliegende Code bezüglich seiner Performance evaluiert. Diese Kenntnisse wurden anschließend für die Parallelisierung und weitere Optimierung genutzt. Hierbei wurden verschiedene Optimierungsmöglichkeiten betrachtet, welche sich vor allem mit der Nutzung bereits optimierter Bibliotheken und dem Übersetzen des Programmes in Maschinencode befassen. Zum Schluss wurden die Optimierungen bezüglich des erreichten Beschleunigungsfaktors gegenüber der Referenzimplementierung evaluiert.
+
+Die hier verwendeten Datensätze wurden an der \gls{ESRF} aufgenommen, wo auch die vorgegebene Python-Implementierung entwickelt wurde. Diese Arbeit wurde in der Abteilung für Strahlenphysik am \gls{HZDR} geschrieben. 
+
+
+
+
+
+
+
 
 \iffalse
-- Anwendungsbeschriebung:
--> Wellenfrontrekonstruktionsalgorithmus liegt in Python implementiert vor
--> Rekonstruktion der Wellenfront aus Bildern 2er CCD Kameras in verschiedenem Abstand
-- Motivation
--> momentaner Wellenfrontrekonstruktionsalgorithmus benötigt 25s/Frame
--> Kamera liefert 10 Frames/s
--> Daten müssen zwischengespeichert werden
-- Einführen der Soll-Kriterien:
--> korrekte Rekonstruktion der Wellenfronten
--> deutliche Beschnleunigung der momentanen Implementierung (5x+)
+\begin{correctmore}
+	%Motivation
+	- Python langsam aber bei Physikern beliebt
+	- daher Wellenfrontrekonstruktionsalgorithmus in Python geschrieben
+	- Rekonstruiert Wellenfront aus 2 Bilder eines Target aus unterschiedlicher Entfernung
+	- CCD-Sensoren haben 2048 * 2048 Pixel und nehmen 10 Bilder pro Sekunde auf
+	- ABER: Algorithmus benötigt momentan über 500 Sekunden mit einem Kern für ein Bildpaar
+	- selbst mit 24 Kernen werden immer noch über 100 Sekunden benötigt
+	--> Anforderungen an den Algorithmus: 
+	- Echtzeitfähigkeit
+	- gute Skalierung mit mehr Bildpaaren
+	- einfache Erweiterbarkeit des Algorithmus
+	- Skalierung mit mehr Hardware
+	
+	%Aufgabenstellung & Vorgehensweise
+	- Demzufolge muss:
+	- Performance evaluiert werden
+	- der Algorithmus parallelisiert werden
+	- die parallele Implementierung gemessen und ausgewertet werden
+	- um Performance weiter zu verbessern, wurden auch andere Optimierungen einbezogen (optimierte Bibliotheken, Kompilieren)
+	
+	%Umfeld
+	- Daten wurden vom ESRF aufgenommen
+	- Arbeit wurde in Kooperation mit HZDR und ESRF geschrieben
+\end{correctmore}
 \fi
