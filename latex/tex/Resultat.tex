@@ -2,7 +2,7 @@
 
 \section{Wertung des Ergebnisses}
 
-Die Abbildung \ref{fig:best_speedup} zeigt einen deutlich erhöhten Speedup gegenüber der vorgegebenen Python-Implementierung. Für die \textit{Experiment 6}-Datensätze erreicht dieser einen Speedup von über 130 und für die \textit{Lenses}-Datensätze liegt der maximale Beschleunigungsfaktor bei bis zu 40 für den \textit{Set 1}-Datensatz. Bei der Wahl größerer Datensätze sind größere Beschleunigungsfaktoren zu erwarten, da das Effizienzmaximum in den hier gezeigten Benchmarks weit überschritten wurde. 
+Die Abbildung \ref{fig:best_speedup} zeigt einen deutlich erhöhten Speedup gegenüber der vorgegebenen Python-Implementierung. Für die \textit{Experiment 6}-Datensätze erreicht dieser einen Speedup von über 130 und für die \textit{Lenses}-Datensätze liegt der maximale Beschleunigungsfaktor bei bis zu 40 für den \textit{Set 1}-Datensatz. Bei der Wahl größerer Datensätze sind aufgrund mangelnder Parallelisierbarkeit der Bildpaare größere Beschleunigungsfaktoren zu erwarten.
 
 \begin{center}
 	\begin{figure}[htbp]
@@ -19,7 +19,7 @@ Die Abbildung \ref{fig:best_speedup} zeigt einen deutlich erhöhten Speedup gege
 			\caption{Lenses}
 			\label{fig:best_speedup_lenses}
 		\end{subfigure}
-		\caption{Speedup der \textit{compiled} Implementierung gegenüber des vorgegebenen Python-Codes}
+		\caption{Speedup der \textit{compiled} Implementierung gegenüber des von Cojocaru implementierten Python-Codes}
 		\label{fig:best_speedup}
 	\end{figure}
 \end{center}
@@ -32,10 +32,10 @@ Im Verlauf der Implementierung wurden viele der trivialsten Optimierungsmöglich
 
 Obwohl in dieser Arbeit bereits viele Optimierungen implementiert wurden und ein hoher Speedup erreicht wurde, gibt es immer noch weiteres Potential. Die Verwendung der FFTW\footnote{\url{http://www.fftw.org/}}-Bibliothek ist eine davon. Mithilfe dieser ist es möglich, die Gradientenintegration zu beschleunigen indem beim Start des Programmes sogenannte \textit{Wisdoms} erstellt werden, welche die Transformation eines Bildes in den Frequenzraum erheblich beschleunigen könnte. 
 
-Des Weiteren ist es möglich für die am häufigsten aufgerufenen Funktionen Datenblöcke zu bilden und diese zu verarbeiten, sodass der Overhead der Funktionsaufrufe sinkt. Dies bildet ebenfalls eine gute Grundlage um diese Datenblockverarbeitung mittels numpy, numexpr oder numba weiter zu beschleunigen. Insbesondere kann hierbei auch die CUDA und OpenCL Schnittstelle von numba genutzt werden, um Berechnungen mittels \glspl{GPGPU} auszulagern. 
+Des Weiteren ist es möglich für die am häufigsten aufgerufenen Funktionen Datenblöcke zu bilden und diese zu verarbeiten, sodass der Overhead der Funktionsaufrufe sinkt. Dies bildet ebenfalls eine gute Grundlage um diese Datenblockverarbeitung mittels numpy, numexpr oder numba weiter zu beschleunigen. Insbesondere kann hierbei auch die CUDA\footnote{\url{https://developer.nvidia.com/cuda-zone}} und OpenCL\footnote{\url{https://www.khronos.org/opencl}} Schnittstelle von numba genutzt werden, um Berechnungen mittels \glspl{GPGPU} auszulagern. 
 
 Eine weitere Verbesserungsmöglichkeit liegt in einer Verbesserung des Belastungsausgleiches. Hierbei bestünde die Möglichkeit die Bildpaare in Packete zusammenzufassen und diese hintereinander auszuführen, sodass ein durchgängiger Betrieb möglich wäre. 
 
-Auch Optimierungen am Algorithmus sind noch denkbar. Da aus dem Ergebnis des Template-Matchings nur die Position und der Wert des Maximums benötigt werden, ließe sich Bild und Template mit durch Skalierung verminderter Auflösung matchen. Hierbei entstandene Ungenauigkeiten können behoben werden, indem in der Region des Maximums ein genaueres Match durchgeführt wird. Da das Match mit reduzierter Auflösung eine Heuristik über die Maximal mögliche Übereinstimmung ist, kann anschließend in diesem der zweit höchste Wert betrachtet werden. Ist dieser größer als das Ergebnis des genauen Matches, besteht die Möglichkeit, dass dieses falsch ist und es kann auf den in der OpenCV-Bibliothek implementierten Template-Matching-Algorithmus zurückgreifen. Ist die Auflösung des Templates und des Bildes jedoch nicht durch ein und denselben Skalierungsfaktor teilbar, so kann die Skalierung auf eine niedrigere Auflösung bereits erhebliche Zeit in Anspruch nehmen. 
+Auch Optimierungen am Algorithmus sind noch denkbar. Da aus dem Ergebnis des Template-Matchings nur die Position und der Wert des Maximums benötigt werden, ließe sich Bild und Template mit durch Skalierung verminderter Auflösung matchen. Hierbei entstandene Ungenauigkeiten können behoben werden, indem in der Region des Maximums ein genaueres Match durchgeführt wird. Da das Match mit reduzierter Auflösung eine Heuristik über die Maximal mögliche Übereinstimmung ist, kann anschließend in diesem der zweit höchste Wert betrachtet werden. Ist dieser größer als das Ergebnis des genauen Matches, besteht die Möglichkeit, dass dieses falsch ist und es kann auf den in der OpenCV-Bibliothek implementierten Template-Matching-Algorithmus zurückgreifen. Ist die Auflösung des Templates und des Bildes jedoch nicht durch ein und denselben Skalierungsfaktor teilbar, so kann die Skalierung auf eine niedrigere Auflösung bereits erhebliche Zeit in Anspruch nehmen. Hierzu ähnliche Optimierungsmöglichkeiten wurden bereits von Elena-Ruxandra Cojocaru implementiert (siehe \ref{sec:speckle-tracking}). 
 
 Zu guter Letzt besteht auch noch die Möglichkeit der Optimierung des Kalibrierungsteiles des Programmes. 

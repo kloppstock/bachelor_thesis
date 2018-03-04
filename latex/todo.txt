@@ -1,14 +1,8 @@
 TODO:
-
- - Farbe für Links ändern?
- - Lehrstuhl richtig?
  - Wie Zusammenarbeit mit Institut erwähnen?
- - CCD in Kurfassung lassen?
- - Skalierung korrekt?
- - anderes Wort für Wurzelkern nehmen?
- - CUDA und OpenCL verlinken?
+ - Datensätze direkt verlinken???
+
 
  - Abstract
 
- - PVM als Optimierung erwähnen?
  - Layout der Abbildungen verbessern!!!

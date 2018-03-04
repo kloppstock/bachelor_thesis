@@ -611,7 +611,7 @@ Wissenschaftlichen Hochleistungsrechnen''}
 
     \bigskip
     \Large
-    \textsc{Zentrum f\"{u}r Informationsdienste\\ und Hochleistungsrechnen\\
+    \textsc{Institut für Technische Informatik, Professur für Rechnerarchitektur\\
     Prof. Dr. Wolfgang E. Nagel\\
     $\quad$\\
     $\quad$}

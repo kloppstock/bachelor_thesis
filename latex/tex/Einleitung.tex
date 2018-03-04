@@ -1,46 +1,11 @@
 \chapter{Einleitung}
 
-Die Programmiersprache Python erfreut sich heutzutage besonders bei Physikern hoher Popularität. Sie ist einfach zu bedienen und bietet Zugriff auf eine große Ansammlung physikalischer Hilfsbibliotheken, was unter anderem auch die Portierung von MATLAB-Code vereinfacht. Der hier zu parallelisierende Wellenfrontrekonstruktionsalgorithmus wurde auf diese Weise von MATLAB zu Python portiert. Die Aufgabe dieses Algorithmus ist es, aus zwei Bildern eines zu untersuchenden Objektes die Fronten der elektromagnetischen Welle eines Röntgenlasers zu rekonstruieren. Die Bilder werden dabei von zwei in einem festen zueinander Abstand stehenden, hochempfindlichen Röntgen-\gls{CCD}-Sensoren aufgenommen. Diese Sensoren haben jeweils eine Auflösung von 2048 mal 2048 Pixeln und können bis zu zehn Bilder in einer Sekunde aufnehmen. 
+Die Programmiersprache Python erfreut sich heutzutage besonders bei Physikern hoher Popularität. Sie ist einfach zu bedienen und bietet Zugriff auf eine große Ansammlung physikalischer Hilfsbibliotheken, was unter anderem auch die Portierung von MATLAB-Code vereinfacht. Der hier zu parallelisierende Wellenfrontrekonstruktionsalgorithmus wurde auf diese Weise von Elena-Ruxandra Cojocaru auf Grundlage des von Sébastion Bérujon entwickelten MATLAB-Codes an der \gls{ESRF} zu Python portiert. Die Aufgabe dieses Algorithmus ist es, aus zwei Bildern eines zu untersuchenden Objektes, die Fronten der elektromagnetischen Welle eines Röntgenlasers zu rekonstruieren. Die Bilder werden dabei von zwei in einem fest zueinander Abstand stehenden, hochempfindlichen Röntgen-\gls{CCD}-Sensoren aufgenommen. Diese haben jeweils eine Auflösung von 2048 mal 2048 Pixeln und können bis zu zehn Bilder in einer Sekunde aufnehmen. 
 
-Der vorgegebene Python-Code benötigt jedoch pro Bildpaar mehr als 500 Sekunden auf einem Kerne eines Intel\textregistered \mbox{Xeon\textregistered} E5-2680 v3 \glspl{CPU}. Selbst unter der Nutzung von 24 dieser Rechenkerne unterschreitet die Laufzeit pro Bildpaar die 100-Sekunden Grenze nicht.
+Der vorgegebene Python-Code benötigt jedoch pro Bildpaar mehr als 500 Sekunden auf einem Kern eines Intel\textregistered \mbox{Xeon\textregistered} E5-2680 v3 \glspl{CPU}. Selbst unter der Nutzung von 24 dieser Rechenkerne unterschreitet die Laufzeit pro Bildpaar die 100-Sekunden-Grenze nicht.
 
-Ziel dieser Arbeit ist es daher, die Laufzeit des Algorithmus näher an eine mögliche Echtzeitausführung des Programmes zu bringen. Dabei soll die hier präsentierte Lösung eine möglichst gute Skalierung mit einerseits den Bildpaaren und andererseits mit den \gls{CPU}-Kernen liefern. Auch eine einfach Erweiterbarkeit des Python-Codes ist erwünscht. 
+Ziel dieser Arbeit ist es daher, die Laufzeit des Algorithmus näher an eine mögliche Echtzeitausführung des Programmes zu bringen. Dabei soll die hier präsentierte Lösung eine möglichst gute Skalierung einerseits mit den Bildpaaren und andererseits mit den \gls{CPU}-Kernen liefern. Auch eine einfache Erweiterbarkeit des Python-Codes ist erwünscht. 
 
-Um diese Kriterien erfüllen zu können, wurde daher zuerst der vorliegende Code bezüglich seiner Performance evaluiert. Diese Kenntnisse wurden anschließend für die Parallelisierung und weiteren Optimierung genutzt. Hierbei wurden verschiedene Optimierungsmöglichkeiten betrachtet, welche sich vor allem mit der Nutzung bereits optimierter Bibliotheken und dem Übersetzen des Programmes in Maschinencode befassen. Zum Schluss wurden die Optimierungen bezüglich des erreichten Beschleunigungsfaktors gegenüber der Referenzimplementierung evaluiert.
+Um diese Kriterien erfüllen zu können, wurde daher zuerst der vorliegende Code bezüglich seiner Performance evaluiert. Diese Kenntnisse wurden anschließend für die Parallelisierung und weitere Optimierung genutzt. Hierbei wurden verschiedene Optimierungsmöglichkeiten betrachtet, welche sich vor allem mit der Nutzung bereits optimierter Bibliotheken und dem Übersetzen des Programmes in Maschinencode befassen. Zum Schluss wurden die Optimierungen bezüglich des erreichten Beschleunigungsfaktors gegenüber der Referenzimplementierung evaluiert.
 
-Die hier verwendeten Datensätze wurden an der \gls{ESRF} aufgenommen, wo auch die vorgegebene Python-Implementierung entwickelt wurde. Diese Arbeit wurde in der Abteilung für Strahlenphysik am \gls{HZDR} geschrieben. 
-
-
-
-
-
-
-
-
-\iffalse
-\begin{correctmore}
-	%Motivation
-	- Python langsam aber bei Physikern beliebt
-	- daher Wellenfrontrekonstruktionsalgorithmus in Python geschrieben
-	- Rekonstruiert Wellenfront aus 2 Bilder eines Target aus unterschiedlicher Entfernung
-	- CCD-Sensoren haben 2048 * 2048 Pixel und nehmen 10 Bilder pro Sekunde auf
-	- ABER: Algorithmus benötigt momentan über 500 Sekunden mit einem Kern für ein Bildpaar
-	- selbst mit 24 Kernen werden immer noch über 100 Sekunden benötigt
-	--> Anforderungen an den Algorithmus: 
-	- Echtzeitfähigkeit
-	- gute Skalierung mit mehr Bildpaaren
-	- einfache Erweiterbarkeit des Algorithmus
-	- Skalierung mit mehr Hardware
-	
-	%Aufgabenstellung & Vorgehensweise
-	- Demzufolge muss:
-	- Performance evaluiert werden
-	- der Algorithmus parallelisiert werden
-	- die parallele Implementierung gemessen und ausgewertet werden
-	- um Performance weiter zu verbessern, wurden auch andere Optimierungen einbezogen (optimierte Bibliotheken, Kompilieren)
-	
-	%Umfeld
-	- Daten wurden vom ESRF aufgenommen
-	- Arbeit wurde in Kooperation mit HZDR und ESRF geschrieben
-\end{correctmore}
-\fi
+Die hier verwendeten Datensätze wurden von Elena-Ruxandra Cojocaru, Sébastion Bérujon, Eric Ziegler am 24. September 2017 und von Thomas Roth, Raymond Barett, Sébastion Bérujon und Rafael Celeste am zehnten April 2017 an der Beamline BM05 der \gls{ESRF} aufgenommen. Diese Arbeit wurde als Teil des \gls{EUCALL}-Projekts am \gls{HZDR} geschrieben, welches von der Europäischen Union finanziert wird. Konkret ist diese Arbeit ein übergreifendes Projekt über die Arbeitspakete WP5 (\gls{UFDAC}) und WP7 (\gls{PUCCA}). 
