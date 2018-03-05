@@ -4,7 +4,7 @@
 
 \subsection{Wellenfrontrekonstruktionsalgorithmus}
 
-In strahlenphysischen Experimenten spielt die Ausrichtung optischer Bauteile und deren Qualität eine entscheidende Rolle. \citeauthor{GNS+11} beschrieben \citeyear{GNS+11} Methoden zur Messung dieser Fehler und zur Rekonstruktion der Wellenfront \cite{GNS+11}. Während der letzten zwei Jahrzehnte wurden hierzu verschiedene Techniken vorgestellt. \citeauthor{MZI+03} stellten \citeyear{MZI+03} ein Verfahren zur Ermittlung der Wellenfront unter Nutzung eines Hartmann-Sensors vor \cite{MZI+03}. \citeyear{WND+05} wurde von \citeauthor{WND+05} eine Methode zur Wellenfrontrekonstruktion mittels eines Gitterinferometers vorgestellt \cite{WND+05}. \citeauthor{APO+07} präsentierten \citeyear{APO+07} eine weitere Methode basierend auf der Verwendung einer Zufalls-Amplituden-Maske \cite{APO+07}. Diese umgeht das Problem der niedrigen räumlichen Auflösung eines Hartmann-Sensors und die aufwendige Kalibrierung der Optik eines Interferometers, indem mehrere Bilder in unterschiedlicher Entfernung vom zu untersuchenden Objekt gemacht werden. Dies bietet eine höhere Auflösung und die Möglichkeit, Ungenauigkeiten in der Optik algorithmisch zu korrigieren. Ein ähnlicher, robusterer Ansatz wurde \citeyear{Ber12} von \citeauthor{Ber12} unter Zuhilfenahme des X-Ray-Speckle-Traking-Algorithmus verfolgt \cite{Ber12} und \citeyear{Ber13} wurde von \citeauthor{Ber13} eine Methode mit zwei Sensoren vorgestellt, welche simultan Bilder des zu untersuchenden Objektes aufnehmen können und somit schneller sind \cite{Ber13}. Auf dieser Methode basiert der hier behandelte Wellenfrontrekonstruktionsalgorithmus. 
+In strahlenphysikalischen Experimenten spielt die Ausrichtung optischer Bauteile und deren Qualität eine entscheidende Rolle. \citeauthor{GNS+11} beschrieben \citeyear{GNS+11} Methoden zur Messung dieser Fehler und zur Rekonstruktion der Wellenfront \cite{GNS+11}. Während der letzten zwei Jahrzehnte wurden hierzu verschiedene Techniken vorgestellt. \citeauthor{MZI+03} stellten \citeyear{MZI+03} ein Verfahren zur Ermittlung der Wellenfront unter Nutzung eines Hartmann-Sensors vor \cite{MZI+03}. \citeyear{WND+05} wurde von \citeauthor{WND+05} eine Methode zur Wellenfrontrekonstruktion mittels eines Gitterinferometers vorgestellt \cite{WND+05}. \citeauthor{APO+07} präsentierten \citeyear{APO+07} eine weitere Methode basierend auf der Verwendung einer Zufalls-Amplituden-Maske \cite{APO+07}. Diese umgeht das Problem der niedrigen räumlichen Auflösung eines Hartmann-Sensors und die aufwendige Kalibrierung der Optik eines Interferometers, indem mehrere Bilder in unterschiedlicher Entfernung vom zu untersuchenden Objekt gemacht werden. Dies bietet eine höhere Auflösung und die Möglichkeit, Ungenauigkeiten in der Optik algorithmisch zu korrigieren. Ein ähnlicher, robusterer Ansatz wurde \citeyear{Ber12} von \citeauthor{Ber12} unter Zuhilfenahme des X-Ray-Speckle-Traking-Algorithmus verfolgt \cite{Ber12} und \citeyear{Ber13} wurde von \citeauthor{Ber13} eine Methode mit zwei Sensoren vorgestellt, welche simultan Bilder des zu untersuchenden Objektes aufnehmen können und somit schneller sind \cite{Ber13}. Auf dieser Methode basiert der hier behandelte Wellenfrontrekonstruktionsalgorithmus. 
 
 \subsection{Python-Optimierungen}
 
@@ -26,13 +26,7 @@ Aufgrund der mannigfaltigen Möglichkeiten der Optimierung und der einfachen Nut
 
 \subsection{Versuchsaufbau}
 
-Ein allgemeiner Versuchsaufbau in der Strahlenphysik besteht aus einer Röntgenstrahlenquelle, einem zu untersuchenden Objekt, welches im Fokus der Röntgenstrahlen platziert ist, und einem Aufnahmeaufbau, wie es von \citeauthor{Ber13} beschrieben wurde \shortcite{Ber13}{31 ff.}. Mittels der Belichtung des zu untersuchenden Objekts können anschließend physikalische Informationen über dieses herausgefunden werden.
-
-\citeauthor{Ber13} zeigte ebenfalls, dass die Bestimmung der geometrischen Struktur eines zu untersuchenden Objekts mittels eines solchen Versuchsaufbaus realisiert werden kann \shortcite{Ber13}{105 ff.}. Der Aufnahmeaufbau, laut \citeauthor{Ber15}, besteht in diesem konkreten Fall aus einer Fleckenmembran und zwei hochempfindlichen Röntgen-\gls{CCD}-Sensoren, die zwei Bilder des zu untersuchenden Objekts zeitgleich aus unterschiedlicher Entfernung durch die Fleckenmebran aufnehmen \shortcite{Ber15}{887}. Ein solcher Versuchsaufbau wird in der Abbildung \ref{fig:versuch} dargestellt, welche aus der Veröffentlichung \cite{Ber15} von \citeauthor{Ber15} entnommen wurde \cite{Ber15}.
-
-Die Röntgenstrahlen werden zuerst am zu untersuchenden Objekt absorbiert und gebrochen und treffen anschließend auf die Membran, wodurch das Röntgenstrahlbündel hinter dieser Membran ein Fleckenmuster aufweist. Dieses Bündel trifft zuerst auf den Szintillator des ersten \gls{CCD}-Sensors, wodurch die Röntgenstrahlen für die \gls{CCD}-Sensoren sichtbar gemacht werden. Der sichtbare Teil dieses Bildes wird zum erstem \gls{CCD}-Sensor reflektiert und dort aufgenommen. Der Röntgen-Teil wird zum Szintillator des zweiten \gls{CCD}-Sensors gebrochen, wo dieser in sichtbares Licht gewandelt wird, das mittels einer Optik zum zweiten \gls{CCD}-Sensor reflektiert und dort aufgenommen wird. \shortcite{Ber15}{886 ff.}
-
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\begin{center}
 		\includegraphics[width=0.9\textwidth]{img/Versuchsaufbau}
 		\caption[Versuchsaufbau]{Versuchsaufbau \shortcite{Ber15}{891}}
@@ -40,49 +34,56 @@ Die Röntgenstrahlen werden zuerst am zu untersuchenden Objekt absorbiert und ge
 	\end{center}
 \end{figure}
 
+Ein allgemeiner Versuchsaufbau in der Strahlenphysik besteht aus einer Röntgenstrahlenquelle, einem zu untersuchenden Objekt, welches im Fokus der Röntgenstrahlen platziert ist, und einem Aufnahmeaufbau, wie es von \citeauthor{Ber13} beschrieben wurde \shortcite{Ber13}{31 ff.}. Mittels der Belichtung des zu untersuchenden Objekts können anschließend physikalische Informationen über dieses herausgefunden werden.
+
+\citeauthor{Ber13} zeigte ebenfalls, dass die Bestimmung der geometrischen Struktur eines zu untersuchenden Objekts mittels eines solchen Versuchsaufbaus realisiert werden kann \shortcite{Ber13}{105 ff.}. Der Aufnahmeaufbau, laut \citeauthor{Ber15}, besteht in diesem konkreten Fall aus einer Fleckenmembran und zwei hochempfindlichen Röntgen-\gls{CCD}-Sensoren, die zwei Bilder des zu untersuchenden Objekts zeitgleich aus unterschiedlicher Entfernung durch die Fleckenmebran aufnehmen \shortcite{Ber15}{887}. Ein solcher Versuchsaufbau wird in der Abbildung \ref{fig:versuch} dargestellt, welche aus der Veröffentlichung \cite{Ber15} von \citeauthor{Ber15} entnommen wurde.
+
+Die Röntgenstrahlen werden zuerst am zu untersuchenden Objekt absorbiert und gebrochen und treffen anschließend auf die Membran, wodurch das Röntgenstrahlbündel hinter dieser Membran ein Fleckenmuster aufweist. Dieses Bündel trifft zuerst auf den Szintillator des ersten \gls{CCD}-Sensors, welcher die Röntgenstrahlen für die \gls{CCD}-Sensoren sichtbar macht. Der sichtbare Teil dieses Bildes wird zum erstem \gls{CCD}-Sensor reflektiert und dort aufgenommen. Der Röntgen-Teil wird zum Szintillator des zweiten \gls{CCD}-Sensors gebrochen, wo dieser in sichtbares Licht gewandelt wird, das mittels einer Optik zum zweiten \gls{CCD}-Sensor reflektiert und dort aufgenommen wird. \shortcite{Ber15}{886 ff.}
+
 Aus der Verschiebung der Flecken lässt sich die Phase, und somit die Wellenfront des Lichtes, rekonstruieren, wozu der Wellenfrontrekonstruktionsalgorithmus verwendet wird. Gemäß \citeauthor{Ber13} besteht dieser aus zwei Teilen, welche im Folgenden genauer beschrieben werden sollen: einer Kalibrierung der \gls{CCD}-Sensoren und der Hauptverarbeitungsroutine der Bilder \shortcite{Ber13}{194}. Der Algorithmus soll online (zeitgleich zum Experiment) ausgeführt werden. Die \gls{CCD}-Sensoren haben eine Auflösung von 2048 mal 2048 Pixeln mit einer Farbtiefe von 16 Bit (Graustufen) und liefern bis zu 10 Bilder pro Sekunde.
 
 \subsection{Kalibrierung der CCD-Sensoren}
 
-Während der Kalibrierung findet, gemäß \citeauthor{Ber13}, zuerst eine Parameterinitialisierung statt, nach welcher der Kamerafehler der \gls{CCD}-Sensoren in drei Phasen bestimmt wird \shortcite{Ber13}{76 ff., S. 194}. Dazu wird, wie in Abbildung \ref{fig:graph_kalibrierung} gezeigt, zuerst der Median aus einer festen Anzahl dunkler Bilder aufgenommen, was auch als Dunkelfeldkalibrierung bezeichnet wird. Anschließend findet eine Nullfeldkalibrierung statt, in welcher bei ungestörter Wellenfront der Verstärkungsfaktor der einzelnen Pixel ermittelt wird. Zum Schluss findet eine Erkennung von Streueffekten im Detektor statt. Um letzteres zu erreichen, werden für jeden \gls{CCD}-Sensor \glssymbol{npos}$^2$ Bilder unter Bewegung der \gls{CCD}-Sensoren aufgenommen, wobei \glssymbol{npos} hier gleich der Anzahl der Verschiebungen in X- und Y-Richtung ist. Dadurch lässt sich aus den vertikalen und horizontalen Gradienten benachbarter Motorpositionen die jeweilige Streuung der Sensoren mittels des Speckle-Trackings bestimmen. Aus diesen \glssymbol{npos} Positionen ergibt sich somit, dass die \gls{N} gleich $\glssymbol{npos}*\left(\glssymbol{npos} - 1\right) * 2 * 2$ ist, da jeweils horizontal und vertikal $\glssymbol{npos}*\left(\glssymbol{npos} - 1\right)$ Bildpaarkombinationen existieren, welche in beide Richtungen miteinander verrechnet werden müssen. Da die Kalibrierung lediglich am Anfang des Experiments einmal durchgeführt werden muss, wird diese im weiteren Verlauf der Arbeit vernachlässigt. 
-
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.45\textwidth]{pdf/graph_init}
 	\caption[Kalibrierung]{Programmablaufplan der Kalibrierung (nach \shortcite{Ber13}{85 ff., S. 194} und \cite{Coj17}; angefertigt gemäß DIN 66001 bzw. ISO 5807)}
 	\label{fig:graph_kalibrierung}
 \end{figure}
 
+Während der Kalibrierung findet, gemäß \citeauthor{Ber13}, zuerst eine Parameterinitialisierung statt, nach welcher der Kamerafehler der \gls{CCD}-Sensoren in drei Phasen bestimmt wird \shortcite{Ber13}{76 ff., S. 194}. Dazu wird, wie in Abbildung \ref{fig:graph_kalibrierung} gezeigt, zuerst der Median aus einer festen Anzahl dunkler Bilder aufgenommen, was auch als Dunkelfeldkalibrierung bezeichnet wird. Anschließend findet eine Nullfeldkalibrierung statt, in welcher bei ungestörter Wellenfront der Verstärkungsfaktor der einzelnen Pixel ermittelt wird. Zum Schluss findet eine Erkennung von Streueffekten im Detektor statt. Um letzteres zu erreichen, werden für jeden \gls{CCD}-Sensor \glssymbol{npos}$^2$ Bilder unter Bewegung der \gls{CCD}-Sensoren aufgenommen, wobei \glssymbol{npos} hier gleich der Anzahl der Verschiebungen in X- und Y-Richtung ist. Dadurch lässt sich aus den vertikalen und horizontalen Gradienten benachbarter Motorpositionen die jeweilige Streuung der Sensoren mittels des Speckle-Trackings bestimmen. Aus diesen \glssymbol{npos} Positionen ergibt sich somit, dass die \gls{N} gleich $\glssymbol{npos} \cdot \left(\glssymbol{npos} - 1\right) \cdot 2 \cdot 2$ ist, da jeweils horizontal und vertikal $\glssymbol{npos} \cdot \left(\glssymbol{npos} - 1\right)$ Bildpaarkombinationen existieren, welche in beide Richtungen miteinander verrechnet werden müssen. Da die Kalibrierung lediglich am Anfang des Experiments einmal durchgeführt werden muss, wird diese im weiteren Verlauf der Arbeit vernachlässigt. 
+
 \paragraph{Speckle-Tracking}
 \label{sec:speckle-tracking}
-Ziel des Speckle-Trackings ist es, die Flecken (englisch: speckle) zwischen den \gls{CCD}-Sensoren zu verfolgen, welche von der Fleckenmembran geworfen werden. Der von \citeauthor{Ber13} beschriebene Speckle-Tracking-Algorithmus (dargestellt in Abbildung \ref{fig:graph_speckle}) ermittelt zuerst die starre Verschiebung der beiden Sensoren zueinander \shortcite{Ber13}{76 ff., S. 194}. Dies kann mittels festgelegter Werte, Korrelation oder Kreuzkorrelation geschehen. Anschließend werden die Bilder der Sensoren in 35 mal 35 Pixel bzw. 10 mal 10 Pixel große Teilbilder aufgeteilt, damit ein grober Gradient in einem ersten Durchlauf (gezeigt in Abbildung \ref{fig:graph_first}) bestimmt werden kann. Diese Teilbilder liegen hierbei alle in der \gls{ROI}, welche die möglicherweise fehlerbehafteten Bildränder abschneidet. Die Verschiebung der Teilbilder zwischen den beiden Bildern der Sensoren wird mithilfe des von \citeauthor{Lew94} beschriebenen Template-Matching-Prozesses ermittelt \cite{Lew94}. Dieser sucht die Teilbilder des ersten Sensors mit denen des zweiten Sensors, wobei eine Übereinstimmungsmatrix entsteht. Anhand der Positionen der Maxima kann nun die Verschiebung abgelesen werden. Dieser Prozess kann laut \citeauthor{Lew94} durch die Kreuzkorrelation der beiden Teilbilder im Frequenzraum realisiert werden um die Komplexität des Algorithmus zu senken \cite{Lew94}. Damit endet der erste Durchlauf. Im weiteren Verlauf werden zuerst stark abweichende Werte herausgefiltert und anschließend werden Ebenen an die horizontalen und vertikalen Verschiebungsmatrizen angelegt. Diese sind zur Interpolation nötig, da die Verschiebungsmatrizen lediglich einen Pixel pro Teilbild beinhalten. Sobald die Ebene auf die volle Auflösung des Bildes interpoliert wurde, wird der zweite Durchlauf (gezeigt in Abbildung \ref{fig:graph_second}) durchgeführt. Im diesem Durchlauf werden wieder beide Bilder in Teilbilder unterteilt, diesmal können sich die Teilbilder jedoch überlappen. Die konkrete Anzahl der Teilbilder hängt, gemäß des von Elena-Ruxandra Cojocaru entwickelten Codes, von drei Variablen ab \cite{Coj17}: der \gls{uap}, der \gls{corrsize} und der \gls{gridResol}. Mittels der Unterabtastperiode lassen sich, wie in Abbildung \ref{fig:tm_param} veranschaulicht, jeweils \gls{uap} Pixel überspringen, wodurch die effektive \gls{rroi} des Bildes auf \glsdesc{resolution} $\lfloor\glssymbol{rroi}/\gls{uap}^2\rfloor$ reduziert wird. Die \glsfirst{corrsize} \gls{corrsize} gibt die Größe der Teilbilder an. Die \glsfirst{gridResol} bestimmt die Größe des Resultats, indem jeweils ein Teilbild um jeden \gls{gridResol}-ten Punkt im bereits durch Unterabtastung verkleinerten Bild genutzt wird. Die Verschiebung der so berechneten Teilbilder wird dann mittels des Template-Matching-Prozesses bestimmt und auf Subpixel-Genauigkeit interpoliert. Teilbilder, die im zweiten Durchlauf nicht korrekt zugeordnet werden konnten, werden gesammelt und unter Verwendung von anderen Korrelationsgrößen erneut verarbeitet. Sollten diese Korrelationen ebenfalls fehlschlagen, werden die Ergebnisse der fehlerhaften Teilbilder interpoliert. 
 
 \begin{center}
-	\begin{figure}[htbp]
+	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.5\textwidth]{pdf/template_matching}
 		\quad
 		\begin{tikzpicture}[node distance=1cm]
-			\node[rectangle, draw=black!30, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm](pixel) at (0,0){};
-			\node[rectangle, draw, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm, below of=pixel](node){};
-			\node[rectangle, draw, fill=black!50, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm, below of=node](sample){};
-			\node[rectangle, draw, fill=red!75, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm, below of=sample](grid){};
-			\node[rectangle, rounded corners, draw=blue, fill={rgb:blue,1;green,1}, opacity=0.5, minimum width=0.5cm, minimum height=0.5cm, line width=1mm, below of=grid](corr){};
-			
-			\node[text width=5.5cm, xshift=2.5cm, right of=pixel](pixel_desc){$\glssymbol{resolution} = 24 px * 24 px$};
-			\node[text width=5.5cm, below of=pixel_desc](node_desc){$\gls{rroi} = 18 px * 18 px$};
-			\node[text width=5.5cm, below of=node_desc](sample_desc){$\gls{uap} = 3$};
-			\node[text width=5.5cm, below of=sample_desc](grid_desc){$\gls{gridResol} = 2$};
-			\node[text width=5.5cm, below of=grid_desc](corr_desc){$\gls{corrsize} = 3 px * 3 px$};
-			
-			\node[]() at (0, -6cm){};
+		\node[rectangle, draw=black!30, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm](pixel) at (0,0){};
+		\node[rectangle, draw, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm, below of=pixel](node){};
+		\node[rectangle, draw, fill=black!50, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm, below of=node](sample){};
+		\node[rectangle, draw, fill=red!75, minimum width=0.5cm, minimum height=0.5cm, line width=0.5mm, below of=sample](grid){};
+		\node[rectangle, rounded corners, draw=blue, fill={rgb:blue,1;green,1}, opacity=0.5, minimum width=0.5cm, minimum height=0.5cm, line width=1mm, below of=grid](corr){};
+		
+		\node[text width=5.5cm, xshift=2.5cm, right of=pixel](pixel_desc){$\glssymbol{resolution} = 24 px * 24 px$};
+		\node[text width=5.5cm, below of=pixel_desc](node_desc){$\gls{rroi} = 18 px * 18 px$};
+		\node[text width=5.5cm, below of=node_desc](sample_desc){$\gls{uap} = 3$};
+		\node[text width=5.5cm, below of=sample_desc](grid_desc){$\gls{gridResol} = 2$};
+		\node[text width=5.5cm, below of=grid_desc](corr_desc){$\gls{corrsize} = 3 px * 3 px$};
+		
+		\node[]() at (0, -6cm){};
 		\end{tikzpicture}
 		\caption{Übersicht der Template-Matching-Parameter im zweiten Durchlauf}
 		\label{fig:tm_param}
 	\end{figure}
 \end{center}
 
-\begin{figure}[htbp]
+Ziel des Speckle-Trackings ist es, die Flecken (englisch: speckle) zwischen den \gls{CCD}-Sensoren zu verfolgen, welche von der Fleckenmembran geworfen werden. Der von \citeauthor{Ber13} beschriebene Speckle-Tracking-Algorithmus (dargestellt in Abbildung \ref{fig:graph_speckle}) ermittelt zuerst die starre Verschiebung der beiden Sensoren zueinander \shortcite{Ber13}{76 ff., S. 194}. Dies kann mittels festgelegter Werte, Korrelation oder Kreuzkorrelation geschehen. Anschließend werden die Bilder der Sensoren in 35 mal 35 Pixel bzw. 10 mal 10 Pixel große Teilbilder aufgeteilt, damit ein grober Gradient in einem ersten Durchlauf (gezeigt in Abbildung \ref{fig:graph_first}) bestimmt werden kann. Diese Teilbilder liegen hierbei alle in der \gls{ROI}, welche die möglicherweise fehlerbehafteten Bildränder abschneidet. Die Verschiebung der Teilbilder zwischen den beiden Bildern der Sensoren wird mithilfe des von \citeauthor{Lew94} beschriebenen Template-Matching-Prozesses ermittelt \cite{Lew94}. Dieser sucht die Teilbilder des ersten Sensors mit denen des zweiten Sensors, wobei eine Übereinstimmungsmatrix entsteht. Anhand der Positionen der Maxima kann nun die Verschiebung abgelesen werden. Dieser Prozess kann laut \citeauthor{Lew94} durch die Kreuzkorrelation der beiden Teilbilder im Frequenzraum realisiert werden um die Komplexität des Algorithmus zu senken \cite{Lew94}. Damit endet der erste Durchlauf. Im weiteren Verlauf werden zuerst stark abweichende Werte herausgefiltert und anschließend werden Ebenen an die horizontalen und vertikalen Verschiebungsmatrizen angelegt. Diese sind zur Interpolation nötig, da die Verschiebungsmatrizen lediglich einen Pixel pro Teilbild beinhalten. Sobald die Ebene auf die volle Auflösung des Bildes interpoliert wurde, wird der zweite Durchlauf (gezeigt in Abbildung \ref{fig:graph_second}) durchgeführt. Im diesem Durchlauf werden wieder beide Bilder in Teilbilder unterteilt, diesmal können sich die Teilbilder jedoch überlappen. Die konkrete Anzahl der Teilbilder hängt, gemäß des von \citeauthor{Coj17} entwickelten Codes, von drei Variablen ab \cite{Coj17}: der \gls{uap}, der \gls{corrsize} und der \gls{gridResol}. Mittels der Unterabtastperiode lassen sich, wie in Abbildung \ref{fig:tm_param} veranschaulicht, jeweils \gls{uap} Pixel überspringen, wodurch die effektive \gls{rroi} des Bildes auf \glsdesc{resolution} $\lfloor\glssymbol{rroi}/\gls{uap}^2\rfloor$ reduziert wird. Die \glsfirst{corrsize} \gls{corrsize} gibt die Größe der Teilbilder an. Die \glsfirst{gridResol} bestimmt die Größe des Resultats, indem jeweils ein Teilbild um jeden \gls{gridResol}-ten Punkt im bereits durch Unterabtastung verkleinerten Bild genutzt wird. Die Verschiebung der so berechneten Teilbilder wird dann mittels des Template-Matching-Prozesses bestimmt und auf Subpixel-Genauigkeit interpoliert. Teilbilder, die im zweiten Durchlauf nicht korrekt zugeordnet werden konnten, werden gesammelt und unter Verwendung von anderen Korrelationsgrößen erneut verarbeitet. Sollten diese Korrelationen ebenfalls fehlschlagen, werden die Ergebnisse der fehlerhaften Teilbilder interpoliert. 
+
+\begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering
@@ -109,9 +110,9 @@ Ziel des Speckle-Trackings ist es, die Flecken (englisch: speckle) zwischen den 
 
 \subsection{Verarbeitungsroutine der Bilder}
 
-Die von \citeauthor{Ber15} beschriebene Hauptverarbeitungsroutine (siehe Abbildung \ref{fig:graph_hauptroutine}) ähnelt stark der Kalibrierung: Auch hier findet zuerst eine Parameterinitialisierung statt, welche von der Hauptschleife gefolgt wird \shortcite{Ber15}{891}. Diese verarbeitet hier, im Gegensatz zur Kalibrierung, nur jedes Bildpaar. Ein Bildpaar ist exemplarisch in Abbildung \ref{fig:eingabebilder} gezeigt. Innerhalb der Hauptschleife gibt es auch hier die Korrektur der Sensorfehler und das anschließende Speckle-Tracking, dessen Ergebnisse in Abbildung \ref{fig:gradienten} gezeigt sind. Die Korrektur bezieht hierbei die von der Kalibrierung berechneten Ergebnisse, insbesondere die ermittelten Streueffekte der Sensoren. Anders als bei der Kalibrierung werden hierbei jedoch in der Hauptschleife die beiden Gradientenmatrizen mittels des von \citeauthor{FC88} entwickelten Algorithmus zu einer Phasenmatrix integriert (gezeigt in Abbildung \ref{fig:graph_fc}), was effizient im Frequenzraum möglich ist \cite{FC88}. Die zu in den Abbildung \ref{fig:eingabebilder} gezeigten Eingabebildern zugehörige Phasenmatrix ist in Abbildung \ref{fig:ausgabebild} dargestellt. Die in Abbildung \ref{fig:eingabebilder}, \ref{fig:gradienten} und \ref{fig:ausgabebild} gezeigten Daten sind Teil des \textit{Lenses Set 1}-Datensatzes, welcher am zehnten April 2017 von Thomas Roth, Raymond Barett, Sébastion Bérujon und Rafael Celeste an der Beamline BM05 der \gls{ESRF} aufgenommen wurde \cite{RBB+17}. 
+Die von \citeauthor{Ber15} beschriebene Hauptverarbeitungsroutine (siehe Abbildung \ref{fig:graph_hauptroutine}) ähnelt stark der Kalibrierung: Auch hier findet zuerst eine Parameterinitialisierung statt, welche von der Hauptschleife gefolgt wird \shortcite{Ber15}{891}. Diese verarbeitet hier, im Gegensatz zur Kalibrierung, nur jedes Bildpaar (Beispiel: Abbildung \ref{fig:eingabebilder}). Innerhalb der Hauptschleife gibt es auch hier die Korrektur der Sensorfehler und das anschließende Speckle-Tracking, dessen Ergebnisse in Abbildung \ref{fig:gradienten} gezeigt sind. Die Korrektur bezieht hierbei die von der Kalibrierung berechneten Ergebnisse, insbesondere die ermittelten Streueffekte der Sensoren. Anders als bei der Kalibrierung werden hierbei jedoch in der Hauptschleife die beiden Gradientenmatrizen mittels des von \citeauthor{FC88} entwickelten Algorithmus zu einer Phasenmatrix integriert (gezeigt in Abbildung \ref{fig:graph_fc}), was effizient im Frequenzraum möglich ist \cite{FC88}. Die zu in den Abbildung \ref{fig:eingabebilder} gezeigten Eingabebildern zugehörige Phasenmatrix ist in Abbildung \ref{fig:ausgabebild} dargestellt. Die in Abbildung \ref{fig:eingabebilder}, \ref{fig:gradienten} und \ref{fig:ausgabebild} gezeigten Daten sind Teil des \textit{Lenses Set 1}-Datensatzes, welcher am zehnten April 2017 von Thomas Roth, Raymond Barett, Sébastion Bérujon und Rafael Celeste an der Beamline BM05 der \gls{ESRF} aufgenommen wurde \cite{RBB+17}. 
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -129,7 +130,7 @@ Die von \citeauthor{Ber15} beschriebene Hauptverarbeitungsroutine (siehe Abbildu
 	\label{fig:eingabebilder}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -147,7 +148,7 @@ Die von \citeauthor{Ber15} beschriebene Hauptverarbeitungsroutine (siehe Abbildu
 	\label{fig:gradienten}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -165,7 +166,7 @@ Die von \citeauthor{Ber15} beschriebene Hauptverarbeitungsroutine (siehe Abbildu
 	\label{fig:ausgabebild}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{pdf/graph_main}
@@ -189,17 +190,27 @@ Der bestehende Python-Code wurde von Elena-Ruxandra Cojocaru auf Grundlage des v
 \subsection{Überblick}
 
 \begin{sloppypar}
-	Die Datei \textit{norm\_xcorr.py} enthält alle Funktionen, die für das Template-Matching benötigt werden. Darunter ist die Funktion \texttt{norm\_xcorr()}, welche lediglich als Schnittstelle für die Template-Matching Funktion aus OpenCV dient. Sie nimmt als Argumente ein Template, ein Suchfeld und optional den Namen des gewünschten Algorithmus entgegen und gibt die Übereinstimmungsmarix, die Position und den Wert des Maximums und des Minimums zurück. Die zweite Funktion in dieser Datei ist die \texttt{nxcorr\_disp()}-Funktion, welche die Übereinstimmungsmatrix an relevanten Stellen, wo die Übereinstimmung am höchsten ist, auf ein Subpixel-Level verfeinert. Dazu nimmt diese Funktion das Ergebnis der \texttt{norm\_xcorr()}-Funktion entgegen und gibt die Position sowie den Wert des neuen Maximums und das Signal-Rausch-Verhältnis zurück. 
+	Die Datei \textit{norm\_xcorr.py} enthält alle Funktionen, die für das Template-Matching benötigt werden. Darunter ist die Funktion \texttt{norm\_xcorr()}, welche lediglich als Schnittstelle für die Template-Matching Funktion aus OpenCV dient. Sie nimmt als Argumente ein Template, ein Suchfeld und optional den Namen des gewünschten Algorithmus entgegen und gibt die Übereinstimmungsmarix, die Position und den Wert des Maximums und des Minimums zurück. Die zweite Funktion in dieser Datei ist die \texttt{nxcorr\_disp()}-Funktion, welche die Übereinstimmungsmatrix an relevanten Stellen, wo die Übereinstimmung am höchsten ist, auf ein Subpixel-Level verfeinert. Dazu nimmt diese Funktion das Ergebnis der \texttt{norm\_xcorr()}-Funktion entgegen und gibt die Position sowie den Wert des neuen Maximums und das Signal-Rausch-Verhältnis zurück. \cite{Coj17}
 \end{sloppypar}
 
-Die \textit{func.py} enthält die meisten Helferfunktionen. Dazu gehören unter anderem Funktionen zur \gls{ROI}"=Auswahl und verschiedene Filterfunktionen. Des Weiteren befinden sich in dieser Datei auch die Funktionen \texttt{computerCorrField()} und \texttt{correction()}.\texttt{ computerCorrField()} berechnet aus Bildern an einem vorgegebenen Pfad entweder das mediangefilterte Bild für die Dunkelfeld-Kalibrierung oder das durchschnittsgefilterte Bild für Nullfeld-Kalibrierung. Mithilfe der \texttt{correction()}-Funktion können nun diese berechneten Korrekturbilder auf Eingabebilder mittels Subtraktion für die Dunkelfeld-Kalibrierung oder mittels Division für die Nullfeld-Kalibrierung angewendet werden. Zwei weitere wichtige Funktionen sind \texttt{firstPass()} und \texttt{cpCorr()}, welche den ersten (\texttt{firstPass()}) und zweiten Durchlauf (\texttt{cpCorr()}) implementieren. Diese sind damit Teil des Speckle-Trackings-Algorithmus, welcher in der \texttt{crossSpot4()}-Funktion implementiert ist. Die letzte wichtige Funktion im \texttt{func.py}-Skript ist die \texttt{frankot\_chellappa()}-Funktion, welche aus Gradientenfeldern eine dreidimensionale Rekonstruktion berechnet. Dies wird nach dem Speckle-Tracking verwendet. Um dies effizient und schnell zu erreichen, werden die Eingabematrizen mittels \glspl{FFT} in den Frequenzraum transformiert, dort nach Formel 21 des von \citeauthor{FC88} beschriebenen Algorithmus addiert und wieder zurücktransformiert \shortcite{FC88}{443}. 
+Die \textit{func.py} enthält die meisten Helferfunktionen. Dazu gehören unter anderem Funktionen zur \gls{ROI}"=Auswahl und verschiedene Filterfunktionen. Des Weiteren befinden sich in dieser Datei auch die Funktionen \texttt{computerCorrField()} und \texttt{correction()}.\texttt{ computerCorrField()} berechnet aus Bildern an einem vorgegebenen Pfad entweder das mediangefilterte Bild für die Dunkelfeld-Kalibrierung oder das durchschnittsgefilterte Bild für Nullfeld-Kalibrierung. Mithilfe der \texttt{correction()}-Funktion können nun diese berechneten Korrekturbilder auf Eingabebilder mittels Subtraktion für die Dunkelfeld-Kalibrierung oder mittels Division für die Nullfeld-Kalibrierung angewendet werden. Zwei weitere wichtige Funktionen sind \texttt{firstPass()} und \texttt{cpCorr()}, welche den ersten (\texttt{firstPass()}) und zweiten Durchlauf (\texttt{cpCorr()}) implementieren. Diese sind damit Teil des Speckle-Trackings-Algorithmus, welcher in der \texttt{crossSpot4()}-Funktion implementiert ist. Die letzte wichtige Funktion im \texttt{func.py}-Skript ist die \texttt{frankot\_chellappa()}-Funktion, welche aus Gradientenfeldern eine dreidimensionale Rekonstruktion berechnet. Dies wird nach dem Speckle-Tracking verwendet. \cite{Coj17}
 
-Das letzte Skript, \textit{wavefront.py}, beinhaltet den eigentlichen Rekonstruktionsalgorithmus, welcher sich besonders in der Initialisierungsphase sehr stark dem \textit{detectorDistortion.py}-Skript ähnelt, welches die Kalibrierung der \gls{CCD}-Sensoren implementiert. Die Hauptroutine wird jetzt, wie in Abbildung \ref{fig:graph_hauptroutine} veranschaulicht, einmal für jedes Bildpaar ausgeführt. Innerhalb dieser Routine wird das entsprechende Bildpaar samt Stellung der Positionierungsmotoren der \gls{CCD}-Sensoren geladen und mittels der \texttt{correction()}-Funktion korrigiert. Da die Pixelgröße zwischen den Sensoren unterschiedlich sein kann, wird hierfür eine Interpolation durchgeführt, die dieses Problem beheben soll. Bevor das Speckle-Tracking mittels der \texttt{crossSpot4()}-Funktion ausgeführt wird, können optional noch ein Gauß-Filter, ein Mittelwertfilter und ein Erosionsfilter angewendet werden. Danach werden die Zwischenergebnisse gespeichert und die endgültige Wellenfront wird mittels der \texttt{frankot\_chellappa()}-Funktion rekonstruiert und gespeichert. 
+Um dies effizient und schnell zu erreichen, werden die Eingabematrizen mittels \glspl{FFT} in den Frequenzraum transformiert, dort nach Formel 21 des von \citeauthor{FC88} beschriebenen Algorithmus addiert und wieder zurücktransformiert \shortcite{FC88}{443}:
+
+\begin{center}
+	$ \tilde{C}\left(\omega\right) = \frac{-j\omega_x \hat{C}_y \left(\omega\right) - j\omega_y \hat{C}_y \left(\omega\right)}{\omega_x^2 + \omega_y^2}$
+\end{center}
+
+Hierbei ist $\hat{C}\left(\omega\right)$ die rekonstruierte Oberfläche, $j$ die imaginäre Zahl und $\hat{C}_x \left(\omega\right)$ und $\hat{C}_y \left(\omega\right)$ der vertikale und horizontale Gradient im Frequenzraum. $\omega_x$ und $\omega_x$ stellen hierbei die Frequenzen in X- und Y-Richtung dar. 
+
+\begin{sloppypar}
+	Das letzte Skript, \textit{wavefront.py}, beinhaltet den eigentlichen Rekonstruktionsalgorithmus, welcher sich besonders in der Initialisierungsphase sehr stark dem \textit{detectorDistortion.py}-Skript ähnelt, welches die Kalibrierung der \gls{CCD}-Sensoren implementiert. Die Hauptroutine wird jetzt, wie in Abbildung \ref{fig:graph_hauptroutine} veranschaulicht, einmal für jedes Bildpaar ausgeführt. Innerhalb dieser Routine wird das entsprechende Bildpaar samt Stellung der Positionierungsmotoren der \gls{CCD}-Sensoren geladen und mittels der \texttt{correction()}-Funktion korrigiert. Da die Pixelgröße zwischen den Sensoren unterschiedlich sein kann, wird hierfür eine Interpolation durchgeführt, die dieses Problem beheben. Bevor das Speckle-Tracking mittels der \texttt{crossSpot4()}-Funktion ausgeführt wird, können optional noch ein Gauß-Filter, ein Mittelwertfilter und ein Erosionsfilter angewendet werden. Danach werden die Zwischenergebnisse gespeichert und die endgültige Wellenfront wird mittels der \texttt{frankot\_chellappa()}-Funktion rekonstruiert und gespeichert. \cite{Coj17}
+\end{sloppypar}
 
 \subsection{Die wichtigsten Funktionen}
 
 \begin{sloppypar}
-	Die \texttt{norm\_xcorr()}-Funktion ist die direkte Schnittstelle für die in OpenCV implementierte \texttt{matchTemplate()}-Funktion. Hierbei wird eine Matrix aus Übereinstimmungen mittels Faltung erstellt, die an jedem Pixel mit einem Wert zwischen $-1$ und $1$ angibt, wie ähnlich sich die Bilder sind. Diese Funktion ist Teil des Speckle-Tracking-Algorithmus, der dafür zuständig ist, die Verschiebung der Wellenfront zwischen den beiden \gls{CCD}-Sensoren zu ermitteln. Standardmäßig wird hierbei der Kreuzkorrelationskoeffizient verwendet. 
+	Die \texttt{norm\_xcorr()}-Funktion ist die direkte Schnittstelle für die in OpenCV implementierte \texttt{matchTemplate()}-Funktion. Hierbei wird eine Matrix aus Übereinstimmungen mittels Faltung erstellt, die für jeden Pixel mit einem Wert zwischen $-1$ und $1$ angibt, wie ähnlich sich die Bilder sind. Diese Funktion ist Teil des Speckle-Tracking-Algorithmus, der dafür zuständig ist, die Verschiebung der Wellenfront zwischen den beiden \gls{CCD}-Sensoren zu ermitteln. Standardmäßig wird hierbei der Kreuzkorrelationskoeffizient verwendet. 
 \end{sloppypar}
 
 Aufgabe der \texttt{nxcorr-disp()-}Funktion ist es, den Punkt der maximalen Übereinstimmung auf ein Subpixel-Level zu verfeinern. Dazu wird der Gradient der Pixelwerte in der Nachbarschaft des Maximums gebildet und anschließend interpoliert. Im Gesamtalgorithmus wird dieser Schritt direkt nach dem Template-Matching als Teil des Speckle-Trackings ausgeführt.

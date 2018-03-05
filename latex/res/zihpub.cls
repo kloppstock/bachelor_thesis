@@ -906,6 +906,31 @@ Wissenschaftlichen Hochleistungsrechnen''}
 	  \tableofcontents
 	  \cleardoublestandardpage
 	\fi
+	\cleardoublestandardpage
+	%Danksagung
+	\ifx\@empty\@acknowledgments
+	\else
+	  \if@german
+	    \@mkboth{Danksagung}{}
+	  \else
+	    \@mkboth{Acknowledgments}
+	  \fi
+	  \ifx\@empty\@isreport
+	    \if@german
+	      \section*{Danksagung}
+	    \else
+	      \section*{Acknowledgments}
+	    \fi
+	  \else
+	    \if@german
+	      \section*{Danksagung}
+	    \else
+	      \section*{Acknowledgments}
+	    \fi
+	  \fi
+	  \@acknowledgments
+	\fi
+	\cleardoublestandardpage
 	%Nomenclature
 	\if@nomencl
 	%  \if@german
@@ -955,30 +980,6 @@ Wissenschaftlichen Hochleistungsrechnen''}
 	  \printlof
 	  \cleardoublestandardpage
 	  \printlot
-	\fi
-	\cleardoublestandardpage
-	%Danksagung
-	\ifx\@empty\@acknowledgments
-	\else
-	  \if@german
-	    \@mkboth{Danksagung}{}
-	  \else
-	    \@mkboth{Acknowledgments}
-	  \fi
-	  \ifx\@empty\@isreport
-	    \if@german
-	      \section*{Danksagung}
-	    \else
-	      \section*{Acknowledgments}
-	    \fi
-	  \else
-	    \if@german
-	      \chapter*{Danksagung}
-	    \else
-	      \chapter*{Acknowledgments}
-	    \fi
-	  \fi
-	  \@acknowledgments
 	\fi
 	% Copyright-Kram
 	\cleardoublestandardpage

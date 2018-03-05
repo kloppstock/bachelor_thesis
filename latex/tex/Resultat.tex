@@ -2,10 +2,10 @@
 
 \section{Wertung des Ergebnisses}
 
-Die Abbildung \ref{fig:best_speedup} zeigt einen deutlich erhöhten Speedup gegenüber der vorgegebenen Python-Implementierung. Für die \textit{Experiment 6}-Datensätze erreicht dieser einen Speedup von über 130 und für die \textit{Lenses}-Datensätze liegt der maximale Beschleunigungsfaktor bei bis zu 40 für den \textit{Set 1}-Datensatz. Bei der Wahl größerer Datensätze sind aufgrund mangelnder Parallelisierbarkeit der Bildpaare größere Beschleunigungsfaktoren zu erwarten.
+Die Abbildung \ref{fig:best_speedup} zeigt einen deutlich erhöhten Speed-Up gegenüber der von \citeauthor{Coj17} entwickelten Python-Implementierung. Für die \textit{Experiment 6}-Datensätze erreicht dieser unter der Verwendung von 120 Kernen einen Speed-Up von über 130 und für die \textit{Lenses}-Datensätze liegt der maximale Beschleunigungsfaktor bei bis zu 40 für den \textit{Set 1}-Datensatz. Referenz war hierbei die Laufzeit der Referenzimplementierung auf einem Kern. Bei der Wahl größerer Datensätze sind aufgrund mangelnder Parallelisierbarkeit der Bildpaare größere Beschleunigungsfaktoren zu erwarten.
 
 \begin{center}
-	\begin{figure}[htbp]
+	\begin{figure}[h]
 		\begin{subfigure}[b]{0.45\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/best_speedup_exp6}
@@ -19,23 +19,23 @@ Die Abbildung \ref{fig:best_speedup} zeigt einen deutlich erhöhten Speedup gege
 			\caption{Lenses}
 			\label{fig:best_speedup_lenses}
 		\end{subfigure}
-		\caption{Speedup der \textit{compiled} Implementierung gegenüber des von Cojocaru implementierten Python-Codes}
+		\caption{Speed-Up der \textit{compiled} Implementierung gegenüber des von Cojocaru implementierten Python-Codes}
 		\label{fig:best_speedup}
 	\end{figure}
 \end{center}
 
-Trotz dessen, dass mit 120 \gls{CPU}-Kernen bereits ein Speedup von über 130 erreicht wurde, müsste die Anzahl der Bildpaare und der Kerne bei weitem höher sein, um die Echtzeitfähigkeit des Programmes sicher zu stellen. Dies ist in Größenordnungen von 2400 Bildpaaren und 2400 \gls{CPU}-Kernen zu erwarten, was bereits 100 Taurus-Knoten wären. 
+Trotz dieses erreichten Speed-Ups, müsste die Anzahl der Bildpaare und der Kerne bei weitem höher sein, um die Echtzeitfähigkeit des Programmes sicherzustellen. Dies ist in Größenordnungen von 2400 Bildpaaren und 2400 \gls{CPU}-Kernen zu erwarten, was bereits 100 Taurus-Knoten wären. 
 
 \section{Verbesserungsmöglichkeiten}
 
-Im Verlauf der Implementierung wurden viele der trivialsten Optimierungsmöglichkeiten implementiert. Während der letzten Iterationen der Implementierungen wurde allerdings auch weiteres Potential sichtbar. Beispielsweise ließe sich die Knoten interne Kommunikation mit Intrakommunikatoren oder geteiltem Speicher optimieren um den Kopieraufwand der Daten zu senken. 
+Im Verlauf der Implementierung wurden viele der trivialsten Optimierungsmöglichkeiten implementiert. Während der letzten Iterationen der Implementierungen wurde allerdings auch weiteres Potential sichtbar. Beispielsweise ließe sich die Knoten-interne Kommunikation mit Intrakommunikatoren oder geteiltem Speicher optimieren, um den Kopieraufwand der Daten zu senken. 
 
-Obwohl in dieser Arbeit bereits viele Optimierungen implementiert wurden und ein hoher Speedup erreicht wurde, gibt es immer noch weiteres Potential. Die Verwendung der FFTW\footnote{\url{http://www.fftw.org/}}-Bibliothek ist eine davon. Mithilfe dieser ist es möglich, die Gradientenintegration zu beschleunigen indem beim Start des Programmes sogenannte \textit{Wisdoms} erstellt werden, welche die Transformation eines Bildes in den Frequenzraum erheblich beschleunigen könnte. 
+Obwohl in dieser Arbeit bereits viele Optimierungen implementiert wurden und ein hoher Speed-Up erreicht wurde, gibt es immer noch weiteres Potential. Die Verwendung der FFTW\footnote{\url{http://www.fftw.org/}}-Bibliothek ist eine davon. Mithilfe dieser ist es möglich, die Gradientenintegration zu beschleunigen, indem beim Start des Programmes sogenannte \textit{Wisdoms} erstellt werden, welche die Transformation eines Bildes in den Frequenzraum erheblich beschleunigen könnte. 
 
-Des Weiteren ist es möglich für die am häufigsten aufgerufenen Funktionen Datenblöcke zu bilden und diese zu verarbeiten, sodass der Overhead der Funktionsaufrufe sinkt. Dies bildet ebenfalls eine gute Grundlage um diese Datenblockverarbeitung mittels numpy, numexpr oder numba weiter zu beschleunigen. Insbesondere kann hierbei auch die CUDA\footnote{\url{https://developer.nvidia.com/cuda-zone}} und OpenCL\footnote{\url{https://www.khronos.org/opencl}} Schnittstelle von numba genutzt werden, um Berechnungen mittels \glspl{GPGPU} auszulagern. 
+Des Weiteren ist es möglich für die am häufigsten aufgerufenen Funktionen Datenblöcke zu bilden und diese zu verarbeiten, sodass der Overhead der Funktionsaufrufe sinkt. Dies bildet ebenfalls eine gute Grundlage, um diese Datenblockverarbeitung mittels numpy, numexpr oder numba weiter zu beschleunigen. Insbesondere kann hierbei auch die CUDA\footnote{\url{https://developer.nvidia.com/cuda-zone}}- und OpenCL\footnote{\url{https://www.khronos.org/opencl}}-Schnittstelle von numba genutzt werden, um Berechnungen mittels \glspl{GPGPU} auszulagern. 
 
-Eine weitere Verbesserungsmöglichkeit liegt in einer Verbesserung des Belastungsausgleiches. Hierbei bestünde die Möglichkeit die Bildpaare in Packete zusammenzufassen und diese hintereinander auszuführen, sodass ein durchgängiger Betrieb möglich wäre. 
+Eine weitere Möglichkeit liegt in einer Verbesserung des Belastungsausgleiches. Hierbei bestünde die Möglichkeit, die Bildpaare in Pakete zusammenzufassen und diese hintereinander zu bearbeiten, sodass ein durchgängiger Betrieb möglich wäre. 
 
-Auch Optimierungen am Algorithmus sind noch denkbar. Da aus dem Ergebnis des Template-Matchings nur die Position und der Wert des Maximums benötigt werden, ließe sich Bild und Template mit durch Skalierung verminderter Auflösung matchen. Hierbei entstandene Ungenauigkeiten können behoben werden, indem in der Region des Maximums ein genaueres Match durchgeführt wird. Da das Match mit reduzierter Auflösung eine Heuristik über die Maximal mögliche Übereinstimmung ist, kann anschließend in diesem der zweit höchste Wert betrachtet werden. Ist dieser größer als das Ergebnis des genauen Matches, besteht die Möglichkeit, dass dieses falsch ist und es kann auf den in der OpenCV-Bibliothek implementierten Template-Matching-Algorithmus zurückgreifen. Ist die Auflösung des Templates und des Bildes jedoch nicht durch ein und denselben Skalierungsfaktor teilbar, so kann die Skalierung auf eine niedrigere Auflösung bereits erhebliche Zeit in Anspruch nehmen. Hierzu ähnliche Optimierungsmöglichkeiten wurden bereits von Elena-Ruxandra Cojocaru implementiert (siehe \ref{sec:speckle-tracking}). 
+Auch Optimierungen am Algorithmus sind noch denkbar. Da aus dem Ergebnis des Template-Matchings nur die Position und der Wert des Maximums benötigt werden, ließe sich Bild und Template mit durch Skalierung in verminderter Auflösung matchen. Hierbei entstandene Ungenauigkeiten können behoben werden, indem in der Region des Maximums ein genaueres Match durchgeführt wird. Da das Match mit reduzierter Auflösung eine Heuristik über die maximal mögliche Übereinstimmung ist, kann anschließend in dieser der zweit höchste Wert betrachtet werden. Ist dieser größer als das Ergebnis des genauen Matches, besteht die Möglichkeit, dass dieses falsch ist und es kann auf den in der OpenCV-Bibliothek implementierten Template-Matching-Algorithmus zurückgegriffen werden. Ist die Auflösung des Templates und des Bildes jedoch nicht durch ein und denselben Skalierungsfaktor teilbar, so kann die Skalierung auf eine niedrigere Auflösung bereits erhebliche Zeit in Anspruch nehmen. Hierzu ähnliche Optimierungsmöglichkeiten, welche allerdings verlustbehaftet sind, wurden bereits von \citeauthor{Coj17} implementiert (siehe \ref{sec:speckle-tracking}). 
 
 Zu guter Letzt besteht auch noch die Möglichkeit der Optimierung des Kalibrierungsteiles des Programmes. 

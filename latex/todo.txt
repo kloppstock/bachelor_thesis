@@ -1,8 +1,4 @@
 TODO:
- - Wie Zusammenarbeit mit Institut erwähnen?
  - Datensätze direkt verlinken???
-
-
- - Abstract
-
- - Layout der Abbildungen verbessern!!!
+ - Abkürzungen UFDAC und PUCCA korrekt?
+ - Danksagung so in Ordnung?
