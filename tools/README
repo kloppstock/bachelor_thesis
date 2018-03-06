@@ -1,0 +1,15 @@
+Dieser Ordner enthällt die Werkzeuge, die zum Extrahieren der Daten und der Visualisierung dieser genutzt werden kann. 
+
+Der Ordner "advanced_times" beinhaltet die Zeiten und Diagramme des initialen Benchmarks. 
+
+Im Ordner "batch" lassen sich Skripte zum Starten der Benchmarks auf den genutzten Supercomputern finden. 
+
+Der Ordner "cmp" enthällt ein Programm, welches zum Prüfen der beim Benchmarking entstandenen Daten genutzt werden kann. 
+
+Im Ordner "crwlr" ist die erste Version eines Programmes, welches dei Zeitdaten aus den rohen Ausgabedaten der Benchmarks extrahiert und im Ordner "surfer" lässt sich die zweite Version dieses Programmes finden, welche am Ende auch genutzt wurde. 
+
+Der Ordner "grahs" enthällt gebündelt alle relevanten Graphen. 
+
+Der Ordner "one_armed_bandit" birgt ein Programm zur Extraktion der Zeitdaten des sequentiellen Benchmarks, welche mittels der gnuplot-Skripte im "percentage"-Ordner visualisiert werden können. 
+
+Zum Schluss gibt es noch den "more time"-Ordner, welcher die Ergebnisse der restlichen Benchmarks beinhaltet. zusätzlich dazu sind dort Programme gesammelt, die diese Daten verarbeiten und visualisieren. 
