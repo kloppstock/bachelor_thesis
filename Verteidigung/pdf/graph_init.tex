@@ -1,0 +1,37 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\include{style}
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=4em]
+	\node [startstop] (start) {Start};
+	\node [process, below of=start] (param) {Parameterinitialisierung};
+	\node [process, below of=param] (dark) {Dunkelfeldkalibrierung};
+	\node [process, below of=dark] (flat) {Nullfeldkalibrierung};
+	\node [decision, below of=flat, node distance=7em] (alle_bilder) {Für alle Bildpaare $N$};
+	\node [process, below of=alle_bilder, yshift=-2em] (correction) {Korrektur};
+	\node [subroutine, below of=correction] (speckle) {Speckle-Tracking};
+	\node [startstop, below of=speckle] (stop) {Ende};
+	
+	\draw [arrow] (start) -- (param);
+	\draw [arrow] (param) -- (dark);
+	\draw [arrow] (dark) -- (flat);
+	\draw [arrow] (flat) -- (alle_bilder);
+	\draw [arrow] (alle_bilder) -- node[anchor=east] {weitere vorhanden} (correction);
+	\draw [arrow] (correction) -- (speckle);
+	\draw [arrow] (alle_bilder) -- ++(3, 0) |- node[anchor=north] {alle bearbeitet} (stop);
+	\draw [arrow] (speckle) -- ++(-3.5, 0) |- (alle_bilder);
+\end{tikzpicture}
+\end{document}

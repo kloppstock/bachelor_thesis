@@ -1,0 +1,47 @@
+\section{Stand der Arbeit}
+
+\subsection{Jetziger Stand}
+\begin{frame}{Jetziger Stand}
+\correctme{is doch eh alles falsch}
+	\textbf{Bereits erledigt:}
+	\begin{itemize}
+		\item Evaluierung
+		\item Performance-Analyse
+		\item Kompilieren
+	\end{itemize}
+	
+	\begin{uncoverenv}<2->
+		\textbf{In Bearbeitung:}
+		\begin{itemize}
+			\item Parallelisieren
+			\item Optimieren von reinem Python-Code
+		\end{itemize}
+	\end{uncoverenv}
+\end{frame}
+
+\subsection{Weiterer Plan}
+\begin{frame}{Weiterer Plan}
+\textbf{Noch geplant:}
+\begin{itemize}
+	\item Optimierung kritischer Pfade
+	\begin{itemize}
+		\item vermehrte Verwendung optimierter Bibliotheken
+		\item C/C++ Portierung einzelner Funktionen
+	\end{itemize}
+	\item Validierung der parallelen Implementierung
+	\item Performance-Messung der parallelen Implementierung
+\end{itemize}
+\end{frame}
+
+\subsection{Probleme}
+\begin{frame}{Probleme}
+	\begin{itemize}
+		\item Bugs in Referenzimplementierung
+		\item<2-> Python Multithreading
+		\begin{itemize}
+			\item<3-> viele Profiler für Python, wenige mit Multithreading-Support
+			\item<4-> Forken der kompletten Python-Umgebung nötig
+		\end{itemize}
+		\item<5-> schlechte Kompilierergebnisse
+	\end{itemize}
+\end{frame}

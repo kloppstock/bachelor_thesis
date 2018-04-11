@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes, positioning, shapes.multipart}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\include{style}
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=4em]
+	\node [startstop] (start) {Start};
+	\node [process, below of=start] (param) {Parameterinitialisierung};
+	\node [decision, below of=param, node distance=7em] (alle_bilder) {Für alle Bildpaare $N$};
+	\node [process, below of=alle_bilder, yshift=-2em] (correction) {Korrektur};
+	\node [subroutine, below of=correction] (speckle) {Speckle-Tracking};
+	\node [subroutine, below of=speckle] (wf_rec) {Gradientenintegration};
+	\node [startstop, below of=wf_rec] (stop) {Ende};
+	
+	\draw [arrow] (start) -- (param);
+	\draw [arrow] (param) -- (alle_bilder);
+	\draw [arrow] (alle_bilder) -- node[anchor=east] {weitere vorhanden} (correction);
+	\draw [arrow] (correction) -- (speckle);
+	\draw [arrow] (speckle) -- (wf_rec);
+	\draw [arrow] (alle_bilder) -- ++(3, 0) |- node[anchor=north] {alle bearbeitet} (stop);
+	\draw [arrow] (wf_rec) -- ++(-3.5, 0) |- (alle_bilder);
+\end{tikzpicture}
+\end{document}

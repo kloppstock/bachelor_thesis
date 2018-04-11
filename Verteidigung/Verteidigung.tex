@@ -1,0 +1,133 @@
+\documentclass[10pt]{beamer}
+
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{tikz}
+
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{url}
+%\usepackage{hyperref}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage{datetime}
+\usepackage[style=authoryear, backend=biber]{biblatex}
+
+\usepackage{epstopdf}
+
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{booktabs}
+%\usepackage{setspace}
+
+\input{theme/theme}
+
+% define blocks for flowchart
+\usetikzlibrary{shapes.geometric, arrows}
+\date{\today}
+\institute[TI TUD]{Institut für Technische Informatik, Professur für Rechnerarchitektur -- TU Dresden}
+\title[PWFRA]{Parallelisierung des Wellenfrontrekonstruktionsalgorithmus auf Multicore-Prozessoren}
+%\subtitle{Zwischenpräsentation}
+\author[Schenke]{Jonas~Schenke}
+
+\DeclareCiteCommand{\citejournal}
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+	\usebibmacro{journal}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\newcommand{\citeall}[1]{\citetitle{#1}, \cite{#1}, \citejournal{#1}}
+
+\hsl{Prof. Dr. Wolfgang E. Nagel}
+\betreuer{Dr. Elena-Ruxandra Cojocaru, Dr. Michael Bussmann, Matthias Werner}
+\email{jonas.schenke@tu-dresden.de}
+\newdate{date}{12}{04}{2017}
+\date{\displaydate{date}}
+
+\addbibresource{res/Referenzen.bib}
+
+% Zu jedem Abschnitt Gliederung zeigen
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Gliederung}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% auch bei subsections gliederung?
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Gliederung}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+% bei sehr vielen sections, mehrspaltig
+%\begin{frame}[shrink]
+%\frametitle{Gliederung}
+%\begin{multicols}{2}
+%	\tableofcontents
+%\end{multicols}
+%\end{frame}
+
+% alle Aufzaehlungen schrittweise zeigen
+%\beamerdefaultoverlayspecification{<+->}
+
+\setbeamercovered{transparent}
+
+%TODO: lstset ordentlich definieren
+
+\begin{document}
+
+\zihmaketitle
+
+\begin{frame}{Aufgabenstellung}
+\frametitle{Aufgabenstellung}
+	\begin{itemize}
+		\item Evaluierung und Performance-Analyse des derzeit fast durchgängig seriellen Wellenfrontrekonstruktionsalgorithmus
+		\item Parallelisierung der kritischen Pfade für Mehrkernarchitekturen
+		\item Performance-Messungen der parallelen Implementation
+		\item Auswertung sowie Validierung der Ergebnisse
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Gliederung}
+  \setcounter{tocdepth}{1} 
+  \tableofcontents
+  % Die Option [pausesections] koennte nuetzlich sein.
+\end{frame}
+
+
+
+% im text korrekturen anzeigen
+\newcommand{\correctme}[1]{\textcolor{red}{#1}}
+
+% korrekturen ueber mehrere absaetze
+\newenvironment{correctmore}{\color{red}}{\color{black}}
+
+
+
+%TODO: 0. Einleitung --> Motivation % Hintegrund		1 -.    
+%TODO: 1. Disclaimer									1  | 10 
+%TODO: 2. Der Wellenfrontrekonstruktionsalgorithmus		4  |    
+%TODO: 3. Performance									4 -'    
+%TODO: 4. Optimierung									1 -.    
+%TODO: 4.1 Parallelisierung								4  | 10 
+%TODO: 4.2 Optimierung									5 -'    
+%TODO: 5. wieder Performance							7 -.    
+%TODO: 6. Ausblick										3 -' 10 
+
+%TODO: Versuchsaufbau behalten, rest stark einkürzen
+
+\input{tex/Disclaimer}
+\input{tex/Wellenfrontrekonstruktionsalgoithmus}
+\input{tex/Performanceanalyse}
+\input{tex/Parallelisierung}
+\input{tex/Performance}
+\input{tex/Resultat}
+\input{tex/Referenzen}
+
+\end{document}

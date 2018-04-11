@@ -1,0 +1,30 @@
+\documentclass{article}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes}
+
+% make page small
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}
+
+\include{style}
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[node distance=5em]
+	\node [startstop] (start) {Start};
+	\node [process, below of=start] (fft) {Anwenden von FFTs auf Gradienten};
+	\node [process, below of=fft] (int) {Integration im Frequenzraum};
+	\node [process, below of=int] (ifft) {Rücktransformation mittels inverser FFTs};
+	\node [startstop, below of=ifft] (stop) {Ende};
+	
+	\draw [arrow] (start) -- (fft);
+	\draw [arrow] (fft) -- (int);
+	\draw [arrow] (int) -- (ifft);
+	\draw [arrow] (ifft) -- (stop);
+\end{tikzpicture}
+\end{document}
