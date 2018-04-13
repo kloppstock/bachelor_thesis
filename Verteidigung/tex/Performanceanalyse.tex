@@ -21,9 +21,9 @@
 	\textbf{$ \Rightarrow $ Gesamtkomplexität:} $ \mathcal{O}\left(n \cdot R \cdot R_{corr} \cdot log\left(R_{corr}\right)\right)$
 \end{frame}
 
-\subsection{Testumstände}
-\begin{frame}{Datensätze}
-	\textbf{Hauptroutine:}
+\subsection{Laufzeitumstände}
+\begin{frame}{Laufzeitumstände}
+	\textbf{Datensätze:}
 	\begin{itemize}
 		\item<2-> Experiment 6
 		\begin{itemize}
@@ -38,49 +38,101 @@
 			\item gleiche Pixelgröße
 		\end{itemize}
 	\end{itemize}
+	
+	\vspace{0.5cm}
+	
+	\textbf{Testsystem:}
+	\begin{itemize}
+		\item<4-> Taurus Knoten
+		\item<4-> 2x Intel\textregistered Xeon\textregistered E5-2680 v3 (12 Kerne) @ 2.50GHz, kein MultiThreading
+		\item<4-> Python 2.7
+	\end{itemize}
 \end{frame}
 
 \subsection{Gesamtlaufzeit}
-\begin{frame}[allowframebreaks]{Gesamtlaufzeit}
+\begin{frame}{Gesamtlaufzeit}
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{pdf/times_exp6} \\
-		\scriptsize
-		Python 2.7, 2x Intel(R) Xeon(R) E5-2680 v3 (12 Kerne) @ 2.50GHz, kein MultiThreading
-	\end{center}
-	
-	\framebreak
-	
-	\begin{center}
-		\includegraphics[width=0.6\linewidth]{pdf/times_lenses} \\
-		\scriptsize
-		Python 2.7, 2x Intel(R) Xeon(R) E5-2680 v3 (12 Kerne) @ 2.50GHz, kein MultiThreading
+		\begin{figure}[h]
+			\begin{subfigure}[b]{0.49\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/times_exp6}
+				\caption{Experiment 6}
+			\end{subfigure}
+			\hfill
+			\begin{subfigure}[b]{0.49\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/times_lenses}
+				\caption{Lenses}
+			\end{subfigure}
+			\caption{Gesamtlaufzeiten}
+		\end{figure}
 	\end{center}
 \end{frame}
 
 \subsection{Profiling}
 \begin{frame}[allowframebreaks]{Profiling}
 	\begin{center}
-		\hspace{-0.7cm}
-		\includegraphics[width=0.4\linewidth]{pdf/main_exp6.eps}
-		\hspace{-1.0cm}
-		\includegraphics[width=0.4\linewidth]{pdf/main_lenses.eps}
-		\hspace{-0.3cm}
-		\includegraphics[width=0.33\linewidth]{pdf/graph_main_profiling}
+		\begin{figure}[h]
+			\hspace{-0.7cm}
+			\begin{subfigure}[b]{0.4\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/main_exp6.eps}
+				\caption{Experiment 6}
+			\end{subfigure}
+			\hspace{-1.0cm}
+			\begin{subfigure}[b]{0.4\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/main_lenses.eps}
+				\caption{Lenses}
+			\end{subfigure}
+			\hspace{-0.3cm}
+			\begin{subfigure}[b]{0.33\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/graph_main_profiling}
+				\caption{Algorithmus}
+			\end{subfigure}
+		\caption{Laufzeitanteile der Subroutinen}
+		\end{figure}
+		
+		\framebreak
+		\begin{figure}[h]
+			\hspace{-0.6cm}
+			\begin{subfigure}[b]{0.45\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/speckle_exp6.eps}
+				\caption{Experiment 6}
+			\end{subfigure}
+			\hspace{-0.9cm}
+			\begin{subfigure}[b]{0.45\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/speckle_lenses.eps}
+				\caption{Lenses}
+			\end{subfigure}
+			\hspace{-0.3cm}
+			\begin{subfigure}[b]{0.19\linewidth}
+				\centering
+				\includegraphics[width=0.65\linewidth]{pdf/graph_speckle_profiling}
+				\caption{Algorithmus}
+			\end{subfigure}
+			\caption{Laufzeitanteile der Speckle-Tracking-Routinen}
+		\end{figure}
 		
 		\framebreak
 		
-		\hspace{-0.9cm}
-		\includegraphics[width=0.47\linewidth]{pdf/speckle_exp6.eps}
-		\hspace{-0.9cm}
-		\includegraphics[width=0.47\linewidth]{pdf/speckle_lenses.eps}
-		\hspace{-0.3cm}
-		\includegraphics[width=0.15\linewidth]{pdf/graph_speckle_profiling}
-		
-		\framebreak
-		
-		\includegraphics[width=0.53\linewidth]{pdf/slow_exp6.eps}
-		\hspace{-1.5cm}
-		\includegraphics[width=0.53\linewidth]{pdf/slow_lenses.eps}\\
+		\begin{figure}[h]
+			\begin{subfigure}[b]{0.45\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/slow_exp6.eps}
+				\caption{Experiment 6}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.45\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{pdf/slow_lenses.eps}
+				\caption{Lenses}
+			\end{subfigure}
+			\caption{Laufzeitanteile der rechenaufwendigsten Funktionen}
+		\end{figure}
+		\vspace{-0.35cm}
 		\textbf{$ \Rightarrow $ über 95\%}
 	\end{center}
 \end{frame}

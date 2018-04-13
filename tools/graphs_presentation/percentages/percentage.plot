@@ -1,4 +1,4 @@
-set terminal postscript eps color size 3.1, 3.3
+set terminal postscript eps color size 3.1, 3.1
 set encoding utf8
 set format '%g%%'
 # use the following for terminal latex
