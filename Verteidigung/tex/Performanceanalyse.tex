@@ -13,29 +13,27 @@
 		\begin{tabular}{| >{\centering\arraybackslash}m{4cm} | >{\centering\arraybackslash}m{5cm} |}
 			\hline
 			Bild-Präprozessierschritte & $ \mathcal{O}(R) $ \\ \hline
-			Speckle-Tracking & $\mathcal{O}\left(\frac{R \cdot R_{corr} \cdot log\left(R_{corr}\right) \cdot N_{corr}}{P_u^2 \cdot R_{grid}^2}\right) \approx \mathcal{O}\left(R \cdot R_{corr} \cdot log\left(R_{corr}\right)\right)$ \\ \hline
-			Rekonstruktion der Wellenfront & $ \mathcal{O}(R * log(R)) $ \\ \hline
+			Speckle-Tracking & $ \mathcal{O}\left(R \cdot R_{corr} \cdot log\left(R_{corr}\right)\right)$ \\ \hline
+			Rekonstruktion der Wellenfront & $ \mathcal{O}(R \cdot log(R)) $ \\ \hline
 		\end{tabular}
 	\end{center}
 	\vspace{.5cm}
-	\textbf{$ \Rightarrow $ Gesamtkomplexität:} $ \approx \mathcal{O}\left(n \cdot R \cdot R_{corr} \cdot log\left(R_{corr}\right)\right)$
+	\textbf{$ \Rightarrow $ Gesamtkomplexität:} $ \mathcal{O}\left(n \cdot R \cdot R_{corr} \cdot log\left(R_{corr}\right)\right)$
 \end{frame}
 
-\subsection{Datensets}
-\begin{frame}{Datensets}
+\subsection{Testumstände}
+\begin{frame}{Datensätze}
 	\textbf{Hauptroutine:}
 	\begin{itemize}
-		\item<3-> Experiment 6
+		\item<2-> Experiment 6
 		\begin{itemize}
 			\item ROI Größe: 1450x1450 (Bild), 550x550 (Template)
-			\item Gitterauflösung: 1
 			\item Korrelationsgröße: 91
 			\item unterschiedliche Pixelgröße
 		\end{itemize}
-		\item<4-> Lenses
+		\item<3-> Lenses
 		\begin{itemize}
 			\item ROI Größe: 1450x1550 (Bild), 1450x1550 (Template)
-			\item Gitterauflösung: 1
 			\item Korrelationsgröße: 41
 			\item gleiche Pixelgröße
 		\end{itemize}
@@ -44,7 +42,6 @@
 
 \subsection{Gesamtlaufzeit}
 \begin{frame}[allowframebreaks]{Gesamtlaufzeit}
-	%TODO: größer & besser lesbar
 	\begin{center}
 		\includegraphics[width=0.6\linewidth]{pdf/times_exp6} \\
 		\scriptsize
@@ -63,13 +60,12 @@
 \subsection{Profiling}
 \begin{frame}[allowframebreaks]{Profiling}
 	\begin{center}
-		%TODO: größer & besser lesbar
 		\hspace{-0.7cm}
 		\includegraphics[width=0.4\linewidth]{pdf/main_exp6.eps}
 		\hspace{-1.0cm}
 		\includegraphics[width=0.4\linewidth]{pdf/main_lenses.eps}
 		\hspace{-0.3cm}
-		\includegraphics[width=0.33\linewidth]{pdf/graph_main}
+		\includegraphics[width=0.33\linewidth]{pdf/graph_main_profiling}
 		
 		\framebreak
 		
@@ -78,7 +74,7 @@
 		\hspace{-0.9cm}
 		\includegraphics[width=0.47\linewidth]{pdf/speckle_lenses.eps}
 		\hspace{-0.3cm}
-		\includegraphics[width=0.15\linewidth]{pdf/graph_speckle}
+		\includegraphics[width=0.15\linewidth]{pdf/graph_speckle_profiling}
 		
 		\framebreak
 		
