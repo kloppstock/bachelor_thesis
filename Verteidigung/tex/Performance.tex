@@ -2,7 +2,7 @@
 
 \subsection{Evaluierung der Optimierungen}
 
-\begin{frame}[allowframebreaks]{Parallele Verarbeitung einzelner Bildpaare}
+\begin{frame}{Parallele Verarbeitung einzelner Bildpaare}
 	\begin{figure}[h]
 		\begin{subfigure}[b]{0.47\textwidth}
 			\centering
@@ -17,26 +17,9 @@
 		\end{subfigure}
 		\caption{Speed-Up \textit{mpi} gegenüber Referenz}
 	\end{figure}
-	
-	\framebreak
-	
-	\begin{figure}[h]
-		\begin{subfigure}[b]{0.47\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{pdf/mpi_times_exp6}
-			\caption{Experiment 6}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[b]{0.47\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{pdf/mpi_times_lenses}
-			\caption{Lenses}
-		\end{subfigure}
-		\caption{Speed-Up \textit{mpi} gegenüber Referenz}
-	\end{figure}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Parallele Verarbeitung innerhalb einzelner Bildpaare}
+\begin{frame}{Parallele Verarbeitung innerhalb einzelner Bildpaare}
 	\begin{figure}[h]
 		\begin{subfigure}[b]{0.47\textwidth}
 			\centering
@@ -47,23 +30,6 @@
 		\begin{subfigure}[b]{0.47\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{pdf/mpi_advanced_speedup_lenses}
-			\caption{Lenses}
-		\end{subfigure}
-		\caption{Speed-Up \textit{mpi-advanced} gegenüber \textit{mpi}}
-	\end{figure}
-	
-	\framebreak
-	
-	\begin{figure}[h]
-		\begin{subfigure}[b]{0.47\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{pdf/mpi_advanced_times_exp6}
-			\caption{Experiment 6}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[b]{0.47\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{pdf/mpi_advanced_times_lenses}
 			\caption{Lenses}
 		\end{subfigure}
 		\caption{Speed-Up \textit{mpi-advanced} gegenüber \textit{mpi}}

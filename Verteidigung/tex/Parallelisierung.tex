@@ -1,6 +1,12 @@
-\section{Parallelisierung der kritischen Abschnitte}
+\section{Parallelisierung und Optimierung der kritischen Abschnitte}
 
 \subsection{Parallelisierung}
+\begin{frame}{Parallelisierung und Optimierung kritischer Abschnitte}
+	\centering
+	\LARGE
+	\textbf{Parallelisierung}
+\end{frame}
+
 \begin{frame}{Parallele Verarbeitung einzelner Bildpaare}
 	\centering
 	\begin{tikzpicture}
@@ -25,9 +31,9 @@
 \begin{frame}{Parallele Verarbeitung einzelner Bildpaare}
 	\textbf{Benennung:} \textit{mpi}
 	\begin{enumerate}
-		\item Verteilung einzelner Bildpaare auf Rechenkerne
-		\item parallele Verarbeitung mittels MPI und multiprocessing
-		\item Sammeln der Daten auf dem Masterkern
+		\item Verteilung einzelner Bildpaare auf Rechenkerne mittels MPI
+		\item parallele Verarbeitung mittels multiprocessing
+		\item Sammeln der Daten auf dem Masterprozess
 	\end{enumerate}
 \end{frame}
 
@@ -85,34 +91,24 @@ dist = Distributor(initFn, mainFn, exitFn)
 	
 	\framebreak
 	
-	\textbf{Parallelisierung mittels joblib:}
-	\begin{lstlisting}[language=Python]
-from joblib import Parallel, delayed
-import multiprocessing
-
-def addFn(array, multiply, add):
-	result = []
-	for element in array:
-		result += [element * multiply + add]
-	return result
-	
-matrix = [[1, 5], [2, 6], [3, 7], [4, 8]]
-multiply = 1
-add = 2
-n_jobs = len(matrix)
-result = Parallel()(delayed(addFn)(matrix[k], multiply, add) for k in range(n_jobs))
-print("The result is", result)
-	\end{lstlisting}
-	
-	\framebreak
-	\textbf{
-	Ausgabe}:
+	\textbf{Ausgabe}:
 	\begin{lstlisting}
 The result is [[3, 7], [4, 8], [5, 9], [6, 10]]
 	\end{lstlisting}
 \end{frame}
 
 \subsection{Optimierung der Performance-Engpässe in Python}
+\begin{frame}{Parallelisierung und Optimierung kritischer Abschnitte}
+	\centering
+	\LARGE
+	\textbf{Optimierung}
+	
+	\vspace{0.5cm}
+	
+	\large
+	-- Nutzen bereits optimierter Funktionen --
+\end{frame}
+
 \begin{frame}{Nutzen bereits optimierter Funktionen}
 	\centering
 	\begin{tikzpicture}
@@ -125,6 +121,7 @@ The result is [[3, 7], [4, 8], [5, 9], [6, 10]]
 		\draw[red!50, very thick] (-2, -3.7) rectangle (0.1, 3.7);
 		
 		\draw[blue, very thick] (-1.9, -1.2) rectangle (-0.1, -0.5);
+		\draw[blue, very thick] (-1.85, 1.45) rectangle (-0.15, 1.9);
 	\end{tikzpicture}
 \end{frame}
 
@@ -165,6 +162,35 @@ for i in range(lengthY):
 			avg = avg / float()count)
 			SNr = maxValue / avg
 	\end{lstlisting}
+	
+	\framebreak
+	
+	\textbf{Evaluierung der Korrelationsmethode}
+	\begin{lstlisting}[language=Python]
+def norm_xcorr(template, searchArea, method=’cv2.TM_CCOEFF_NORMED’):
+	meth = eval(method)
+	#...
+	\end{lstlisting}
+	
+	\framebreak
+	
+	\textbf{Übergabe der Korrelationsmethode als Variable}
+	\begin{lstlisting}[language=Python]
+def norm_xcorr(template, searchArea, method=cv2.TM_CCOEFF_NORMED):
+	meth = method
+	#...
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Parallelisierung und Optimierung kritischer Abschnitte}
+	\centering
+	\LARGE
+	\textbf{Optimierung}
+	
+	\vspace{0.5cm}
+	
+	\large
+	-- Kompilieren --
 \end{frame}
 
 \begin{frame}{Kompilieren - Gesamtes Programm}
